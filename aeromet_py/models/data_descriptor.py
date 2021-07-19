@@ -3,8 +3,8 @@ from abc import ABCMeta, abstractmethod
 
 class DataDescriptor(metaclass=ABCMeta):
     """Abstract data class for base for aeronautical data."""
-
-    def __init__(self, name: str):
+    
+    def __set_name__(self, owner, name):
         self._name = name
 
     @abstractmethod

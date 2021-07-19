@@ -9,9 +9,7 @@ trend_re = REGEXP.TREND.replace("^", "").replace("$", "")
 rmk_re = REGEXP.REMARK.replace("^", "").replace("$", "")
 
 
-class Sections(DataDescriptor):
-    def __init__(self, name: str):
-        super().__init__(name)
+class MetarSections(DataDescriptor):
 
     def _handler(self, code: str) -> List[str]:
         try:
