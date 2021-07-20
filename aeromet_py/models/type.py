@@ -8,8 +8,6 @@ _description = {
 
 
 class Type(DataDescriptor):
-    def __init__(self, name: str):
-        super().__init__(name)
 
     def _handler(self, value):
         return _description.get(value, None)

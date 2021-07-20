@@ -6,7 +6,7 @@ metar = Metar(
 
 print(metar.raw_code)
 print(metar.sections)
-print(metar.__dict__)
+print(metar.type)
 
 # metar.sections = "other"
 # print(metar.sections)
