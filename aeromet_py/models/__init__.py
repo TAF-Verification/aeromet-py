@@ -1,4 +1,4 @@
-from .cor_amd import Modifier
+from .modifier import Modifier
 from .errors import ParserError
 from .regexp import RegularExpresions
 from .report import Report
