@@ -10,7 +10,6 @@ rmk_re = REGEXP.REMARK.replace("^", "").replace("$", "")
 
 
 class MetarSections(DataDescriptor):
-
     def _handler(self, code: str) -> List[str]:
         try:
             trend_pos = re.search(trend_re, code).start()

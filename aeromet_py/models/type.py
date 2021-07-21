@@ -8,6 +8,5 @@ _description = {
 
 
 class Type(DataDescriptor):
-
     def _handler(self, value):
         return _description.get(value, None)
