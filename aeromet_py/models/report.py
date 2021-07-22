@@ -1,12 +1,14 @@
 from abc import ABCMeta, abstractmethod
 from typing import List
+import re
 
 
 class Report(metaclass=ABCMeta):
     """Basic structure of an aeronautical report from land stations"""
 
     def __init__(self, code: str):
-        self.__raw_code = code
+        code = code.strip()
+        self.__raw_code = re.sub(r"\s{2,}", " ", code)
         self.__unparsed_groups = []
 
     @property

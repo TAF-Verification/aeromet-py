@@ -3,14 +3,14 @@ from typing import List
 
 from aeromet_py.utils import REGEXP
 
-from .data_descriptor import DataDescriptor
+from .descriptors import DataDescriptor
 
 trend_re = REGEXP.TREND.replace("^", "").replace("$", "")
 rmk_re = REGEXP.REMARK.replace("^", "").replace("$", "")
 
 
-class MetarSections(DataDescriptor):
-    def _handler(self, code: str) -> List[str]:
+class MetarSectionsDescriptor(DataDescriptor):
+    def _handler(self, code: str):
         try:
             trend_pos = re.search(trend_re, code).start()
         except AttributeError:
