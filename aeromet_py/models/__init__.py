@@ -6,5 +6,6 @@ from .sections import MetarSectionsDescriptor
 from .report import Report
 from .modifier import Modifier
 from .time import Time
+from .station import Station
 
 REGEXP = RegularExpresions()

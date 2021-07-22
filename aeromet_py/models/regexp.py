@@ -1,6 +1,8 @@
 class RegularExpresions:
 
     TYPE = r"^(?P<type>METAR|SPECI|TAF)$"
+    
+    STATION = r"^(?P<station>[A-Z][A-Z0-9]{3})$"
 
     MODIFIER = r"^(?P<mod>COR(R)?|AMD|NIL|TEST|FINO|AUTO)$"
     
