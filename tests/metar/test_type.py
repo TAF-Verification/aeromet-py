@@ -1,5 +1,5 @@
 from aeromet_py import Metar
-
+import pytest
 
 def test_metar_type():
     metar = Metar('METAR UUDD 060000Z 18004MPS CAVOK M01/M04 Q1002 R14R/CLRD60 NOSIG')

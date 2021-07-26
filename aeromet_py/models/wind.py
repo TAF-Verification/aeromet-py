@@ -1,52 +1,166 @@
-from typing import Any
+import re
+from math import pi
 
-from .metaf_base import DataDescriptor
+from .descriptors import CodeDescriptor, DataDescriptor
+
+COMPASS_DIRS = {
+    "NNE": [11.25, 33.75],
+    "NE": [33.75, 56.25],
+    "ENE": [56.25, 78.75],
+    "E": [78.75, 101.25],
+    "ESE": [101.25, 123.75],
+    "SE": [123.75, 146.25],
+    "SSE": [146.25, 168.75],
+    "S": [168.75, 191.25],
+    "SSW": [191.25, 213.75],
+    "SW": [213.75, 236.25],
+    "WSW": [236.25, 258.75],
+    "W": [258.75, 281.25],
+    "WNW": [281.25, 303.75],
+    "NW": [303.75, 326.25],
+    "NNW": [326.25, 348.75],
+    "N": [348.75, 11.25],
+}
+
+DEGREES_TO_RADIANS = pi / 180
+DEGREES_TO_GRADIANS = 1.11111111
+KNOT_TO_MPS = 0.51444444
+KNOT_TO_MIPH = 1.15078
+KNOT_TO_KPH = 1.852
+MPS_TO_KNOT = 1 / KNOT_TO_MPS
 
 
-class Direction(DataDescriptor):
-    def __init__(self, name: str):
-        super().__init__(name)
-
+class DirectionDescriptor(DataDescriptor):
     def _handler(self, value):
-        return float(value)
+        if value is None:
+            return None
+
+        try:
+            return float(value)
+        except ValueError:
+            return value
 
 
-class Speed(DataDescriptor):
-    def __init__(self, name: str):
-        super().__init__(name)
-
+class SpeedDescriptor(DataDescriptor):
     def _handler(self, value):
-        return float(value)
+        if value is None:
+            return None
+
+        try:
+            return float(value)
+        except ValueError:
+            return value
 
 
 class Wind:
 
-    __direction = Direction("direction")
-    __speed = Speed("speed")
-    __gust = Speed("gust")
+    __code = CodeDescriptor()
+    __direction = DirectionDescriptor()
+    __speed = SpeedDescriptor()
+    __gust = SpeedDescriptor()
 
-    def __init__(self, group: str):
-        self.__group = group
-        self.__direction = group[:3]
-        self.__speed = group[3:5]
-        self.__gust = group[6:8]
+    def __init__(self, match: re.Match):
+        if match is None:
+            self.__code = None
+            self.__direction = None
+            self.__speed = None
+            self.__gust = None
+        else:
+            self.__code = match.string
+            self.__units = match.group("units")
+            self.__direction = match.group("dir")
+
+            if self.__units == "KT":
+                self.__speed = match.group("speed")
+                self.__gust = match.group("gust")
+
+            if self.__units == "MPS":
+                speed = match.group("speed")
+                gust = match.group("gust")
+
+                try:
+                    self.__speed = "{}".format(float(speed) * MPS_TO_KNOT)
+                except (TypeError, ValueError):
+                    self.__speed = speed
+
+                try:
+                    self.__gust = "{}".format(float(gust) * MPS_TO_KNOT)
+                except (TypeError, ValueError):
+                    self.__gust = gust
 
     @property
-    def direction_in_degrees(self):
-        return self.__direction
+    def code(self) -> str:
+        return self.__code
+
+    def __handle_value(self, value, transformation):
+        if value is None:
+            return None
+
+        if isinstance(value, str):
+            if value == "VRB":
+                return "variable"
+            elif value in ["///", "//"]:
+                return None
+            else:
+                return value
+
+        return value * transformation
 
     @property
-    def direction_in_radians(self):
-        return self.__direction * 3.14 / 180
+    def cardinal_direction(self) -> str:
+        value = self.__handle_value(self.__direction, 1)
+
+        if isinstance(value, float):
+            dirs = COMPASS_DIRS["N"]
+            if value >= dirs[0] or value < dirs[1]:
+                return "N"
+
+            for k, v in COMPASS_DIRS.items():
+                if value >= v[0] and value < v[1]:
+                    return k
+
+        return None
 
     @property
-    def speed_in_mps(self):
-        return self.__speed
+    def direction_in_degrees(self) -> float:
+        return self.__handle_value(self.__direction, 1)
 
     @property
-    def speed_in_kph(self):
-        return self.__speed * 3.6
+    def direction_in_radians(self) -> float:
+        return self.__handle_value(self.__direction, DEGREES_TO_RADIANS)
 
     @property
-    def gust(self):
-        return self.__gust
+    def direction_in_gradians(self) -> float:
+        return self.__handle_value(self.__direction, DEGREES_TO_GRADIANS)
+
+    @property
+    def speed_in_mps(self) -> float:
+        return self.__handle_value(self.__speed, KNOT_TO_MPS)
+
+    @property
+    def speed_in_knot(self) -> float:
+        return self.__handle_value(self.__speed, 1)
+
+    @property
+    def speed_in_kph(self) -> float:
+        return self.__handle_value(self.__speed, KNOT_TO_KPH)
+
+    @property
+    def speed_in_miph(self) -> float:
+        return self.__handle_value(self.__speed, KNOT_TO_MIPH)
+
+    @property
+    def gust_in_mps(self) -> float:
+        return self.__handle_value(self.__gust, KNOT_TO_MPS)
+
+    @property
+    def gust_in_knot(self) -> float:
+        return self.__handle_value(self.__gust, 1)
+
+    @property
+    def gust_in_kph(self) -> float:
+        return self.__handle_value(self.__gust, KNOT_TO_KPH)
+
+    @property
+    def gust_in_miph(self) -> float:
+        return self.__handle_value(self.__gust, KNOT_TO_MIPH)

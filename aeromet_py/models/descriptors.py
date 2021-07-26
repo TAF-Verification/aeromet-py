@@ -4,7 +4,7 @@ from typing import Any
 
 class DataDescriptor(metaclass=ABCMeta):
     """Abstract group class for base for aeronautical data."""
-    
+
     @abstractmethod
     def _handler(self, code):
         """Generate the object to store the relevant data of code."""

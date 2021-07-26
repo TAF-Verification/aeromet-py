@@ -1,5 +1,7 @@
-from .descriptors import DataDescriptor, CodeDescriptor
-from aeromet_py.database import get_stations, get_country
+from aeromet_py.database import get_country, get_stations
+
+from .descriptors import CodeDescriptor, DataDescriptor
+
 
 class StationDescriptor(DataDescriptor):
     def _handler(self, code):
@@ -7,10 +9,10 @@ class StationDescriptor(DataDescriptor):
 
 
 class Station:
-    
+
     __code = CodeDescriptor()
     __station = StationDescriptor()
-    
+
     def __init__(self, code: str):
         self.__code = code
         self.__station = [None for i in range(8)]
@@ -18,7 +20,7 @@ class Station:
             if stn[1] == self.__code:
                 self.__station = stn
                 break
-    
+
     @property
     def name(self):
         return self.__station[0]

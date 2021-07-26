@@ -16,6 +16,7 @@ class Metar(models.Report):
     __modifier = models.Modifier(None)
     __time = models.Time(None)
     __station = models.Station(None)
+    __wind = models.Wind(None)
 
     def __init__(self, code: str, year=None, month=None, truncate=False):
         super().__init__(code)
@@ -25,7 +26,7 @@ class Metar(models.Report):
         self.__truncate = truncate
 
         self._parse()
-    
+
     @property
     def code(self) -> str:
         return super().raw_code
@@ -42,17 +43,17 @@ class Metar(models.Report):
     @property
     def type(self) -> models.Type:
         return self.__type
-    
+
     def __handle_station(self, match: re.Match):
         self.__station = models.Station(match.string)
-    
+
     @property
     def station(self) -> models.Station:
         return self.__station
 
     def __handle_time(self, match: re.Match):
         self.__time = models.Time(match.string, year=self.__year, month=self.__month)
-    
+
     @property
     def time(self) -> models.Time:
         return self.__time
@@ -64,12 +65,20 @@ class Metar(models.Report):
     def modifier(self) -> models.Modifier:
         return self.__modifier
 
+    def __handle_wind(self, match: re.Match):
+        self.__wind = models.Wind(match)
+
+    @property
+    def wind(self) -> models.Wind:
+        return self.__wind
+
     def __parse_body(self):
         handlers = [
             GroupHandler(REGEXP.TYPE, self.__handle_type),
             GroupHandler(REGEXP.STATION, self.__handle_station),
             GroupHandler(REGEXP.TIME, self.__handle_time),
             GroupHandler(REGEXP.MODIFIER, self.__handle_modifier),
+            GroupHandler(REGEXP.WIND, self.__handle_wind),
         ]
 
         index = 0

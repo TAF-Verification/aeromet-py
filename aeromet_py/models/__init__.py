@@ -1,11 +1,12 @@
-from .errors import ParserError
-from .type import Type
-from .regexp import RegularExpresions
 from .descriptors import DataDescriptor
-from .sections import MetarSectionsDescriptor
-from .report import Report
+from .errors import ParserError
 from .modifier import Modifier
-from .time import Time
+from .regexp import RegularExpresions
+from .report import Report
+from .sections import MetarSectionsDescriptor
 from .station import Station
+from .time import Time
+from .type import Type
+from .wind import Wind
 
 REGEXP = RegularExpresions()

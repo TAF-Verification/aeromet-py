@@ -1,6 +1,6 @@
+import re
 from abc import ABCMeta, abstractmethod
 from typing import List
-import re
 
 
 class Report(metaclass=ABCMeta):
