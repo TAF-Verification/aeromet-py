@@ -17,6 +17,7 @@ class Metar(models.Report):
     __time = models.Time(None)
     __station = models.Station(None)
     __wind = models.Wind(None)
+    __wind_variation = models.WindVariation(None)
 
     def __init__(self, code: str, year=None, month=None, truncate=False):
         super().__init__(code)
@@ -72,6 +73,13 @@ class Metar(models.Report):
     def wind(self) -> models.Wind:
         return self.__wind
 
+    def __handle_wind_variation(self, match: re.Match):
+        self.__wind_variation = models.WindVariation(match)
+
+    @property
+    def wind_variation(self) -> models.WindVariation:
+        return self.__wind_variation
+
     def __parse_body(self):
         handlers = [
             GroupHandler(REGEXP.TYPE, self.__handle_type),
@@ -79,6 +87,7 @@ class Metar(models.Report):
             GroupHandler(REGEXP.TIME, self.__handle_time),
             GroupHandler(REGEXP.MODIFIER, self.__handle_modifier),
             GroupHandler(REGEXP.WIND, self.__handle_wind),
+            GroupHandler(REGEXP.WIND_VARIATION, self.__handle_wind_variation),
         ]
 
         index = 0

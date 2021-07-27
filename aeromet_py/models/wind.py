@@ -52,6 +52,78 @@ class SpeedDescriptor(DataDescriptor):
             return value
 
 
+class WindVariation:
+
+    __code = CodeDescriptor()
+    __from = DirectionDescriptor()
+    __to = DirectionDescriptor()
+
+    def __init__(self, match: re.Match):
+        if match is None:
+            self.__code = None
+            self.__from = None
+            self.__to = None
+        else:
+            self.__code = match.string
+            self.__from = match.group("from")
+            self.__to = match.group("to")
+
+    def __str__(self):
+        return "from {} ({:.1f}°) to {} ({:.1f}°)".format(
+            self.from_cardinal_direction,
+            self.__from,
+            self.to_cardinal_direction,
+            self.__to,
+        )
+
+    def __handle_cardinal(self, value):
+        dirs = COMPASS_DIRS["N"]
+        if value >= dirs[0] or value < dirs[1]:
+            return "N"
+
+        for k, v in COMPASS_DIRS.items():
+            if value >= v[0] and value < v[1]:
+                return k
+
+        return None
+
+    @property
+    def code(self) -> str:
+        return self.__code
+
+    @property
+    def from_cardinal_direction(self) -> str:
+        return self.__handle_cardinal(self.__from)
+
+    @property
+    def from_in_degrees(self) -> float:
+        return self.__from
+
+    @property
+    def from_in_radians(self) -> float:
+        return self.__from * DEGREES_TO_RADIANS
+
+    @property
+    def from_in_gradians(self) -> float:
+        return self.__from * DEGREES_TO_GRADIANS
+
+    @property
+    def to_cardinal_direction(self) -> str:
+        return self.__handle_cardinal(self.__to)
+
+    @property
+    def to_in_degrees(self) -> float:
+        return self.__to
+
+    @property
+    def to_in_radians(self) -> float:
+        return self.__to * DEGREES_TO_RADIANS
+
+    @property
+    def to_in_gradians(self) -> float:
+        return self.__to * DEGREES_TO_GRADIANS
+
+
 class Wind:
 
     __code = CodeDescriptor()
@@ -87,6 +159,19 @@ class Wind:
                     self.__gust = "{}".format(float(gust) * MPS_TO_KNOT)
                 except (TypeError, ValueError):
                     self.__gust = gust
+
+    def __str__(self):
+        gust = (
+            ""
+            if self.__gust is None
+            else " gusts of {:.1f} kt".format(self.gust_in_knot)
+        )
+        return "{} ({:.1f}°) {:.1f} kt{}".format(
+            self.cardinal_direction,
+            self.__direction,
+            self.speed_in_knot,
+            gust,
+        )
 
     @property
     def code(self) -> str:

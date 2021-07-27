@@ -1,7 +1,7 @@
 from .metar import Metar
 
 metar = Metar(
-    "SPECI MROC 220000Z COR 34012G22KT 9999 SCT030 24/22 A2995 RMK VEL MAX VTO 25KT BECMG 08015G25KT",
+    "SPECI MROC 220000Z COR 34012G22KT 310V150 9999 SCT030 24/22 A2995 RMK VEL MAX VTO 25KT BECMG 08015G25KT",
     truncate=False,
     # truncate=True,
 )
@@ -15,6 +15,7 @@ print(
 print(metar.modifier, metar.modifier.code, metar.modifier.modifier)
 print(metar.time.time.year, metar.time)
 print(
+    metar.wind,
     metar.wind.direction_in_degrees,
     metar.wind.direction_in_radians,
     metar.wind.cardinal_direction,
@@ -24,6 +25,16 @@ print(
     metar.wind.gust_in_kph,
     metar.wind.gust_in_miph,
     metar.wind.code,
+)
+print(
+    metar.wind_variation,
+    metar.wind_variation.code,
+    metar.wind_variation.from_cardinal_direction,
+    metar.wind_variation.to_cardinal_direction,
+    metar.wind_variation.from_in_degrees,
+    metar.wind_variation.to_in_degrees,
+    metar.wind_variation.from_in_gradians,
+    metar.wind_variation.to_in_gradians,
 )
 
 # metar.sections = "other"

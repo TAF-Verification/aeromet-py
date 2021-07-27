@@ -7,6 +7,6 @@ from .sections import MetarSectionsDescriptor
 from .station import Station
 from .time import Time
 from .type import Type
-from .wind import Wind
+from .wind import Wind, WindVariation
 
 REGEXP = RegularExpresions()
