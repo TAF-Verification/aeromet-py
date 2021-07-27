@@ -10,7 +10,11 @@ print(metar.code)
 print(metar.sections)
 print(metar.type, metar.type.code, metar.type.type)
 print(
-    metar.station.name, metar.station.icao, metar.station.country, metar.station.synop
+    metar.station.name,
+    metar.station.icao,
+    metar.station.country,
+    metar.station.synop,
+    metar.station,
 )
 print(metar.modifier, metar.modifier.code, metar.modifier.modifier)
 print(metar.time.time.year, metar.time)

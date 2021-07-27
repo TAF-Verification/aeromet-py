@@ -21,6 +21,14 @@ class Station:
                 self.__station = stn
                 break
 
+    def __str__(self):
+        return (
+            f"Name: {self.name}\n"
+            f"Coordinates: {self.latitude} {self.longitude}\n"
+            f"Elevation: {self.elevation}\n"
+            f"Country: {self.country}"
+        )
+
     @property
     def name(self):
         return self.__station[0]
