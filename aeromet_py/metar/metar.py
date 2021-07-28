@@ -3,7 +3,8 @@ from collections import namedtuple
 from typing import List
 
 import aeromet_py.models as models
-from aeromet_py.models import REGEXP
+from aeromet_py.utils import REGEXP
+from aeromet_py.utils import sanitize_visibility
 
 GroupHandler = namedtuple("GroupHandler", "regex func")
 
@@ -18,6 +19,7 @@ class Metar(models.Report):
     __station = models.Station(None)
     __wind = models.Wind(None)
     __wind_variation = models.WindVariation(None)
+    __visibility = models.Visibility(None)
 
     def __init__(self, code: str, year=None, month=None, truncate=False):
         super().__init__(code)
@@ -79,6 +81,13 @@ class Metar(models.Report):
     @property
     def wind_variation(self) -> models.WindVariation:
         return self.__wind_variation
+    
+    def __handle_visibility(self, match: re.Match):
+        self.__visibility = models.Visibility(match)
+    
+    @property
+    def visibility(self) -> models.Visibility:
+        return self.__visibility
 
     def __parse_body(self):
         handlers = [
@@ -88,10 +97,12 @@ class Metar(models.Report):
             GroupHandler(REGEXP.MODIFIER, self.__handle_modifier),
             GroupHandler(REGEXP.WIND, self.__handle_wind),
             GroupHandler(REGEXP.WIND_VARIATION, self.__handle_wind_variation),
+            GroupHandler(REGEXP.VISIBILITY, self.__handle_visibility),
         ]
 
         index = 0
-        for group in self.__sections[0].split(" "):
+        body = sanitize_visibility(self.__sections[0])
+        for group in body.split(" "):
             self.unparsed_groups.append(group)
 
             for handler in handlers[index:]:
