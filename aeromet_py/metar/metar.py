@@ -3,8 +3,7 @@ from collections import namedtuple
 from typing import List
 
 import aeromet_py.models as models
-from aeromet_py.utils import REGEXP
-from aeromet_py.utils import sanitize_visibility
+from aeromet_py.utils import REGEXP, sanitize_visibility
 
 GroupHandler = namedtuple("GroupHandler", "regex func")
 
@@ -81,10 +80,10 @@ class Metar(models.Report):
     @property
     def wind_variation(self) -> models.WindVariation:
         return self.__wind_variation
-    
+
     def __handle_visibility(self, match: re.Match):
         self.__visibility = models.Visibility(match)
-    
+
     @property
     def visibility(self) -> models.Visibility:
         return self.__visibility

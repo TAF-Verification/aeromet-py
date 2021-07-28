@@ -48,6 +48,8 @@ print(
     metar.visibility.cavok,
 )
 
+metar.visibility.cavok = True
+
 # metar.sections = "other"
 # print(metar.sections)
 # print(metar.__dict__)
