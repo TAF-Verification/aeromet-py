@@ -161,6 +161,9 @@ class MinimumVisibility:
             self.__direction = match.group("dir")
     
     def __str__(self):
+        if self.__visibility is None:
+            return ""
+        
         return "{} km{}".format(
             self.in_kilometers,
             f" to {self.__direction}" if self.__direction else "",

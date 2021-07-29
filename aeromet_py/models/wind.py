@@ -77,6 +77,9 @@ class WindVariation:
         )
 
     def __handle_cardinal(self, value):
+        if value is None:
+            return None
+        
         dirs = COMPASS_DIRS["N"]
         if value >= dirs[0] or value < dirs[1]:
             return "N"
@@ -84,8 +87,12 @@ class WindVariation:
         for k, v in COMPASS_DIRS.items():
             if value >= v[0] and value < v[1]:
                 return k
-
-        return None
+    
+    def __handle_direction(self, value, transformation):
+        if value is None:
+            return None
+        
+        return value * transformation
 
     @property
     def code(self) -> str:
@@ -97,15 +104,15 @@ class WindVariation:
 
     @property
     def from_in_degrees(self) -> float:
-        return self.__from
+        return self.__handle_direction(self.__from, 1)
 
     @property
     def from_in_radians(self) -> float:
-        return self.__from * DEGREES_TO_RADIANS
+        return self.__handle_direction(self.__from, DEGREES_TO_RADIANS)
 
     @property
     def from_in_gradians(self) -> float:
-        return self.__from * DEGREES_TO_GRADIANS
+        return self.__handle_direction(self.__from, DEGREES_TO_GRADIANS)
 
     @property
     def to_cardinal_direction(self) -> str:
@@ -113,15 +120,15 @@ class WindVariation:
 
     @property
     def to_in_degrees(self) -> float:
-        return self.__to
+        return self.__handle_direction(self.__to, 1)
 
     @property
     def to_in_radians(self) -> float:
-        return self.__to * DEGREES_TO_RADIANS
+        return self.__handle_direction(self.__to, DEGREES_TO_RADIANS)
 
     @property
     def to_in_gradians(self) -> float:
-        return self.__to * DEGREES_TO_GRADIANS
+        return self.__handle_direction(self.__to, DEGREES_TO_GRADIANS)
 
 
 class Wind:

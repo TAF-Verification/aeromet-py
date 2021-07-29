@@ -111,13 +111,14 @@ class Metar(models.Report):
         index = 0
         body = sanitize_visibility(self.__sections[0])
         for group in body.split(" "):
+            print(index, group)
             self.unparsed_groups.append(group)
 
             for handler in handlers[index:]:
                 match = re.match(handler.regex, group)
+                index += 1
                 if match:
                     handler.func(match)
-                    index += 1
                     self.unparsed_groups.remove(group)
                     break
 

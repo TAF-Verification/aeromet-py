@@ -14,7 +14,7 @@ class RegularExpresions:
 
     VISIBILITY = r"^(?P<vis>\d{4}|\//\//)(?P<dir>[NSEW]([EW])?)?|((?P<opt>\d)_)?(M|P)?(?P<visextreme>\d{1,2}|\d/\d)(?P<units>SM|KM|M|U)|(?P<cavok>CAVOK)$"
     
-    MINIMUM_VISIBILITY = r"^(?P<vis>\d{4}|\//\//)(?P<dir>[NSEW]([EW])?)?$"
+    MINIMUM_VISIBILITY = r"^(?P<vis>\d{4})(?P<dir>[NSEW]([EW])?)?$"
 
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 

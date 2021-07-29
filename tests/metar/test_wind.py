@@ -25,4 +25,27 @@ def test_wind_without_gust():
     assert wind.gust_in_knot == None
     assert wind.gust_in_mps == None
     assert wind.gust_in_miph == None
+
+
+def test_wind_variation():
+    metar = Metar("METAR BIBD 191100Z 03002KT 310V020 8000 RA BR VCTS SCT008CB OVC020 04/03 Q1013")
+    wind_variation = metar.wind_variation
     
+    assert wind_variation.from_cardinal_direction == "NW"
+    assert wind_variation.from_in_degrees == 310.0
+    assert wind_variation.from_in_radians == 5.410520681182422
+    assert wind_variation.to_cardinal_direction == "NNE"
+    assert wind_variation.to_in_degrees == 20.0
+    assert wind_variation.to_in_radians == 0.3490658503988659
+
+
+def test_no_wind_variation():
+    metar = Metar("METAR BIBD 191100Z 03002KT 8000 RA BR VCTS SCT008CB OVC020 04/03 Q1013")
+    wind_variation = metar.wind_variation
+    
+    assert wind_variation.from_cardinal_direction == None
+    assert wind_variation.from_in_degrees == None
+    assert wind_variation.from_in_radians == None
+    assert wind_variation.to_cardinal_direction == None
+    assert wind_variation.to_in_degrees == None
+    assert wind_variation.to_in_radians == None
