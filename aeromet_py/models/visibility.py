@@ -1,6 +1,7 @@
 import re
 
 from .descriptors import CodeDescriptor, DataDescriptor
+from .wind import COMPASS_DIRS, DEGREES_TO_RADIANS, DEGREES_TO_GRADIANS
 
 SMI_TO_KM = 1.852
 KM_TO_SMI = 1 / SMI_TO_KM
@@ -23,17 +24,43 @@ class CavokDescriptor(DataDescriptor):
         return False
 
 
+class DirectionDescriptor(DataDescriptor):
+    def _handler(self, code):
+        return code
+
+
+    
+def _handle_direction(value, transformation):
+    if value is None:
+        return None
+    
+    if value == "N":
+        return 360.0
+    
+    values = COMPASS_DIRS[value]
+    
+    return sum(values) / 2 * transformation
+
+
+def _handle_visibility(value, transformation):
+    if value is None:
+        return None
+    
+    return value * transformation
+
 class Visibility:
 
     __code = CodeDescriptor()
     __visibility = VisibilityDescriptor()
     __cavok = CavokDescriptor()
+    __direction = DirectionDescriptor()
 
     def __init__(self, match: re.Match):
         if match is None:
             self.__code = None
             self.__visibility = None
             self.__cavok = None
+            self.__direction = None
         else:
             self.__code = match.string.replace("_", " ")
 
@@ -62,12 +89,16 @@ class Visibility:
                 self.__visibility = 10_000
 
             self.__cavok = match.group("cavok")
-
-    def __handle_value(self, transformation):
-        if self.__visibility is None:
-            return None
-
-        return self.__visibility * transformation
+            self.__direction = match.group("dir")
+    
+    def __str__(self):
+        if self.__cavok:
+            return "Ceiling and Visibility OK"
+        
+        return "{} km{}".format(
+            self.in_kilometers,
+            f" to {self.__direction}" if self.__direction else "",
+        )
 
     @property
     def code(self) -> str:
@@ -75,15 +106,15 @@ class Visibility:
 
     @property
     def in_meters(self) -> float:
-        return self.__handle_value(1)
+        return _handle_visibility(self.__visibility, 1)
 
     @property
     def in_kilometers(self) -> float:
-        return self.__handle_value(M_TO_KM)
+        return _handle_visibility(self.__visibility, M_TO_KM)
 
     @property
     def in_sea_miles(self) -> float:
-        return self.__handle_value(M_TO_SMI)
+        return _handle_visibility(self.__visibility, M_TO_SMI)
 
     @property
     def cavok(self) -> bool:
@@ -95,3 +126,74 @@ class Visibility:
             self.__cavok = value
         else:
             raise TypeError("can't set cavok to {}".format(type(value)))
+    
+    @property
+    def cardinal_direction(self) -> str:
+        return self.__direction
+    
+    @property
+    def direction_in_degrees(self) -> float:
+        return _handle_direction(self.__direction, 1)
+    
+    @property
+    def direction_in_radians(self) -> float:
+        return _handle_direction(self.__direction, DEGREES_TO_RADIANS)
+    
+    @property
+    def direction_in_gradians(self) -> float:
+        return _handle_direction(self.__direction, DEGREES_TO_GRADIANS)
+
+
+class MinimumVisibility:
+    
+    __code = CodeDescriptor()
+    __visibility = VisibilityDescriptor()
+    __direction = DirectionDescriptor()
+    
+    def __init__(self, match: re.Match):
+        if match is None:
+            self.__code = None
+            self.__visibility = None
+            self.__direction = None
+        else:
+            self.__code = match.string
+            self.__visibility = match.group("vis")
+            self.__direction = match.group("dir")
+    
+    def __str__(self):
+        return "{} km{}".format(
+            self.in_kilometers,
+            f" to {self.__direction}" if self.__direction else "",
+        )
+
+    @property
+    def code(self) -> str:
+        return self.__code
+
+    @property
+    def in_meters(self) -> float:
+        return _handle_visibility(self.__visibility, 1)
+
+    @property
+    def in_kilometers(self) -> float:
+        return _handle_visibility(self.__visibility, M_TO_KM)
+
+    @property
+    def in_sea_miles(self) -> float:
+        return _handle_visibility(self.__visibility, M_TO_SMI)
+
+    @property
+    def cardinal_direction(self) -> str:
+        return self.__direction
+    
+    @property
+    def direction_in_degrees(self) -> float:
+        return _handle_direction(self.__direction, 1)
+    
+    @property
+    def direction_in_radians(self) -> float:
+        return _handle_direction(self.__direction, DEGREES_TO_RADIANS)
+    
+    @property
+    def direction_in_gradians(self) -> float:
+        return _handle_direction(self.__direction, DEGREES_TO_GRADIANS)

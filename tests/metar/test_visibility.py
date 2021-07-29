@@ -16,3 +16,13 @@ def test_visibility_in_seamiles():
     assert metar.visibility.in_kilometers == 2.315
     assert metar.visibility.in_sea_miles == 1.2499999999999998
     assert metar.visibility.cavok == False
+
+
+def test_minimum_visibility():
+    metar = Metar("METAR UUDD 180100Z 00000MPS 4800 2100NW -SN BR SCT025 M02/M03 Q1007 R32L/290042 NOSIG")
+    
+    assert metar.minimum_visibility.in_meters == 2100.0
+    assert metar.minimum_visibility.in_kilometers == 2.1
+    assert metar.minimum_visibility.in_sea_miles == 1.1339092872570193
+    assert metar.minimum_visibility.cardinal_direction == "NW"
+    assert metar.minimum_visibility.direction_in_degrees == 315.0
