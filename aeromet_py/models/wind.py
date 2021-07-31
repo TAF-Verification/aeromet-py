@@ -79,7 +79,7 @@ class WindVariation:
     def __handle_cardinal(self, value):
         if value is None:
             return None
-        
+
         dirs = COMPASS_DIRS["N"]
         if value >= dirs[0] or value < dirs[1]:
             return "N"
@@ -87,11 +87,11 @@ class WindVariation:
         for k, v in COMPASS_DIRS.items():
             if value >= v[0] and value < v[1]:
                 return k
-    
+
     def __handle_direction(self, value, transformation):
         if value is None:
             return None
-        
+
         return value * transformation
 
     @property

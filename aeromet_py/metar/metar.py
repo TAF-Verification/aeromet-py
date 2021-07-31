@@ -20,6 +20,7 @@ class Metar(models.Report):
     __wind_variation = models.WindVariation(None)
     __visibility = models.Visibility(None)
     __minimum_visibility = models.MinimumVisibility(None)
+    __runway_range = models.RunwayRange(None)
 
     def __init__(self, code: str, year=None, month=None, truncate=False):
         super().__init__(code)
@@ -88,13 +89,20 @@ class Metar(models.Report):
     @property
     def visibility(self) -> models.Visibility:
         return self.__visibility
-    
+
     def __handle_minimum_visibility(self, match: re.Match):
         self.__minimum_visibility = models.MinimumVisibility(match)
-    
+
     @property
     def minimum_visibility(self) -> models.MinimumVisibility:
         return self.__minimum_visibility
+
+    def __handle_runway_range(self, match: re.Match):
+        self.__runway_range = models.RunwayRange(match)
+    
+    @property
+    def runway_range(self) -> models.RunwayRange:
+        return self.__runway_range
 
     def __parse_body(self):
         handlers = [
@@ -106,6 +114,7 @@ class Metar(models.Report):
             GroupHandler(REGEXP.WIND_VARIATION, self.__handle_wind_variation),
             GroupHandler(REGEXP.VISIBILITY, self.__handle_visibility),
             GroupHandler(REGEXP.MINIMUM_VISIBILITY, self.__handle_minimum_visibility),
+            GroupHandler(REGEXP.RUNWAY_RANGE, self.__handle_runway_range),
         ]
 
         index = 0

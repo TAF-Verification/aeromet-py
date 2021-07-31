@@ -1,7 +1,7 @@
 from .metar import Metar
 
 metar = Metar(
-    "SPECI MROC 220000Z 34012G22KT 310V150 3500 2100NW BKN015 24/22 A2995 RMK VEL MAX VTO 25KT BECMG 08015G25KT",
+    "SPECI MROC 220000Z 34012G22KT 310V150 3500 2100NW R07C/P1000VM2500FTU BKN015 24/22 A2995 RMK VEL MAX VTO 25KT BECMG 08015G25KT",
     truncate=False,
     # truncate=True,
 )
@@ -60,6 +60,15 @@ print(
     metar.minimum_visibility.direction_in_degrees,
     metar.minimum_visibility.cardinal_direction,
     metar.minimum_visibility,
+)
+print(
+    metar.runway_range,
+    metar.runway_range.code,
+    metar.runway_range.name,
+    metar.runway_range.low_in_kilometers,
+    metar.runway_range.high_in_kilometers,
+    metar.runway_range.low_range,
+    metar.runway_range.high_range,
 )
 
 # metar.sections = "other"
