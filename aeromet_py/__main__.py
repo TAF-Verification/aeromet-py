@@ -1,7 +1,7 @@
 from .metar import Metar
 
 metar = Metar(
-    "SPECI MROC 220000Z 34012G22KT 310V150 3500 2100NW R07C/P1000VM2500FTU BKN015 24/22 A2995 RMK VEL MAX VTO 25KT BECMG 08015G25KT",
+    "SPECI MROC 220000Z 34012G22KT 310V150 3500 2100NW R07C/P1000VM2500FTU RA BCFG VCTS BKN015 24/22 A2995 RMK VEL MAX VTO 25KT BECMG 08015G25KT",
     truncate=False,
     # truncate=True,
 )
@@ -70,6 +70,32 @@ print(
     metar.runway_range.low_range,
     metar.runway_range.high_range,
 )
+print(
+    metar.weathers,
+    metar.weathers.to_list,
+    metar.weathers.first,
+    metar.weathers.second,
+    metar.weathers.thrid.code,
+    metar.weathers.thrid.intensity,
+    metar.weathers.thrid.description,
+    metar.weathers.thrid.precipitation,
+    metar.weathers.thrid.obscuration,
+    metar.weathers.thrid.other,
+    metar.weathers.codes,
+)
+
+for weather in metar.weathers:
+    print(
+        weather.code,
+        "|",
+        weather.intensity,
+        "|",
+        weather.description,
+        "|",
+        weather.obscuration,
+        "|",
+        weather.precipitation,
+    )
 
 # metar.sections = "other"
 # print(metar.sections)

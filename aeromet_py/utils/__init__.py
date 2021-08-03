@@ -1,8 +1,10 @@
 import re
 
 from .regexp import RegularExpresions
+from .sky_translations import SkyTranslations
 
 REGEXP = RegularExpresions()
+SKY_TRANSLATIONS = SkyTranslations()
 
 
 def sanitize_visibility(report: str) -> str:

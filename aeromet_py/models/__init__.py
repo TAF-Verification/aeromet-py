@@ -6,5 +6,6 @@ from .sections import MetarSectionsDescriptor
 from .station import Station
 from .time import Time
 from .type import Type
-from .visibility import MinimumVisibility, Visibility, RunwayRange
+from .visibility import MinimumVisibility, RunwayRange, Visibility
+from .weather import Weathers
 from .wind import Wind, WindVariation

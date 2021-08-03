@@ -12,15 +12,6 @@ class Metar(models.Report):
     """Parser for METAR code."""
 
     __sections = models.MetarSectionsDescriptor()
-    __type = models.Type("METAR")
-    __modifier = models.Modifier(None)
-    __time = models.Time(None)
-    __station = models.Station(None)
-    __wind = models.Wind(None)
-    __wind_variation = models.WindVariation(None)
-    __visibility = models.Visibility(None)
-    __minimum_visibility = models.MinimumVisibility(None)
-    __runway_range = models.RunwayRange(None)
 
     def __init__(self, code: str, year=None, month=None, truncate=False):
         super().__init__(code)
@@ -28,6 +19,17 @@ class Metar(models.Report):
         self.__year = year
         self.__month = month
         self.__truncate = truncate
+
+        self.__type = models.Type("METAR")
+        self.__modifier = models.Modifier(None)
+        self.__time = models.Time(None)
+        self.__station = models.Station(None)
+        self.__wind = models.Wind(None)
+        self.__wind_variation = models.WindVariation(None)
+        self.__visibility = models.Visibility(None)
+        self.__minimum_visibility = models.MinimumVisibility(None)
+        self.__runway_range = models.RunwayRange(None)
+        self.__weathers = models.Weathers()
 
         self._parse()
 
@@ -99,10 +101,17 @@ class Metar(models.Report):
 
     def __handle_runway_range(self, match: re.Match):
         self.__runway_range = models.RunwayRange(match)
-    
+
     @property
     def runway_range(self) -> models.RunwayRange:
         return self.__runway_range
+
+    def __handle_weather(self, match: re.Match):
+        self.__weathers.add(match)
+
+    @property
+    def weathers(self) -> models.Weathers:
+        return self.__weathers
 
     def __parse_body(self):
         handlers = [
@@ -115,12 +124,14 @@ class Metar(models.Report):
             GroupHandler(REGEXP.VISIBILITY, self.__handle_visibility),
             GroupHandler(REGEXP.MINIMUM_VISIBILITY, self.__handle_minimum_visibility),
             GroupHandler(REGEXP.RUNWAY_RANGE, self.__handle_runway_range),
+            GroupHandler(REGEXP.WEATHER, self.__handle_weather),
+            GroupHandler(REGEXP.WEATHER, self.__handle_weather),
+            GroupHandler(REGEXP.WEATHER, self.__handle_weather),
         ]
 
         index = 0
         body = sanitize_visibility(self.__sections[0])
         for group in body.split(" "):
-            print(index, group)
             self.unparsed_groups.append(group)
 
             for handler in handlers[index:]:

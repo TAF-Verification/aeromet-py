@@ -215,7 +215,7 @@ class NameDescriptor(DataDescriptor):
     def _handler(self, code):
         if code is None:
             return None
-        
+
         name_char = code[-1]
         name_str = NAMES.get(name_char, None)
 
@@ -277,10 +277,10 @@ class RunwayRange:
             self.__rvrlow = match.group("rvrlow")
             self.__rvrhigh = match.group("rvrhigh")
             self.__trend = match.group("trend")
-            
+
             if units == "FT":
                 self.__low = float(match.group("low")) * FT_TO_M
-                
+
                 try:
                     self.__high = float(match.group("high")) * FT_TO_M
                 except TypeError:
@@ -288,7 +288,7 @@ class RunwayRange:
             else:
                 self.__low = match.group("low")
                 self.__high = match.group("high")
-    
+
     def __high_as_string(self):
         if self.__high and self.__rvrhigh:
             high = " varying to {} {:.1f} meters".format(self.__rvrhigh, self.__high)
@@ -296,9 +296,9 @@ class RunwayRange:
             high = " varying to {:.1f} meters".format(self.__high)
         else:
             high = ""
-        
+
         return high
-    
+
     def __str__(self):
         return "runway {} {}{:.1f} meters{}{}".format(
             self.__name,
@@ -307,15 +307,15 @@ class RunwayRange:
             self.__high_as_string(),
             ", " + self.__trend if self.__trend else "",
         )
-    
+
     @property
     def code(self):
         return self.__code
-    
+
     @property
     def name(self):
         return self.__name
-    
+
     @property
     def low_range(self):
         if self.__rvrlow:
@@ -323,25 +323,25 @@ class RunwayRange:
                 self.__rvrlow,
                 self.__low,
             )
-        
+
         return "{:.1f} meters".format(self.__low)
-    
+
     @property
     def low_in_meters(self):
         return _handle_visibility(self.__low, 1)
-    
+
     @property
     def low_in_kilometers(self):
         return _handle_visibility(self.__low, M_TO_KM)
-    
+
     @property
     def low_in_sea_miles(self):
         return _handle_visibility(self.__low, M_TO_SMI)
-    
+
     @property
     def low_in_feet(self):
         return _handle_visibility(self.__low, M_TO_FT)
-    
+
     @property
     def high_range(self):
         high = re.sub(r"\svarying\sto\s", "", self.__high_as_string())
@@ -350,19 +350,19 @@ class RunwayRange:
     @property
     def high_in_meters(self):
         return _handle_visibility(self.__high, 1)
-    
+
     @property
     def high_in_kilometers(self):
         return _handle_visibility(self.__high, M_TO_KM)
-    
+
     @property
     def high_in_sea_miles(self):
         return _handle_visibility(self.__high, M_TO_SMI)
-    
+
     @property
     def high_in_feet(self):
         return _handle_visibility(self.__high, M_TO_FT)
-    
+
     @property
     def trend(self):
         return self.__trend
