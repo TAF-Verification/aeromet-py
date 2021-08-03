@@ -30,6 +30,7 @@ class Metar(models.Report):
         self.__minimum_visibility = models.MinimumVisibility(None)
         self.__runway_range = models.RunwayRange(None)
         self.__weathers = models.Weathers()
+        self.__sky = models.Sky()
 
         self._parse()
 
@@ -113,6 +114,13 @@ class Metar(models.Report):
     def weathers(self) -> models.Weathers:
         return self.__weathers
 
+    def __handle_sky(self, match: re.Match):
+        self.__sky.add(match)
+
+    @property
+    def sky(self) -> models.Sky:
+        return self.__sky
+
     def __parse_body(self):
         handlers = [
             GroupHandler(REGEXP.TYPE, self.__handle_type),
@@ -127,6 +135,10 @@ class Metar(models.Report):
             GroupHandler(REGEXP.WEATHER, self.__handle_weather),
             GroupHandler(REGEXP.WEATHER, self.__handle_weather),
             GroupHandler(REGEXP.WEATHER, self.__handle_weather),
+            GroupHandler(REGEXP.SKY, self.__handle_sky),
+            GroupHandler(REGEXP.SKY, self.__handle_sky),
+            GroupHandler(REGEXP.SKY, self.__handle_sky),
+            GroupHandler(REGEXP.SKY, self.__handle_sky),
         ]
 
         index = 0

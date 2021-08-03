@@ -3,6 +3,7 @@ from .errors import ParserError
 from .modifier import Modifier
 from .report import Report
 from .sections import MetarSectionsDescriptor
+from .sky import Sky
 from .station import Station
 from .time import Time
 from .type import Type

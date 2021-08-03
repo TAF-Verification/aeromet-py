@@ -1,5 +1,6 @@
 import re
-from math import pi
+
+from aeromet_py.utils import CONVERSIONS
 
 from .descriptors import CodeDescriptor, DataDescriptor
 
@@ -21,13 +22,6 @@ COMPASS_DIRS = {
     "NNW": [326.25, 348.75],
     "N": [348.75, 11.25],
 }
-
-DEGREES_TO_RADIANS = pi / 180
-DEGREES_TO_GRADIANS = 1.11111111
-KNOT_TO_MPS = 0.51444444
-KNOT_TO_MIPH = 1.15078
-KNOT_TO_KPH = 1.852
-MPS_TO_KNOT = 1 / KNOT_TO_MPS
 
 
 class DirectionDescriptor(DataDescriptor):
@@ -108,11 +102,11 @@ class WindVariation:
 
     @property
     def from_in_radians(self) -> float:
-        return self.__handle_direction(self.__from, DEGREES_TO_RADIANS)
+        return self.__handle_direction(self.__from, CONVERSIONS.DEGREES_TO_RADIANS)
 
     @property
     def from_in_gradians(self) -> float:
-        return self.__handle_direction(self.__from, DEGREES_TO_GRADIANS)
+        return self.__handle_direction(self.__from, CONVERSIONS.DEGREES_TO_GRADIANS)
 
     @property
     def to_cardinal_direction(self) -> str:
@@ -124,11 +118,11 @@ class WindVariation:
 
     @property
     def to_in_radians(self) -> float:
-        return self.__handle_direction(self.__to, DEGREES_TO_RADIANS)
+        return self.__handle_direction(self.__to, CONVERSIONS.DEGREES_TO_RADIANS)
 
     @property
     def to_in_gradians(self) -> float:
-        return self.__handle_direction(self.__to, DEGREES_TO_GRADIANS)
+        return self.__handle_direction(self.__to, CONVERSIONS.DEGREES_TO_GRADIANS)
 
 
 class Wind:
@@ -158,12 +152,12 @@ class Wind:
                 gust = match.group("gust")
 
                 try:
-                    self.__speed = "{}".format(float(speed) * MPS_TO_KNOT)
+                    self.__speed = "{}".format(float(speed) * CONVERSIONS.MPS_TO_KNOT)
                 except (TypeError, ValueError):
                     self.__speed = speed
 
                 try:
-                    self.__gust = "{}".format(float(gust) * MPS_TO_KNOT)
+                    self.__gust = "{}".format(float(gust) * CONVERSIONS.MPS_TO_KNOT)
                 except (TypeError, ValueError):
                     self.__gust = gust
 
@@ -184,7 +178,7 @@ class Wind:
     def code(self) -> str:
         return self.__code
 
-    def __handle_value(self, value, transformation):
+    def __handle_value(self, value, conversion):
         if value is None:
             return None
 
@@ -196,7 +190,7 @@ class Wind:
             else:
                 return value
 
-        return value * transformation
+        return value * conversion
 
     @property
     def cardinal_direction(self) -> str:
@@ -219,15 +213,15 @@ class Wind:
 
     @property
     def direction_in_radians(self) -> float:
-        return self.__handle_value(self.__direction, DEGREES_TO_RADIANS)
+        return self.__handle_value(self.__direction, CONVERSIONS.DEGREES_TO_RADIANS)
 
     @property
     def direction_in_gradians(self) -> float:
-        return self.__handle_value(self.__direction, DEGREES_TO_GRADIANS)
+        return self.__handle_value(self.__direction, CONVERSIONS.DEGREES_TO_GRADIANS)
 
     @property
     def speed_in_mps(self) -> float:
-        return self.__handle_value(self.__speed, KNOT_TO_MPS)
+        return self.__handle_value(self.__speed, CONVERSIONS.KNOT_TO_MPS)
 
     @property
     def speed_in_knot(self) -> float:
@@ -235,15 +229,15 @@ class Wind:
 
     @property
     def speed_in_kph(self) -> float:
-        return self.__handle_value(self.__speed, KNOT_TO_KPH)
+        return self.__handle_value(self.__speed, CONVERSIONS.KNOT_TO_KPH)
 
     @property
     def speed_in_miph(self) -> float:
-        return self.__handle_value(self.__speed, KNOT_TO_MIPH)
+        return self.__handle_value(self.__speed, CONVERSIONS.KNOT_TO_MIPH)
 
     @property
     def gust_in_mps(self) -> float:
-        return self.__handle_value(self.__gust, KNOT_TO_MPS)
+        return self.__handle_value(self.__gust, CONVERSIONS.KNOT_TO_MPS)
 
     @property
     def gust_in_knot(self) -> float:
@@ -251,8 +245,8 @@ class Wind:
 
     @property
     def gust_in_kph(self) -> float:
-        return self.__handle_value(self.__gust, KNOT_TO_KPH)
+        return self.__handle_value(self.__gust, CONVERSIONS.KNOT_TO_KPH)
 
     @property
     def gust_in_miph(self) -> float:
-        return self.__handle_value(self.__gust, KNOT_TO_MIPH)
+        return self.__handle_value(self.__gust, CONVERSIONS.KNOT_TO_MIPH)

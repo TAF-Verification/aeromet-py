@@ -1,7 +1,7 @@
 from .metar import Metar
 
 metar = Metar(
-    "SPECI MROC 220000Z 34012G22KT 310V150 3500 2100NW R07C/P1000VM2500FTU RA BCFG VCTS BKN015 24/22 A2995 RMK VEL MAX VTO 25KT BECMG 08015G25KT",
+    "SPECI MROC 220000Z 34012G22KT 310V150 3500 2100NW R07C/P1000VM2500FTU RA BCFG VCTS FEW005 SCT015CB BKN030 24/22 A2995 RMK VEL MAX VTO 25KT BECMG 08015G25KT",
     truncate=False,
     # truncate=True,
 )
@@ -95,6 +95,24 @@ for weather in metar.weathers:
         weather.obscuration,
         "|",
         weather.precipitation,
+    )
+
+print(
+    metar.sky.codes,
+    metar.sky.to_list,
+    metar.sky.first.height_in_kilometers,
+    metar.sky.second.height_in_meters,
+    metar.sky.second.cloud,
+    metar.sky.fourth.height_in_feet,
+)
+
+for layer in metar.sky:
+    print(
+        layer.cover,
+        " | ",
+        layer.height_in_feet,
+        " | ",
+        layer.cloud,
     )
 
 # metar.sections = "other"

@@ -1,5 +1,5 @@
 import re
-from typing import Iterable, Iterator, List
+from typing import Iterator, List, Tuple
 
 from aeromet_py.utils import SKY_TRANSLATIONS
 
@@ -160,7 +160,7 @@ class Weathers:
         return self.__list_of_str()
 
     @property
-    def codes(self):
+    def codes(self) -> Tuple[str]:
         return tuple(weather.code for weather in self.__list)
 
     @property

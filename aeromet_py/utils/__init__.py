@@ -1,10 +1,12 @@
 import re
 
+from .conversions import Conversions
 from .regexp import RegularExpresions
 from .sky_translations import SkyTranslations
 
 REGEXP = RegularExpresions()
 SKY_TRANSLATIONS = SkyTranslations()
+CONVERSIONS = Conversions()
 
 
 def sanitize_visibility(report: str) -> str:
@@ -20,3 +22,10 @@ def sanitize_visibility(report: str) -> str:
             break
 
     return report
+
+
+def handle_distance(value, conversion):
+    if value is None:
+        return None
+
+    return value * conversion
