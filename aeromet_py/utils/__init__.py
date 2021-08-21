@@ -1,4 +1,5 @@
 import re
+from typing import Callable
 
 from .conversions import Conversions
 from .regexp import RegularExpresions
@@ -29,3 +30,10 @@ def handle_distance(value, conversion):
         return None
 
     return value * conversion
+
+
+def handle_temperature(value: float, conversion: Callable):
+    if value is None:
+        return None
+
+    return conversion(value)

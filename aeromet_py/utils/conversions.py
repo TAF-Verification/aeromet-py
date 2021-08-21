@@ -1,5 +1,6 @@
 from math import pi
 
+
 class Conversions:
 
     # Distance conversions
@@ -20,3 +21,16 @@ class Conversions:
     KNOT_TO_MIPH = 1.15078
     KNOT_TO_KPH = 1.852
     MPS_TO_KNOT = 1 / KNOT_TO_MPS
+
+    # Temperature conversions
+    @staticmethod
+    def celsius_to_kelvin(temp: float):
+        return temp + 273.15
+
+    @staticmethod
+    def celsius_to_fahrenheit(temp: float):
+        return temp * 9 / 5 + 32
+
+    @staticmethod
+    def celsius_to_rankine(temp: float):
+        return temp * 9 / 5 + 491.67

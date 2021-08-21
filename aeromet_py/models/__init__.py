@@ -5,6 +5,7 @@ from .report import Report
 from .sections import MetarSectionsDescriptor
 from .sky import Sky
 from .station import Station
+from .temperatures import Temperatures
 from .time import Time
 from .type import Type
 from .visibility import MinimumVisibility, RunwayRange, Visibility

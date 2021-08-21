@@ -52,6 +52,13 @@ class RegularExpresions:
         r"(?P<cloud>TCU|CB|///)?$"
     )
 
+    TEMPERATURES = (
+        r"^(?P<tsign>M|-)?"
+        r"(?P<temp>\d{2}|//|XX|MM)/"
+        r"(?P<dsign>M|-)?"
+        r"(?P<dewpt>\d{2}|//|XX|MM)$"
+    )
+
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 
     REMARK = r"^(?P<rmk>RMK(S)?)$"

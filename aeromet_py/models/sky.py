@@ -64,6 +64,8 @@ class CloudLayer:
                 self.__cover,
                 self.__height,
             )
+        elif self._cover == "clear":
+            return self._cover
         else:
             return "{} at undefined height", format(
                 self.__cover,

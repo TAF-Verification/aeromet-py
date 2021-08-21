@@ -74,6 +74,9 @@ class WindVariation:
         if value is None:
             return None
 
+        if value == 0.0:
+            return "calm"
+
         dirs = COMPASS_DIRS["N"]
         if value >= dirs[0] or value < dirs[1]:
             return "N"
