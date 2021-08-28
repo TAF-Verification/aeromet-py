@@ -1,6 +1,6 @@
 import re
 
-from aeromet_py.utils import CONVERSIONS, handle_distance
+from aeromet_py.utils import CONVERSIONS, handle_value
 
 from .descriptors import CodeDescriptor, DataDescriptor
 from .wind import COMPASS_DIRS
@@ -97,15 +97,15 @@ class Visibility:
 
     @property
     def in_meters(self) -> float:
-        return handle_distance(self.__visibility, 1)
+        return handle_value(self.__visibility, 1)
 
     @property
     def in_kilometers(self) -> float:
-        return handle_distance(self.__visibility, CONVERSIONS.M_TO_KM)
+        return handle_value(self.__visibility, CONVERSIONS.M_TO_KM)
 
     @property
     def in_sea_miles(self) -> float:
-        return handle_distance(self.__visibility, CONVERSIONS.M_TO_SMI)
+        return handle_value(self.__visibility, CONVERSIONS.M_TO_SMI)
 
     @property
     def cavok(self) -> bool:
@@ -166,15 +166,15 @@ class MinimumVisibility:
 
     @property
     def in_meters(self) -> float:
-        return handle_distance(self.__visibility, 1)
+        return handle_value(self.__visibility, 1)
 
     @property
     def in_kilometers(self) -> float:
-        return handle_distance(self.__visibility, CONVERSIONS.M_TO_KM)
+        return handle_value(self.__visibility, CONVERSIONS.M_TO_KM)
 
     @property
     def in_sea_miles(self) -> float:
-        return handle_distance(self.__visibility, CONVERSIONS.M_TO_SMI)
+        return handle_value(self.__visibility, CONVERSIONS.M_TO_SMI)
 
     @property
     def cardinal_direction(self) -> str:
@@ -317,19 +317,19 @@ class RunwayRange:
 
     @property
     def low_in_meters(self):
-        return handle_distance(self.__low, 1)
+        return handle_value(self.__low, 1)
 
     @property
     def low_in_kilometers(self):
-        return handle_distance(self.__low, CONVERSIONS.M_TO_KM)
+        return handle_value(self.__low, CONVERSIONS.M_TO_KM)
 
     @property
     def low_in_sea_miles(self):
-        return handle_distance(self.__low, CONVERSIONS.M_TO_SMI)
+        return handle_value(self.__low, CONVERSIONS.M_TO_SMI)
 
     @property
     def low_in_feet(self):
-        return handle_distance(self.__low, CONVERSIONS.M_TO_FT)
+        return handle_value(self.__low, CONVERSIONS.M_TO_FT)
 
     @property
     def high_range(self):
@@ -338,19 +338,19 @@ class RunwayRange:
 
     @property
     def high_in_meters(self):
-        return handle_distance(self.__high, 1)
+        return handle_value(self.__high, 1)
 
     @property
     def high_in_kilometers(self):
-        return handle_distance(self.__high, CONVERSIONS.M_TO_KM)
+        return handle_value(self.__high, CONVERSIONS.M_TO_KM)
 
     @property
     def high_in_sea_miles(self):
-        return handle_distance(self.__high, CONVERSIONS.M_TO_SMI)
+        return handle_value(self.__high, CONVERSIONS.M_TO_SMI)
 
     @property
     def high_in_feet(self):
-        return handle_distance(self.__high, CONVERSIONS.M_TO_FT)
+        return handle_value(self.__high, CONVERSIONS.M_TO_FT)
 
     @property
     def trend(self):

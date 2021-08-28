@@ -1,7 +1,7 @@
 import re
 from typing import Iterator, List, Tuple
 
-from aeromet_py.utils import CONVERSIONS, SKY_TRANSLATIONS, handle_distance
+from aeromet_py.utils import CONVERSIONS, SKY_TRANSLATIONS, handle_value
 
 from .descriptors import CodeDescriptor, DataDescriptor
 
@@ -81,21 +81,21 @@ class CloudLayer:
 
     @property
     def height_in_meters(self) -> float:
-        return handle_distance(self.__height, CONVERSIONS.FT_TO_M)
+        return handle_value(self.__height, CONVERSIONS.FT_TO_M)
 
     @property
     def height_in_kilometers(self) -> float:
-        return handle_distance(self.__height, CONVERSIONS.FT_TO_M * CONVERSIONS.M_TO_KM)
+        return handle_value(self.__height, CONVERSIONS.FT_TO_M * CONVERSIONS.M_TO_KM)
 
     @property
     def height_in_sea_miles(self) -> float:
-        return handle_distance(
+        return handle_value(
             self.__height, CONVERSIONS.FT_TO_M * CONVERSIONS.M_TO_SMI
         )
 
     @property
     def height_in_feet(self) -> float:
-        return handle_distance(self.__height, 1)
+        return handle_value(self.__height, 1)
 
     @property
     def cloud(self) -> str:

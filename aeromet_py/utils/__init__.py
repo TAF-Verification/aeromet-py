@@ -25,7 +25,7 @@ def sanitize_visibility(report: str) -> str:
     return report
 
 
-def handle_distance(value, conversion):
+def handle_value(value, conversion):
     if value is None:
         return None
 

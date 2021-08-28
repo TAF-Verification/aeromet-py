@@ -58,6 +58,12 @@ class RegularExpresions:
         r"(?P<dsign>M|-)?"
         r"(?P<dewpt>\d{2}|//|XX|MM)$"
     )
+    
+    PRESSURE = (
+        r"^(?P<units>A|Q|QNH)?"
+        r"(?P<press>\d{4}|\//\//)"
+        r"(?P<units2>INS)?$"
+    )
 
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 

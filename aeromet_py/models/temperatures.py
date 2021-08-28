@@ -37,7 +37,7 @@ class Temperatures:
             )
 
     def __str__(self):
-        return "temperature {:.1f}° | dewpoint {:.1f}".format(
+        return "temperature {:.1f}° | dewpoint {:.1f}°".format(
             self.temperature_in_celsius,
             self.dewpoint_in_celsius,
         )

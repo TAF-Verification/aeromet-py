@@ -21,6 +21,15 @@ class Conversions:
     KNOT_TO_MIPH = 1.15078
     KNOT_TO_KPH = 1.852
     MPS_TO_KNOT = 1 / KNOT_TO_MPS
+    
+    # Pressure conversions
+    HPA_TO_INHG = 0.02953
+    INHG_TO_HPA = 1 / HPA_TO_INHG
+    HPA_TO_BAR = 0.001
+    BAR_TO_HPA = 1 / HPA_TO_BAR
+    MBAR_TO_HPA = BAR_TO_HPA / 1000
+    HPA_TO_MBAR = HPA_TO_BAR * 1000
+    HPA_TO_ATM = 1 / 1013.25
 
     # Temperature conversions
     @staticmethod
