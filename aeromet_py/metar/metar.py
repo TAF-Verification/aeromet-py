@@ -33,6 +33,7 @@ class Metar(models.Report):
         self.__sky = models.Sky()
         self.__temperatures = models.Temperatures(None)
         self.__pressure = models.Pressure(None)
+        self.__recent_weather = models.RecentWeather(None)
 
         self._parse()
 
@@ -129,13 +130,20 @@ class Metar(models.Report):
     @property
     def temperatures(self) -> models.Temperatures:
         return self.__temperatures
-    
+
     def __handle_pressure(self, match: re.Match):
         self.__pressure = models.Pressure(match)
-    
+
     @property
     def pressure(self) -> models.Pressure:
         return self.__pressure
+
+    def __handle_recent_weather(self, match: re.Match):
+        self.__recent_weather = models.RecentWeather(match)
+
+    @property
+    def recent_weather(self) -> models.RecentWeather:
+        return self.__recent_weather
 
     def __parse_body(self):
         handlers = [
@@ -157,6 +165,7 @@ class Metar(models.Report):
             GroupHandler(REGEXP.SKY, self.__handle_sky),
             GroupHandler(REGEXP.TEMPERATURES, self.__handle_temperatures),
             GroupHandler(REGEXP.PRESSURE, self.__handle_pressure),
+            GroupHandler(REGEXP.RECENT_WEATHER, self.__handle_recent_weather),
         ]
 
         index = 0

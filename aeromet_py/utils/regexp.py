@@ -64,6 +64,13 @@ class RegularExpresions:
         r"(?P<press>\d{4}|\//\//)"
         r"(?P<units2>INS)?$"
     )
+    
+    RECENT_WEATHER = (
+        r"^RE(?P<descrip>MI|PR|BC|DR|BL|SH|TS|FZ)?"
+        r"(?P<precip>DZ|RA|SN|SG|IC|PL|GR|GS|UP)?"
+        r"(?P<obsc>BR|FG|VA|DU|SA|HZ|PY)?"
+        r"(?P<other>PO|SQ|FC|SS|DS)?$"
+    )
 
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 
