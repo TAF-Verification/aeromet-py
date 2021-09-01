@@ -3,7 +3,7 @@ from collections import namedtuple
 from typing import List
 
 import aeromet_py.models as models
-from aeromet_py.utils import REGEXP, sanitize_visibility
+from aeromet_py.utils import REGEXP, sanitize_visibility, sanitize_windshear
 
 GroupHandler = namedtuple("GroupHandler", "regex func")
 
@@ -34,6 +34,7 @@ class Metar(models.Report):
         self.__temperatures = models.Temperatures(None)
         self.__pressure = models.Pressure(None)
         self.__recent_weather = models.RecentWeather(None)
+        self.__windshear = models.Windshear()
 
         self._parse()
 
@@ -145,6 +146,13 @@ class Metar(models.Report):
     def recent_weather(self) -> models.RecentWeather:
         return self.__recent_weather
 
+    def __handle_windshear(self, match: re.Match):
+        self.__windshear.add(match)
+
+    @property
+    def windshear(self) -> models.Windshear:
+        return self.__windshear
+
     def __parse_body(self):
         handlers = [
             GroupHandler(REGEXP.TYPE, self.__handle_type),
@@ -166,10 +174,14 @@ class Metar(models.Report):
             GroupHandler(REGEXP.TEMPERATURES, self.__handle_temperatures),
             GroupHandler(REGEXP.PRESSURE, self.__handle_pressure),
             GroupHandler(REGEXP.RECENT_WEATHER, self.__handle_recent_weather),
+            GroupHandler(REGEXP.WINDSHEAR, self.__handle_windshear),
+            GroupHandler(REGEXP.WINDSHEAR, self.__handle_windshear),
+            GroupHandler(REGEXP.WINDSHEAR, self.__handle_windshear),
         ]
 
         index = 0
         body = sanitize_visibility(self.__sections[0])
+        body = sanitize_windshear(body)
         for group in body.split(" "):
             self.unparsed_groups.append(group)
 

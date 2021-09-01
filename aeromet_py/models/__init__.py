@@ -13,3 +13,4 @@ from .weather import Weathers
 from .wind import Wind, WindVariation
 from .pressure import Pressure
 from .recent_weather import RecentWeather
+from .windshear import Windshear

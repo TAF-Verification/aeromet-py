@@ -1,6 +1,6 @@
 import re
 
-from .descriptors import CodeDescriptor, DataDescriptor
+from .descriptors import CodeDescriptor
 from .weather import Description, Precipitation, Obscuration, Other
 
 

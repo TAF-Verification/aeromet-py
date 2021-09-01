@@ -205,10 +205,12 @@ class NameDescriptor(DataDescriptor):
         if code is None:
             return None
 
-        name_char = code[-1]
-        name_str = NAMES.get(name_char, None)
+        if len(code) == 3:
+            name_char = code[-1]
+            name_str = NAMES.get(name_char, None)
+            return code.replace(name_char, f" {name_str}")
 
-        return code.replace(name_char, f" {name_str}")
+        return code
 
 
 LIMITS = {
