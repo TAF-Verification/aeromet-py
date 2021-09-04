@@ -70,6 +70,8 @@ class RegularExpresions:
 
     WINDSHEAR = r"^WS(?P<all>_ALL)?" r"_(RWY|R(?P<name>\d{2}[RCL]?))$"
 
+    SEA_STATE = r"^W(?P<sign>M)?" r"(?P<temp>\d{2})/S" r"(?P<state>\d)$"
+
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 
     REMARK = r"^(?P<rmk>RMK(S)?)$"

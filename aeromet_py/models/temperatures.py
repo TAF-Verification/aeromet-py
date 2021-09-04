@@ -5,6 +5,13 @@ from aeromet_py.utils import Conversions, handle_temperature
 from .descriptors import CodeDescriptor, DataDescriptor
 
 
+def set_temperature(sign: str, temp: str):
+    if sign == "M" or sign == "-":
+        return f"-{temp}"
+
+    return temp
+
+
 class TemperatureDescriptor(DataDescriptor):
     def _handler(self, value):
         if value is None:
@@ -29,10 +36,10 @@ class Temperatures:
             self.__dewpoint = None
         else:
             self.__code = match.string
-            self.__temperature = self.__handle_temperature(
+            self.__temperature = set_temperature(
                 match.group("tsign"), match.group("temp")
             )
-            self.__dewpoint = self.__handle_temperature(
+            self.__dewpoint = set_temperature(
                 match.group("dsign"), match.group("dewpt")
             )
 
@@ -41,12 +48,6 @@ class Temperatures:
             self.temperature_in_celsius,
             self.dewpoint_in_celsius,
         )
-
-    def __handle_temperature(self, sign: str, temp: str):
-        if sign == "M" or sign == "-":
-            return f"-{temp}"
-
-        return temp
 
     @property
     def code(self) -> str:

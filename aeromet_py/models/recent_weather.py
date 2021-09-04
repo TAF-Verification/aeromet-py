@@ -1,7 +1,7 @@
 import re
 
 from .descriptors import CodeDescriptor
-from .weather import Description, Precipitation, Obscuration, Other
+from .weather import Description, Obscuration, Other, Precipitation
 
 
 class RecentWeather:

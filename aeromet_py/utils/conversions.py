@@ -21,7 +21,7 @@ class Conversions:
     KNOT_TO_MIPH = 1.15078
     KNOT_TO_KPH = 1.852
     MPS_TO_KNOT = 1 / KNOT_TO_MPS
-    
+
     # Pressure conversions
     HPA_TO_INHG = 0.02953
     INHG_TO_HPA = 1 / HPA_TO_INHG

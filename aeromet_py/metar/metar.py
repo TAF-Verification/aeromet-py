@@ -35,6 +35,7 @@ class Metar(models.Report):
         self.__pressure = models.Pressure(None)
         self.__recent_weather = models.RecentWeather(None)
         self.__windshear = models.Windshear()
+        self.__sea_state = models.SeaState(None)
 
         self._parse()
 
@@ -153,6 +154,13 @@ class Metar(models.Report):
     def windshear(self) -> models.Windshear:
         return self.__windshear
 
+    def __handle_sea_state(self, match: re.Match):
+        self.__sea_state = models.SeaState(match)
+
+    @property
+    def sea_state(self) -> models.SeaState:
+        return self.__sea_state
+
     def __parse_body(self):
         handlers = [
             GroupHandler(REGEXP.TYPE, self.__handle_type),
@@ -177,6 +185,7 @@ class Metar(models.Report):
             GroupHandler(REGEXP.WINDSHEAR, self.__handle_windshear),
             GroupHandler(REGEXP.WINDSHEAR, self.__handle_windshear),
             GroupHandler(REGEXP.WINDSHEAR, self.__handle_windshear),
+            GroupHandler(REGEXP.SEA_STATE, self.__handle_sea_state),
         ]
 
         index = 0

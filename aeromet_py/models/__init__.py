@@ -1,6 +1,8 @@
 from .descriptors import DataDescriptor
 from .errors import ParserError
 from .modifier import Modifier
+from .pressure import Pressure
+from .recent_weather import RecentWeather
 from .report import Report
 from .sections import MetarSectionsDescriptor
 from .sky import Sky
@@ -11,6 +13,5 @@ from .type import Type
 from .visibility import MinimumVisibility, RunwayRange, Visibility
 from .weather import Weathers
 from .wind import Wind, WindVariation
-from .pressure import Pressure
-from .recent_weather import RecentWeather
 from .windshear import Windshear
+from .sea_state import SeaState

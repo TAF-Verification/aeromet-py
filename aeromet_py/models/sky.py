@@ -89,9 +89,7 @@ class CloudLayer:
 
     @property
     def height_in_sea_miles(self) -> float:
-        return handle_value(
-            self.__height, CONVERSIONS.FT_TO_M * CONVERSIONS.M_TO_SMI
-        )
+        return handle_value(self.__height, CONVERSIONS.FT_TO_M * CONVERSIONS.M_TO_SMI)
 
     @property
     def height_in_feet(self) -> float:
