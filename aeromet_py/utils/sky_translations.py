@@ -120,20 +120,20 @@ class SkyTranslations:
         "7": "ice",
         "8": "compacted or rolled snow",
         "9": "frozen ruts or ridges",
-        "/": "type of deposit not reported (e.g. due to runway clearance in progress),",
+        "/": "type of deposit not reported (e.g. due to runway clearance in progress)",
     }
 
     # table 0519
     RUNWAY_CONTAMINATION = {
-        "1": "less than 10%",
-        "2": "11%-25%",
+        "1": "less than 10% of runway",
+        "2": "11%-25% of runway",
         "3": "reserved",
         "4": "reserved",
-        "5": "26%-50%",
+        "5": "26%-50% of runway",
         "6": "reserved",
         "7": "reserved",
         "8": "reserved",
-        "9": "51%-100%",
+        "9": "51%-100% of runway",
         "/": "not reported",
     }
 
@@ -162,7 +162,7 @@ class SkyTranslations:
         "96": "reserved",
         "97": "reserved",
         "98": "reserved",
-        "99": "unreliable",
+        "99": "breaking action unreliable",
         "//": "breaking conditions not reported and/or runway not operational",
     }
 

@@ -210,6 +210,12 @@ class NameDescriptor(DataDescriptor):
             name_str = NAMES.get(name_char, None)
             return code.replace(name_char, f" {name_str}")
 
+        if code == "88":
+            return "all runways"
+
+        if code == "99":
+            return "repeated"
+
         return code
 
 
