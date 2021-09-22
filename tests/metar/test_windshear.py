@@ -11,6 +11,7 @@ def test_one_windshear():
     assert windshear.second.runway_name == None
     assert windshear.thrid.runway_name == None
     assert windshear.all_runways == False
+    assert str(windshear) == "07"
 
 
 def test_two_windshears():
@@ -23,6 +24,7 @@ def test_two_windshears():
     assert windshear.second.runway_name == "25 center"
     assert windshear.thrid.runway_name == None
     assert windshear.all_runways == False
+    assert str(windshear) == "07 left | 25 center"
 
 
 def test_all_windshears():
@@ -35,3 +37,17 @@ def test_all_windshears():
     assert windshear.second.runway_name == None
     assert windshear.thrid.runway_name == None
     assert windshear.all_runways == True
+    assert str(windshear) == "all runways"
+
+
+def test_no_windshears():
+    metar = Metar(
+        "LTAD 212106Z 25004KT 9999 SCT040 BKN100 16/14 Q1019 RESHRA NOSIG RMK RWY29 VRB02KT"
+    )
+    windshear = metar.windshear
+
+    assert windshear.first.runway_name == None
+    assert windshear.second.runway_name == None
+    assert windshear.thrid.runway_name == None
+    assert windshear.all_runways == False
+    assert str(windshear) == ""

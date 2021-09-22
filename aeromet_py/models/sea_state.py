@@ -1,6 +1,6 @@
 import re
 
-from aeromet_py.utils import Conversions, handle_temperature, SkyTranslations
+from aeromet_py.utils import Conversions, SkyTranslations, handle_temperature
 
 from .descriptors import CodeDescriptor, DataDescriptor
 from .temperatures import TemperatureDescriptor, set_temperature
@@ -30,10 +30,17 @@ class SeaState:
             self.__state = match.group("state")
 
     def __str__(self):
-        return "temperature {:.1f}°, {}".format(
-            self.state,
-            self.temperature_in_celsius,
-        )
+        if self.__temperature is None and self.__state:
+            return f"no temperature, {self.state}"
+        elif self.__temperature and self.__state is None:
+            return "temperature {:.1f}".format(self.temperature_in_celsius)
+        elif self.__temperature is None and self.__state is None:
+            return ""
+        else:
+            return "temperature {:.1f}°, {}".format(
+                self.temperature_in_celsius,
+                self.state,
+            )
 
     @property
     def code(self) -> str:

@@ -71,7 +71,13 @@ class Windshear:
         return [str(windshear) for windshear in self.__list]
 
     def __str__(self):
-        return " | ".join(self.__list_of_str())
+        if self.__all:
+            return "all runways"
+
+        if self.__list:
+            return " | ".join(self.__list_of_str())
+
+        return ""
 
     def __len__(self):
         return len(self.__list)

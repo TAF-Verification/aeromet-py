@@ -25,6 +25,12 @@ class Modifier:
         self.__code = code
         self.__modifier = self.__code
 
+    def __str__(self):
+        if self.__modifier is not None:
+            return self.__modifier.lower()
+
+        return ""
+
     @property
     def code(self) -> str:
         return self.__code
@@ -32,6 +38,3 @@ class Modifier:
     @property
     def modifier(self) -> str:
         return self.__modifier
-
-    def __str__(self) -> str:
-        return f"{self.__code}: {self.__modifier}"

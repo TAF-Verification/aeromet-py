@@ -103,17 +103,17 @@ class RunwayState:
             self.__clrd = match.group("clrd")
 
     def __deposits_to_str(self):
-        type = self.__match.group("deposit")
+        deposit = self.__match.group("deposit")
         depth = self.__match.group("depth")
 
-        if type == "/":
+        if deposit == "/":
             if depth == "99" or depth == "//":
                 sep = "{} and {}"
             elif depth is not None:
                 sep = "depth of {} but {}"
             else:
                 return self.deposits
-        elif type is not None:
+        elif deposit is not None:
             if depth == "99" or depth == "//":
                 sep = "{} of {}"
             elif depth is not None:
@@ -148,7 +148,7 @@ class RunwayState:
 
     def __str__(self):
         if self.__match is None:
-            return str(None)
+            return ""
 
         if self.snoclo:
             return self.snoclo

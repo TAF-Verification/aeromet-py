@@ -30,4 +30,4 @@ class Type:
         return self.__type
 
     def __str__(self) -> str:
-        return f"{self.__code}: {self.__type}"
+        return f"{self.__code}, {self.__type}"

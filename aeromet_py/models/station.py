@@ -23,9 +23,9 @@ class Station:
 
     def __str__(self):
         return (
-            f"Name: {self.name}\n"
-            f"Coordinates: {self.latitude} {self.longitude}\n"
-            f"Elevation: {self.elevation}\n"
+            f"Name: {self.name} | "
+            f"Coordinates: {self.latitude} {self.longitude} | "
+            f"Elevation: {self.elevation} | "
             f"Country: {self.country}"
         )
 

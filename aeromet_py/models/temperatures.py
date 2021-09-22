@@ -44,10 +44,17 @@ class Temperatures:
             )
 
     def __str__(self):
-        return "temperature {:.1f}° | dewpoint {:.1f}°".format(
-            self.temperature_in_celsius,
-            self.dewpoint_in_celsius,
-        )
+        if self.__temperature is None and self.__dewpoint:
+            return "no temperature | dewpoint {:.1f}°".format(self.dewpoint_in_celsius)
+        elif self.__temperature and self.__dewpoint is None:
+            return "temperature {:.1f}° | no dewpoint"
+        elif self.__temperature is None and self.__dewpoint is None:
+            return ""
+        else:
+            return "temperature {:.1f}° | dewpoint {:.1f}°".format(
+                self.temperature_in_celsius,
+                self.dewpoint_in_celsius,
+            )
 
     @property
     def code(self) -> str:

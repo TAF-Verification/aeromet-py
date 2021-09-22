@@ -32,7 +32,7 @@ class DirectionDescriptor(DataDescriptor):
         try:
             return float(value)
         except ValueError:
-            return value
+            return None
 
 
 class SpeedDescriptor(DataDescriptor):
@@ -43,7 +43,7 @@ class SpeedDescriptor(DataDescriptor):
         try:
             return float(value)
         except ValueError:
-            return value
+            return None
 
 
 class WindVariation:
@@ -63,6 +63,9 @@ class WindVariation:
             self.__to = match.group("to")
 
     def __str__(self):
+        if self.__from is None:
+            return ""
+
         return "from {} ({:.1f}°) to {} ({:.1f}°)".format(
             self.from_cardinal_direction,
             self.__from,
@@ -165,15 +168,25 @@ class Wind:
                     self.__gust = gust
 
     def __str__(self):
+        direction = (
+            ""
+            if self.__direction is None
+            else "{} ({:.1f}°)".format(
+                self.cardinal_direction, self.direction_in_degrees
+            )
+        )
+
+        speed = "" if self.__speed is None else " {:.1f} kt".format(self.speed_in_knot)
+
         gust = (
             ""
             if self.__gust is None
             else " gusts of {:.1f} kt".format(self.gust_in_knot)
         )
-        return "{} ({:.1f}°) {:.1f} kt{}".format(
-            self.cardinal_direction,
-            self.__direction,
-            self.speed_in_knot,
+
+        return "{}{}{}".format(
+            direction,
+            speed,
             gust,
         )
 

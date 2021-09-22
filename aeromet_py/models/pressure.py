@@ -47,6 +47,9 @@ class Pressure:
                 self.__pressure = None
 
     def __str__(self):
+        if self.__pressure is None:
+            return "////"
+
         return "{:.2f} hPa".format(self.in_hecto_pascals)
 
     @property

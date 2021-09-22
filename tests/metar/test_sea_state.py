@@ -14,6 +14,7 @@ def test_sea_state_positive_temperature():
     assert sea_state.temperature_in_kelvin == 293.15
     assert sea_state.temperature_in_rankine == approx(527.67)
     assert sea_state.state == "rough"
+    assert str(sea_state) == "temperature 20.0°, rough"
 
 
 def test_sea_state_negative_temperature():
@@ -28,3 +29,17 @@ def test_sea_state_negative_temperature():
     assert sea_state.temperature_in_kelvin == 272.15
     assert sea_state.temperature_in_rankine == approx(489.87)
     assert sea_state.state == "very high"
+    assert str(sea_state) == "temperature -1.0°, very high"
+
+
+def test_no_sea_state():
+    metar = Metar("METAR LXGB 201950Z AUTO 09012KT 9999 BKN080/// 14/07 Q1016 RERA")
+    sea_state = metar.sea_state
+
+    assert sea_state.code == None
+    assert sea_state.temperature_in_celsius == None
+    assert sea_state.temperature_in_fahrenheit == None
+    assert sea_state.temperature_in_kelvin == None
+    assert sea_state.temperature_in_rankine == None
+    assert sea_state.state == None
+    assert str(sea_state) == ""

@@ -86,7 +86,10 @@ class Visibility:
         if self.__cavok:
             return "Ceiling and Visibility OK"
 
-        return "{} km{}".format(
+        if self.__visibility is None:
+            return ""
+
+        return "{:.3f} km{}".format(
             self.in_kilometers,
             f" to {self.__direction}" if self.__direction else "",
         )
@@ -155,7 +158,7 @@ class MinimumVisibility:
         if self.__visibility is None:
             return ""
 
-        return "{} km{}".format(
+        return "{:.3f} km{}".format(
             self.in_kilometers,
             f" to {self.__direction}" if self.__direction else "",
         )
@@ -297,6 +300,9 @@ class RunwayRange:
         return high
 
     def __str__(self):
+        if self.__low is None:
+            return ""
+
         return "runway {} {}{:.1f} meters{}{}".format(
             self.__name,
             self.__rvrlow + " " if self.__rvrlow else "",
@@ -321,7 +327,10 @@ class RunwayRange:
                 self.__low,
             )
 
-        return "{:.1f} meters".format(self.__low)
+        if self.__low:
+            return "{:.1f} meters".format(self.__low)
+
+        return None
 
     @property
     def low_in_meters(self):
@@ -341,8 +350,11 @@ class RunwayRange:
 
     @property
     def high_range(self):
-        high = re.sub(r"\svarying\sto\s", "", self.__high_as_string())
-        return high
+        if self.__high:
+            high = re.sub(r"\svarying\sto\s", "", self.__high_as_string())
+            return high
+
+        return None
 
     @property
     def high_in_meters(self):

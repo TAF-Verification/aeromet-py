@@ -14,7 +14,7 @@ def test_snoclo():
     assert state.surface_friction == None
     assert state.snoclo == "aerodrome is closed due to extreme deposit of snow"
     assert state.clrd == None
-    print(state)
+    assert str(state) == "aerodrome is closed due to extreme deposit of snow"
 
 
 def test_clrd():
@@ -30,7 +30,7 @@ def test_clrd():
     assert state.surface_friction == None
     assert state.snoclo == None
     assert state.clrd == "contaminations have ceased to exist on runway 25 center"
-    print(state)
+    assert str(state) == "contaminations have ceased to exist on runway 25 center"
 
 
 def test_runway_state():
@@ -46,4 +46,21 @@ def test_runway_state():
     assert state.surface_friction == "0.50"
     assert state.snoclo == None
     assert state.clrd == None
-    print(state)
+    assert (
+        str(state)
+        == "10 right, deposits of 76 mm of wet snow, contamination 11%-25% of runway, estimated surface friction 0.50"
+    )
+
+
+def test_no_sea_state():
+    metar = Metar("METAR PANC 210353Z 01006KT 10SM FEW045 BKN070 OVC100 M05/M17 A2965")
+    state = metar.runway_state
+
+    assert state.name == None
+    assert state.deposits == None
+    assert state.contamination == None
+    assert state.deposits_depth == None
+    assert state.surface_friction == None
+    assert state.snoclo == None
+    assert state.clrd == None
+    assert str(state) == ""
