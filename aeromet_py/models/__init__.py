@@ -16,3 +16,4 @@ from .visibility import MinimumVisibility, RunwayRange, Visibility
 from .weather import Weathers
 from .wind import Wind, WindVariation
 from .windshear import Windshear
+from .forecast import Trend, Period

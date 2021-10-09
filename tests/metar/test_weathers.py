@@ -55,11 +55,11 @@ def test_three_weathers():
     assert weathers.second.obscuration == "mist"
     assert weathers.second.other == None
 
-    assert weathers.thrid.intensity == "nearby"
-    assert weathers.thrid.description == "thunderstorm"
-    assert weathers.thrid.precipitation == None
-    assert weathers.thrid.obscuration == None
-    assert weathers.thrid.other == None
+    assert weathers.third.intensity == "nearby"
+    assert weathers.third.description == "thunderstorm"
+    assert weathers.third.precipitation == None
+    assert weathers.third.obscuration == None
+    assert weathers.third.other == None
 
     assert str(weathers) == "light rain | mist | nearby thunderstorm"
 
@@ -82,10 +82,10 @@ def test_no_weathers():
     assert weathers.second.obscuration == None
     assert weathers.second.other == None
 
-    assert weathers.thrid.intensity == None
-    assert weathers.thrid.description == None
-    assert weathers.thrid.precipitation == None
-    assert weathers.thrid.obscuration == None
-    assert weathers.thrid.other == None
+    assert weathers.third.intensity == None
+    assert weathers.third.description == None
+    assert weathers.third.precipitation == None
+    assert weathers.third.obscuration == None
+    assert weathers.third.other == None
 
     assert str(weathers) == ""

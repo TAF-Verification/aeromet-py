@@ -172,5 +172,5 @@ class Weathers:
         return self.__second
 
     @property
-    def thrid(self) -> Weather:
+    def third(self) -> Weather:
         return self.__third

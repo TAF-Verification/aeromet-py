@@ -6,8 +6,9 @@ class DataDescriptor(metaclass=ABCMeta):
     """Abstract group class for base for aeronautical data."""
 
     @abstractmethod
-    def _handler(self, code):
+    def _handler(self, code: Any):
         """Generate the object to store the relevant data of code."""
+        return code
 
     def __set_name__(self, owner, name):
         self._name = name

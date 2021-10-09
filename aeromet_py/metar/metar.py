@@ -20,6 +20,7 @@ class Metar(models.Report):
         self.__month = month
         self.__truncate = truncate
 
+        # Body models
         self.__type = models.Type("METAR")
         self.__modifier = models.Modifier(None)
         self.__time = models.Time(None)
@@ -38,7 +39,12 @@ class Metar(models.Report):
         self.__sea_state = models.SeaState(None)
         self.__runway_state = models.RunwayState(None)
 
-        self._parse()
+        # Trend models
+        self.__trend = models.Trend(None)
+
+        self.__parse_body()
+        print(self.__sections)
+        self.__parse_trend()
 
     @property
     def code(self) -> str:
@@ -169,6 +175,25 @@ class Metar(models.Report):
     def runway_state(self) -> models.RunwayState:
         return self.__runway_state
 
+    def __handle_trend(self, match: re.Match):
+        self.__trend = models.Trend(match)
+
+    def __handle_trend_time_group(self, match: re.Match):
+        period = models.Period(match)
+
+        if period.prefix == "from":
+            self.__trend.from_time = match
+        elif period.prefix == "until":
+            self.__trend.until_time = match
+        elif period.prefix == "at":
+            self.__trend.at_time = match
+        else:
+            return
+
+    @property
+    def trend(self) -> models.Trend:
+        return self.__trend
+
     def __parse_body(self):
         handlers = [
             GroupHandler(REGEXP.TYPE, self.__handle_type),
@@ -197,10 +222,37 @@ class Metar(models.Report):
             GroupHandler(REGEXP.RUNWAY_STATE, self.__handle_runway_state),
         ]
 
+        self._parse(handlers, self.__sections[0])
+
+    def __parse_trend(self):
+        handlers = [
+            GroupHandler(REGEXP.TREND, self.__handle_trend),
+            GroupHandler(REGEXP.TREND_TIME_GROUP, self.__handle_trend_time_group),
+            GroupHandler(REGEXP.TREND_TIME_GROUP, self.__handle_trend_time_group),
+        ]
+
+        self._parse(handlers, self.__sections[1], section_type="trend")
+
+    def _parse(
+        self, handlers: List[GroupHandler], section: str, section_type: str = "body"
+    ) -> None:
+        """Parse the groups of section_type.
+
+        Args:
+            handlers (List[GroupHandler]): handler list to manage and match.
+            section (str): the section containing all the groups to parse.
+            section_type (str, optional): the section type to parse. Defaults to "body".
+
+        Raises:
+            models.ParserError: if self.unparser_groups has items and self.__truncate == True,
+            raises the error.
+        """
         index = 0
-        body = sanitize_visibility(self.__sections[0])
-        body = sanitize_windshear(body)
-        for group in body.split(" "):
+        section = sanitize_visibility(section)
+        if section_type == "body":
+            section = sanitize_windshear(section)
+
+        for group in section.split(" "):
             self.unparsed_groups.append(group)
 
             for handler in handlers[index:]:
@@ -218,6 +270,3 @@ class Metar(models.Report):
                     self.raw_code,
                 )
             )
-
-    def _parse(self):
-        self.__parse_body()

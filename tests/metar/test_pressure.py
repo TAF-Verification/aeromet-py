@@ -37,4 +37,4 @@ def test_no_pressure():
     assert pressure.in_milli_bars == None
     assert pressure.in_bars == None
     assert pressure.in_atmospheres == None
-    assert str(pressure) == "////"
+    assert str(pressure) == ""

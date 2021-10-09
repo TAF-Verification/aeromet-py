@@ -52,7 +52,7 @@ def test_runway_state():
     )
 
 
-def test_no_sea_state():
+def test_no_runway_state():
     metar = Metar("METAR PANC 210353Z 01006KT 10SM FEW045 BKN070 OVC100 M05/M17 A2965")
     state = metar.runway_state
 

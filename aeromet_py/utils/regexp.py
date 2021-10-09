@@ -82,6 +82,8 @@ class RegularExpresions:
         r"(?P<clrd>CLRD//))$"
     )
 
-    TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
+    TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d{6}|PROB\d{2})$"
+
+    TREND_TIME_GROUP = r"^(?P<prefix>FM|TL|AT)(?P<time>\d{4})$"
 
     REMARK = r"^(?P<rmk>RMK(S)?)$"
