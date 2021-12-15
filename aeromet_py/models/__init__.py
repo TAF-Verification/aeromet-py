@@ -1,1 +1,1 @@
-from .sections import Sections
+from .report import Report

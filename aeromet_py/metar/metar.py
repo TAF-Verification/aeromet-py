@@ -1,36 +1,81 @@
 import re
+from typing import List
 
 import aeromet_py.models as models
+from aeromet_py.utils import REGEXP
 
 
-class Metar:
-    """Parser for METAR code."""
-
-    __sections = models.Sections("sections")
+class Metar(models.Report):
+    """Parser for METAR reports."""
 
     def __init__(self, code: str) -> None:
-        self.__raw_code = re.sub(r"\s{2,}", " ", code)
-        self.__sections = self.__raw_code
-        # self.__code_list = code.split(" ")
-        # self.__type = self.__code_list[0]
-        # self.__correction = self.__code_list[1]
-        # self.__wind = models.Wind(self.__code_list[4])
+        super().__init__(code)
+        self._sections = _handle_sections(self._raw_code)
 
     @property
-    def raw_code(self):
-        """The report as raw code."""
-        return self._raw_code
+    def body(self) -> str:
+        """Returns the body section of the METAR report.
+
+        Returns:
+            str: the body section.
+        """
+        return self._sections[0]
 
     @property
-    def sections(self) -> models.Sections:
-        """The report divided in its sections."""
-        return self.__sections
+    def trend(self) -> str:
+        """Returns the trend section of the METAR report.
 
-    # @property
-    # def correction(self) -> models.Correction:
-    #     """Correction of the report."""
-    #     return self.__correction
+        Returns:
+            str: the trend section.
+        """
+        return self._sections[1]
 
-    # @property
-    # def wind(self) -> models.Wind:
-    #     return self.__wind
+    @property
+    def remark(self) -> str:
+        """Returns the remark sections of the METAR report.
+
+        Returns:
+            str: the remark section.
+        """
+        return self._sections[2]
+
+    def _parse(self) -> None:
+        return super()._parse()
+
+
+def _handle_sections(code: str) -> List[str]:
+    trend_re = REGEXP.TREND.replace("^", "").replace("$", "")
+    rmk_re = REGEXP.REMARK.replace("^", "").replace("$", "")
+
+    try:
+        trend_pos = re.search(trend_re, code).start()
+    except AttributeError:
+        trend_pos = None
+    try:
+        rmk_pos = re.search(rmk_re, code).start()
+    except AttributeError:
+        rmk_pos = None
+
+    if trend_pos is None and rmk_pos is not None:
+        body = code[: rmk_pos - 1]
+        rmk = code[rmk_pos:]
+        trend = ""
+    elif trend_pos is not None and rmk_pos is None:
+        body = code[: trend_pos - 1]
+        trend = code[trend_pos:]
+        rmk = ""
+    elif trend_pos is None and rmk_pos is None:
+        body = code
+        trend = ""
+        rmk = ""
+    else:
+        if trend_pos > rmk_pos:
+            body = code[: rmk_pos - 1]
+            rmk = code[rmk_pos : trend_pos - 1]
+            trend = code[trend_pos:]
+        else:
+            body = code[: trend_pos - 1]
+            trend = code[trend_pos : rmk_pos - 1]
+            rmk = code[rmk_pos:]
+
+    return [body, trend, rmk]

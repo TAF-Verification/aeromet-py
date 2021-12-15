@@ -1,4 +1,4 @@
-from .data_descriptor import DataDescriptor
+from .descriptor import DataDescriptor
 
 _description = {
     "METAR": "Meteorological Aerodrome Report",
@@ -7,9 +7,22 @@ _description = {
 }
 
 
-class Type(DataDescriptor):
-    def __init__(self, name: str):
-        super().__init__(name)
+class Type:
 
-    def _handler(self, value):
-        return _description.get(value, None)
+    _code = DataDescriptor()
+    _type = DataDescriptor()
+
+    def __init__(self, code: str):
+        self._code = code
+        self._type = _description.get(code, None)
+
+    def __str__(self) -> str:
+        return f"{self.type} ({self.code})"
+
+    @property
+    def code(self) -> str:
+        return self._code
+
+    @property
+    def type(self) -> str:
+        return self._type
