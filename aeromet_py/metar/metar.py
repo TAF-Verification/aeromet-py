@@ -1,16 +1,26 @@
 import re
 from typing import List
+from collections import namedtuple
 
 import aeromet_py.models as models
-from aeromet_py.utils import REGEXP
+from aeromet_py.utils import RegularExpresions, sanitize_visibility, sanitize_windshear
+
+GroupHandlers = namedtuple("GroupHandlers", "regexp func")
 
 
 class Metar(models.Report):
     """Parser for METAR reports."""
 
-    def __init__(self, code: str) -> None:
+    def __init__(self, code: str, truncate=False) -> None:
         super().__init__(code)
         self._sections = _handle_sections(self._raw_code)
+        self._truncate = truncate
+
+        # Body groups
+        self._type = models.Type("METAR")
+
+        # Parsers
+        self._parse_body()
 
     @property
     def body(self) -> str:
@@ -39,13 +49,65 @@ class Metar(models.Report):
         """
         return self._sections[2]
 
-    def _parse(self) -> None:
-        return super()._parse()
+    def _handle_type(self, match: re.Match) -> None:
+        self._type = models.Type(match.string)
+
+    @property
+    def type(self) -> models.Type:
+        """Returns the type of the METAR report.
+
+        Returns:
+            models.Type: the type class.
+        """
+        return self._type
+
+    def _parse_body(self) -> None:
+        handlers = [GroupHandlers(RegularExpresions.TYPE, self._handle_type)]
+
+        self._parse(handlers, self.body)
+
+    def _parse(
+        self, handlers: List[GroupHandlers], section: str, section_type: str = "body"
+    ) -> None:
+        """Parse the groups of section_type.
+
+        Args:
+            handlers (List[GroupHandler]): handler list to manage and match.
+            section (str): the section containing all the groups to parse.
+            section_type (str, optional): the section type to parse. Defaults to "body".
+
+        Raises:
+            models.ParserError: if self.unparser_groups has items and self.__truncate == True,
+            raises the error.
+        """
+        index = 0
+        section = sanitize_visibility(section)
+        if section_type == "body":
+            section = sanitize_windshear(section)
+
+        for group in section.split(" "):
+            self.unparsed_groups.append(group)
+
+            for handler in handlers[index:]:
+                match = re.match(handler.regexp, group)
+                index += 1
+                if match:
+                    handler.func(match)
+                    self.unparsed_groups.remove(group)
+                    break
+
+        if self.unparsed_groups and self._truncate:
+            raise models.ParserError(
+                "failed while processing {} from: {}".format(
+                    ", ".join(self.unparsed_groups),
+                    self.raw_code,
+                )
+            )
 
 
 def _handle_sections(code: str) -> List[str]:
-    trend_re = REGEXP.TREND.replace("^", "").replace("$", "")
-    rmk_re = REGEXP.REMARK.replace("^", "").replace("$", "")
+    trend_re = RegularExpresions.TREND.replace("^", "").replace("$", "")
+    rmk_re = RegularExpresions.REMARK.replace("^", "").replace("$", "")
 
     try:
         trend_pos = re.search(trend_re, code).start()

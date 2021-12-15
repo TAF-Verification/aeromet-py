@@ -21,8 +21,18 @@ class Type:
 
     @property
     def code(self) -> str:
+        """Returns the code of the type group.
+
+        Returns:
+            str: the type code.
+        """
         return self._code
 
     @property
     def type(self) -> str:
+        """Returns the type of the report.
+
+        Returns:
+            str: the type of the report.
+        """
         return self._type
