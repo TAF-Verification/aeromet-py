@@ -49,7 +49,10 @@ class Metar(models.Report):
         return self._sections[2]
 
     def _parse_body(self) -> None:
-        handlers = [GroupHandler(RegularExpresions.TYPE, self._handle_type)]
+        handlers = [
+            GroupHandler(RegularExpresions.TYPE, self._handle_type),
+            GroupHandler(RegularExpresions.STATION, self._handle_station),
+        ]
 
         self._parse(handlers, self.body)
 
