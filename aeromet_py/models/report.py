@@ -3,6 +3,7 @@ from abc import ABCMeta, abstractmethod
 from typing import List
 
 from .descriptor import DataDescriptor
+from .type import Type
 
 
 class Report(metaclass=ABCMeta):
@@ -21,6 +22,15 @@ class Report(metaclass=ABCMeta):
         self._raw_code: str = re.sub(r"\s{2,}", " ", code)
         self._unparsed_groups: List[str] = []
 
+        # String buffer
+        self._string: str = ""
+
+        # Type group
+        self._type: Type = Type("METAR")
+
+    def __str__(self) -> str:
+        return self._string
+
     @property
     def raw_code(self) -> str:
         """Get the raw code as its received in the instance."""
@@ -35,6 +45,18 @@ class Report(metaclass=ABCMeta):
     def sections(self) -> List[str]:
         """Get the report separated in its sections as a list of strings."""
         return self._sections
+
+    def _handle_type(self, match: re.Match) -> None:
+        self._type = Type(match.string)
+
+    @property
+    def type(self) -> Type:
+        """Returns the type of the METAR report.
+
+        Returns:
+            models.Type: the type class.
+        """
+        return self._type
 
     @abstractmethod
     def _parse(self) -> None:

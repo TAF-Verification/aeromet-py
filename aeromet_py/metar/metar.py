@@ -1,11 +1,11 @@
 import re
-from typing import List
 from collections import namedtuple
+from typing import List
 
 import aeromet_py.models as models
 from aeromet_py.utils import RegularExpresions, sanitize_visibility, sanitize_windshear
 
-GroupHandlers = namedtuple("GroupHandlers", "regexp func")
+GroupHandler = namedtuple("GroupHandler", "regexp func")
 
 
 class Metar(models.Report):
@@ -17,7 +17,6 @@ class Metar(models.Report):
         self._truncate = truncate
 
         # Body groups
-        self._type = models.Type("METAR")
 
         # Parsers
         self._parse_body()
@@ -49,25 +48,13 @@ class Metar(models.Report):
         """
         return self._sections[2]
 
-    def _handle_type(self, match: re.Match) -> None:
-        self._type = models.Type(match.string)
-
-    @property
-    def type(self) -> models.Type:
-        """Returns the type of the METAR report.
-
-        Returns:
-            models.Type: the type class.
-        """
-        return self._type
-
     def _parse_body(self) -> None:
-        handlers = [GroupHandlers(RegularExpresions.TYPE, self._handle_type)]
+        handlers = [GroupHandler(RegularExpresions.TYPE, self._handle_type)]
 
         self._parse(handlers, self.body)
 
     def _parse(
-        self, handlers: List[GroupHandlers], section: str, section_type: str = "body"
+        self, handlers: List[GroupHandler], section: str, section_type: str = "body"
     ) -> None:
         """Parse the groups of section_type.
 
