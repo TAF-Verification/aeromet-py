@@ -1,11 +1,11 @@
 import re
 from abc import ABCMeta, abstractmethod
-from typing import List, Any
+from typing import Any, List
 
 from .descriptor import DataDescriptor
-from .type import Type
 from .station import Station
 from .time import Time
+from .type import Type
 
 
 class Report(metaclass=ABCMeta):

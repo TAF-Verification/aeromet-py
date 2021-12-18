@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import Tuple
 
-from .group import Group
 from .descriptor import DataDescriptor
+from .group import Group
 
 
 class Time(Group):
@@ -17,8 +17,8 @@ class Time(Group):
             self._time = datetime.strptime(generated_code, "%Y%m%d%H%MZ")
 
     def _verify_none(self, year: int, month: int) -> Tuple[int, int, datetime]:
-        """Private method to verify if year and month are both None. In case of
-        some of them are None, it is reassigned to current year or month.
+        """Verify if year or month are None. In case of some of them
+        are None, it is reassigned to current year or month.
 
         Args:
             year (int): the year.
