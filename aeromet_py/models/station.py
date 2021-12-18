@@ -5,6 +5,7 @@ from .group import Group
 
 
 class Station(Group):
+    """Basic structure for station code groups in reports from land stations."""
 
     _station = DataDescriptor()
 

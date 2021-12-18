@@ -9,6 +9,7 @@ _description = {
 
 
 class Type(Group):
+    """Basic structure for type groups in reports from land stations."""
 
     _type = DataDescriptor()
 

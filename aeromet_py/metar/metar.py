@@ -11,8 +11,10 @@ GroupHandler = namedtuple("GroupHandler", "regexp func")
 class Metar(models.Report):
     """Parser for METAR reports."""
 
-    def __init__(self, code: str, truncate=False) -> None:
-        super().__init__(code)
+    def __init__(
+        self, code: str, year: int = None, month: int = None, truncate: bool = False
+    ) -> None:
+        super().__init__(code, year=year, month=month)
         self._sections = _handle_sections(self._raw_code)
         self._truncate = truncate
 
@@ -48,10 +50,16 @@ class Metar(models.Report):
         """
         return self._sections[2]
 
+    def _handle_time(self, match: re.Match) -> None:
+        self._time = models.Time.from_METAR(match.string, self._year, self._month)
+
+        self._concatenate_string(self._time)
+
     def _parse_body(self) -> None:
         handlers = [
             GroupHandler(RegularExpresions.TYPE, self._handle_type),
             GroupHandler(RegularExpresions.STATION, self._handle_station),
+            GroupHandler(RegularExpresions.TIME, self._handle_time),
         ]
 
         self._parse(handlers, self.body)

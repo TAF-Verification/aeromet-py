@@ -5,6 +5,7 @@ from typing import List, Any
 from .descriptor import DataDescriptor
 from .type import Type
 from .station import Station
+from .time import Time
 
 
 class Report(metaclass=ABCMeta):
@@ -12,12 +13,14 @@ class Report(metaclass=ABCMeta):
 
     _sections = DataDescriptor()
 
-    def __init__(self, code: str):
+    def __init__(self, code: str, year: int = None, month: int = None):
         assert code != "", "code must be a non-empty string"
 
         code = code.strip()
         self._raw_code: str = re.sub(r"\s{2,}", " ", code)
         self._unparsed_groups: List[str] = []
+        self._year: int = year
+        self._month: int = month
 
         # String buffer
         self._string: str = ""
@@ -27,6 +30,9 @@ class Report(metaclass=ABCMeta):
 
         # Station group
         self._station: Station = Station(None)
+
+        # Time group
+        self._time: Time = Time(None, None)
 
     def __str__(self) -> str:
         return self._string
@@ -59,7 +65,7 @@ class Report(metaclass=ABCMeta):
         """Returns the type of the report.
 
         Returns:
-            models.Type: the type class.
+            models.Type: the Type class instance.
         """
         return self._type
 
@@ -73,9 +79,23 @@ class Report(metaclass=ABCMeta):
         """Returns the station data of the report.
 
         Returns:
-            models.Station: the station class.
+            models.Station: the Station class instance.
         """
         return self._station
+
+    @abstractmethod
+    def _handle_time(self, match: re.match) -> None:
+        """Handler for the time group."""
+        return None
+
+    @property
+    def time(self) -> Time:
+        """Returns the time of the report.
+
+        Returns:
+            models.Time: the Time class instance.
+        """
+        return self._time
 
     @abstractmethod
     def _parse(self) -> None:
