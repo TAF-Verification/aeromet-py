@@ -3,13 +3,13 @@ from collections import namedtuple
 from typing import List
 
 import aeromet_py.models as models
-from aeromet_py.models.mixins import ModifierMixin
+from aeromet_py.models.mixins import *
 from aeromet_py.utils import RegularExpresions, sanitize_visibility, sanitize_windshear
 
 GroupHandler = namedtuple("GroupHandler", "regexp func")
 
 
-class Metar(models.Report, ModifierMixin):
+class Metar(models.Report, ModifierMixin, WindMixin):
     """Parser for METAR reports."""
 
     def __init__(
@@ -17,6 +17,7 @@ class Metar(models.Report, ModifierMixin):
     ) -> None:
         super().__init__(code, year=year, month=month)
         ModifierMixin.__init__(self)
+        WindMixin.__init__(self)
         self._sections = _handle_sections(self._raw_code)
         self._truncate = truncate
 
@@ -63,6 +64,7 @@ class Metar(models.Report, ModifierMixin):
             GroupHandler(RegularExpresions.STATION, self._handle_station),
             GroupHandler(RegularExpresions.TIME, self._handle_time),
             GroupHandler(RegularExpresions.MODIFIER, self._handle_modifier),
+            GroupHandler(RegularExpresions.WIND, self._handle_wind),
         ]
 
         self._parse(handlers, self.body)

@@ -8,6 +8,13 @@ class RegularExpresions:
 
     MODIFIER = r"^(?P<mod>COR(R)?|AMD|NIL|TEST|FINO|AUTO)$"
 
+    WIND = (
+        r"^(?P<dir>[0-3]\d{2}|///|VRB)"
+        r"P?(?P<speed>\d{2,3}|//)"
+        r"(G(P)?(?P<gust>\d{2,3}))?"
+        r"(?P<units>KT|MPS)$"
+    )
+
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 
     REMARK = r"^(?P<rmk>RMK(S)?)$"
