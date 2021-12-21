@@ -1,5 +1,5 @@
-from typing import Callable, Union
 from abc import ABCMeta
+from typing import Callable, Union
 
 from .descriptor import DataDescriptor
 

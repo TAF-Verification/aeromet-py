@@ -2,6 +2,7 @@ import re
 from collections import namedtuple
 from typing import List
 
+import aeromet_py.models
 import aeromet_py.models as models
 from aeromet_py.models.mixins import *
 from aeromet_py.utils import RegularExpresions, sanitize_visibility, sanitize_windshear
@@ -22,6 +23,7 @@ class Metar(models.Report, ModifierMixin, WindMixin):
         self._truncate = truncate
 
         # Body groups
+        self._wind_variation = models.WindVariation(None)
 
         # Parsers
         self._parse_body()
@@ -58,6 +60,20 @@ class Metar(models.Report, ModifierMixin, WindMixin):
 
         self._concatenate_string(self._time)
 
+    def _handle_wind_variation(self, match: re.Match) -> None:
+        self._wind_variation = models.WindVariation(match)
+
+        self._concatenate_string(self._wind_variation)
+
+    @property
+    def wind_variation(self) -> models.WindVariation:
+        """Returns the wind variation data of the METAR.
+
+        Returns:
+            models.WindVariation: the wind variation class instance.
+        """
+        return self._wind_variation
+
     def _parse_body(self) -> None:
         handlers = [
             GroupHandler(RegularExpresions.TYPE, self._handle_type),
@@ -65,6 +81,7 @@ class Metar(models.Report, ModifierMixin, WindMixin):
             GroupHandler(RegularExpresions.TIME, self._handle_time),
             GroupHandler(RegularExpresions.MODIFIER, self._handle_modifier),
             GroupHandler(RegularExpresions.WIND, self._handle_wind),
+            GroupHandler(RegularExpresions.WIND_VARIATION, self._handle_wind_variation),
         ]
 
         self._parse(handlers, self.body)

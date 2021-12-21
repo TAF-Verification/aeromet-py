@@ -1,7 +1,7 @@
 import re
 
-from .regexp import RegularExpresions
 from .conversions import Conversions
+from .regexp import RegularExpresions
 
 
 def sanitize_visibility(report: str) -> str:

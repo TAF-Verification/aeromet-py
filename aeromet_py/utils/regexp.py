@@ -15,6 +15,8 @@ class RegularExpresions:
         r"(?P<units>KT|MPS)$"
     )
 
+    WIND_VARIATION = r"^(?P<from>\d{3})V(?P<to>\d{3})$"
+
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 
     REMARK = r"^(?P<rmk>RMK(S)?)$"

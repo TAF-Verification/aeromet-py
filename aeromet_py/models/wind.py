@@ -1,10 +1,10 @@
 import re
 
-from .descriptor import DataDescriptor
-from .errors import ParserError
-from .numeric import Numeric
-from .group import Group
 from aeromet_py.utils import Conversions
+
+from .descriptor import DataDescriptor
+from .group import Group
+from .numeric import Numeric
 
 COMPASS_DIRS = {
     "NNE": [11.25, 33.75],
@@ -97,18 +97,7 @@ class Wind(Group):
         Returns:
             str: the cardinal direction, e.g. "NW" (north west)
         """
-        value = self._direction.converted(1)
-
-        if value is not None:
-            north_dirs = COMPASS_DIRS["N"]
-            if value >= north_dirs[0] or value < north_dirs[1]:
-                return "N"
-
-            for k, v in COMPASS_DIRS.items():
-                if value >= v[0] and value < v[1]:
-                    return k
-
-        return None
+        return self._direction.cardinal
 
     @property
     def variable_wind(self) -> bool:
@@ -204,6 +193,26 @@ class Direction(Numeric):
             return super().__str__() + "°"
 
         return super().__str__()
+
+    @property
+    def cardinal(self) -> str:
+        """Returns the cardinal direction associated to the wind direction.
+
+        Returns:
+            str: the cardinal direction, e.g. "NW" (north west)
+        """
+        value = self.converted(1)
+
+        if value is not None:
+            north_dirs = COMPASS_DIRS["N"]
+            if value >= north_dirs[0] or value < north_dirs[1]:
+                return "N"
+
+            for k, v in COMPASS_DIRS.items():
+                if value >= v[0] and value < v[1]:
+                    return k
+
+        return None
 
     @property
     def variable(self) -> bool:
