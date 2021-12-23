@@ -185,6 +185,35 @@ class Direction(Numeric):
         finally:
             super().__init__(_direction)
 
+    @classmethod
+    def from_cardinal(cls, code: str) -> "Direction":
+        """Classmethod to create a Direction object from a cardinal
+        direction code.
+
+        Raises:
+            ValueError: Raised if code is not in COMPASS_DIRS keys.
+
+        Returns:
+            [type]: the Direction object.
+        """
+        assert code != None, "code must be not None"
+
+        if code == "N":
+            return cls("360")
+
+        keys = COMPASS_DIRS.keys()
+        for key in keys:
+            if key == code:
+                mean_dir = round(sum(COMPASS_DIRS[key]) / 2)
+                str_dir = "{:03d}".format(mean_dir)
+                return cls(str_dir)
+
+        raise ValueError(
+            "invalid cardinal direction code, use one of the following: {}".format(
+                COMPASS_DIRS.keys()
+            )
+        )
+
     def __str__(self) -> str:
         if self._variable:
             return "variable wind"

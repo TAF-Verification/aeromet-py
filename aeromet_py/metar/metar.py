@@ -2,7 +2,6 @@ import re
 from collections import namedtuple
 from typing import List
 
-import aeromet_py.models
 import aeromet_py.models as models
 from aeromet_py.models.mixins import *
 from aeromet_py.utils import RegularExpresions, sanitize_visibility, sanitize_windshear
@@ -10,7 +9,7 @@ from aeromet_py.utils import RegularExpresions, sanitize_visibility, sanitize_wi
 GroupHandler = namedtuple("GroupHandler", "regexp func")
 
 
-class Metar(models.Report, ModifierMixin, WindMixin):
+class Metar(models.Report, ModifierMixin, WindMixin, VisibilityMixin):
     """Parser for METAR reports."""
 
     def __init__(
@@ -19,11 +18,13 @@ class Metar(models.Report, ModifierMixin, WindMixin):
         super().__init__(code, year=year, month=month)
         ModifierMixin.__init__(self)
         WindMixin.__init__(self)
+        VisibilityMixin.__init__(self)
         self._sections = _handle_sections(self._raw_code)
         self._truncate = truncate
 
         # Body groups
         self._wind_variation = models.WindVariation(None)
+        self._minimum_visibility = models.MinimumVisibility(None)
 
         # Parsers
         self._parse_body()
@@ -74,6 +75,20 @@ class Metar(models.Report, ModifierMixin, WindMixin):
         """
         return self._wind_variation
 
+    def _handle_minimum_visibility(self, match: re.Match) -> None:
+        self._minimum_visibility = models.MinimumVisibility(match)
+
+        self._concatenate_string(self._minimum_visibility)
+
+    @property
+    def minimum_visibility(self) -> models.MinimumVisibility:
+        """Returns the minimum visibility data of the METAR.
+
+        Returns:
+            models.Visibility: the minimum visibility class instance.
+        """
+        return self._minimum_visibility
+
     def _parse_body(self) -> None:
         handlers = [
             GroupHandler(RegularExpresions.TYPE, self._handle_type),
@@ -82,6 +97,8 @@ class Metar(models.Report, ModifierMixin, WindMixin):
             GroupHandler(RegularExpresions.MODIFIER, self._handle_modifier),
             GroupHandler(RegularExpresions.WIND, self._handle_wind),
             GroupHandler(RegularExpresions.WIND_VARIATION, self._handle_wind_variation),
+            GroupHandler(RegularExpresions.VISIBILITY, self._handle_visibility),
+            GroupHandler(RegularExpresions.VISIBILITY, self._handle_minimum_visibility),
         ]
 
         self._parse(handlers, self.body)
