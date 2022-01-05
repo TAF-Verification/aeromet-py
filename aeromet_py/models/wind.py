@@ -27,6 +27,7 @@ COMPASS_DIRS = {
 
 
 class Wind(Group):
+    """Basic structure for wind groups in report from land stations."""
 
     _direction = DataDescriptor()
     _speed = DataDescriptor()
@@ -161,6 +162,7 @@ class Wind(Group):
 
 
 class Direction(Numeric):
+    """Basic structure for directions attributes."""
 
     _variable = DataDescriptor()
 
@@ -251,6 +253,8 @@ class Direction(Numeric):
 
 
 class Speed(Numeric):
+    """Basic structure for speed attributes."""
+
     def __init__(self, code: str) -> None:
         if code is None:
             code = "///"

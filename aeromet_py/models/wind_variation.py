@@ -8,6 +8,7 @@ from .wind import Direction
 
 
 class WindVariation(Group):
+    """Basic structure for wind variation groups in reports from land stations."""
 
     _from = DataDescriptor()
     _to = DataDescriptor()

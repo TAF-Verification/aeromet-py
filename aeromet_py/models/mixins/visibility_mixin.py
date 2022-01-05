@@ -4,6 +4,8 @@ from ..visibility import Prevailing
 
 
 class VisibilityMixin:
+    """Mixin to add visibility attribute to the report."""
+
     def __init__(self) -> None:
         self._visibility = Prevailing(None)
 

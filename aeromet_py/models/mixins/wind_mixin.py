@@ -4,6 +4,8 @@ from ..wind import Wind
 
 
 class WindMixin:
+    """Mixin to add wind attribute to the report."""
+
     def __init__(self) -> None:
         self._wind = Wind(None)
 

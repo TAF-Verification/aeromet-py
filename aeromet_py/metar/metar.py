@@ -25,6 +25,7 @@ class Metar(models.Report, ModifierMixin, WindMixin, VisibilityMixin):
         # Body groups
         self._wind_variation = models.WindVariation(None)
         self._minimum_visibility = models.MinimumVisibility(None)
+        self._runway_ranges = models.GroupList[models.RunwayRange](3)
 
         # Parsers
         self._parse_body()
@@ -89,6 +90,21 @@ class Metar(models.Report, ModifierMixin, WindMixin, VisibilityMixin):
         """
         return self._minimum_visibility
 
+    def _handle_runway_range(self, match: re.Match) -> None:
+        _range = models.RunwayRange(match)
+        self._runway_ranges.add(_range)
+
+        self._concatenate_string(_range)
+
+    @property
+    def runway_ranges(self) -> models.GroupList[models.RunwayRange]:
+        """Returns the runway ranges of METAR if provided.
+
+        Returns:
+            moedels.GroupList: the group list class instance.
+        """
+        return self._runway_ranges
+
     def _parse_body(self) -> None:
         handlers = [
             GroupHandler(RegularExpresions.TYPE, self._handle_type),
@@ -99,6 +115,9 @@ class Metar(models.Report, ModifierMixin, WindMixin, VisibilityMixin):
             GroupHandler(RegularExpresions.WIND_VARIATION, self._handle_wind_variation),
             GroupHandler(RegularExpresions.VISIBILITY, self._handle_visibility),
             GroupHandler(RegularExpresions.VISIBILITY, self._handle_minimum_visibility),
+            GroupHandler(RegularExpresions.RUNWAY_RANGE, self._handle_runway_range),
+            GroupHandler(RegularExpresions.RUNWAY_RANGE, self._handle_runway_range),
+            GroupHandler(RegularExpresions.RUNWAY_RANGE, self._handle_runway_range),
         ]
 
         self._parse(handlers, self.body)

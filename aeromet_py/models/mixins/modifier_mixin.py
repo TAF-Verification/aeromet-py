@@ -4,6 +4,8 @@ from ..modifier import Modifier
 
 
 class ModifierMixin:
+    """Mixin to add modifier attribute to the report."""
+
     def __init__(self) -> None:
         self._modifier = Modifier(None)
 

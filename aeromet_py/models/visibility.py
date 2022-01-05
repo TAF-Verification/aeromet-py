@@ -9,6 +9,7 @@ from .wind import Direction
 
 
 class MinimumVisibility(Group):
+    """Basic structur for minimum visibility groups in reports from land stations."""
 
     _direction = DataDescriptor()
     _visibility = DataDescriptor()
@@ -122,6 +123,7 @@ class MinimumVisibility(Group):
 
 
 class Prevailing(MinimumVisibility):
+    """Basic structure for prevailing visibility in reports from land stations."""
 
     _cavok = DataDescriptor()
 
@@ -163,6 +165,8 @@ class Prevailing(MinimumVisibility):
 
 
 class Distance(Numeric):
+    """Basic structure for distance attributes."""
+
     def __init__(self, code: str) -> None:
         if code == None:
             code = "////"

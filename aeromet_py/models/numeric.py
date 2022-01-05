@@ -5,6 +5,7 @@ from .descriptor import DataDescriptor
 
 
 class Numeric(metaclass=ABCMeta):
+    """Basic structure to handle numeric values."""
 
     _value = DataDescriptor()
 
