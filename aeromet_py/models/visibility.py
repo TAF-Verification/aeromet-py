@@ -9,7 +9,7 @@ from .wind import Direction
 
 
 class MinimumVisibility(Group):
-    """Basic structur for minimum visibility groups in reports from land stations."""
+    """Basic structure for minimum visibility groups in reports from land stations."""
 
     _direction = DataDescriptor()
     _visibility = DataDescriptor()

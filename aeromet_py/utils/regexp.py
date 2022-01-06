@@ -36,6 +36,14 @@ class RegularExpresions:
         r"(?P<trend>[NDU])?$"
     )
 
+    WEATHER = (
+        r"^(?P<int>(-|\+)VC|(-|\+)|VC)?"
+        r"(?P<desc>MI|PR|BC|DR|BL|SH|TS|FZ)?"
+        r"((?P<prec>DZ|RA|SN|SG|IC|PL|GR|GS|UP)|"
+        r"(?P<obsc>BR|FG|FU|VA|DU|SA|HZ|PY)|"
+        r"(?P<other>PO|SQ|FC|SS|DS|NSW|/))?$"
+    )
+
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 
     REMARK = r"^(?P<rmk>RMK(S)?)$"

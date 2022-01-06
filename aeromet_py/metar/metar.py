@@ -9,16 +9,21 @@ from aeromet_py.utils import RegularExpresions, sanitize_visibility, sanitize_wi
 GroupHandler = namedtuple("GroupHandler", "regexp func")
 
 
-class Metar(models.Report, ModifierMixin, WindMixin, VisibilityMixin):
+class Metar(models.Report, ModifierMixin, WindMixin, VisibilityMixin, WeatherMixin):
     """Parser for METAR reports."""
 
     def __init__(
         self, code: str, year: int = None, month: int = None, truncate: bool = False
     ) -> None:
         super().__init__(code, year=year, month=month)
+
+        # Mixins initialization
         ModifierMixin.__init__(self)
         WindMixin.__init__(self)
         VisibilityMixin.__init__(self)
+        WeatherMixin.__init__(self)
+
+        # Sections
         self._sections = _handle_sections(self._raw_code)
         self._truncate = truncate
 
@@ -91,7 +96,7 @@ class Metar(models.Report, ModifierMixin, WindMixin, VisibilityMixin):
         return self._minimum_visibility
 
     def _handle_runway_range(self, match: re.Match) -> None:
-        _range = models.RunwayRange(match)
+        _range: models.RunwayRange = models.RunwayRange(match)
         self._runway_ranges.add(_range)
 
         self._concatenate_string(_range)
@@ -118,6 +123,9 @@ class Metar(models.Report, ModifierMixin, WindMixin, VisibilityMixin):
             GroupHandler(RegularExpresions.RUNWAY_RANGE, self._handle_runway_range),
             GroupHandler(RegularExpresions.RUNWAY_RANGE, self._handle_runway_range),
             GroupHandler(RegularExpresions.RUNWAY_RANGE, self._handle_runway_range),
+            GroupHandler(RegularExpresions.WEATHER, self._handle_weather),
+            GroupHandler(RegularExpresions.WEATHER, self._handle_weather),
+            GroupHandler(RegularExpresions.WEATHER, self._handle_weather),
         ]
 
         self._parse(handlers, self.body)

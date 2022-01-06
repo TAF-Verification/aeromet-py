@@ -29,6 +29,9 @@ def test_runway_range():
         == "runway 07 left below of 150.0 m varying to 600.0 m, increasing"
     )
 
+    with pytest.raises(IndexError):
+        ranges[1].code = None
+
 
 def test_runway_range_no_high():
     metar = Metar(
@@ -51,6 +54,9 @@ def test_runway_range_no_high():
     assert ranges[0].low_range == "above of 150.0 m"
     assert ranges[0].high_range == ""
     assert str(ranges[0]) == "runway 25 center above of 150.0 m, decreasing"
+
+    with pytest.raises(IndexError):
+        ranges[1].code = None
 
 
 def test_two_runway_ranges():
@@ -88,12 +94,16 @@ def test_two_runway_ranges():
     assert ranges[1].high_range == ""
     assert str(ranges[1]) == "runway 25 center above of 150.0 m, decreasing"
 
+    with pytest.raises(IndexError):
+        ranges[2].code = None
+
 
 def test_no_runway_range():
     metar = Metar("METAR SCFA 121300Z 21008KT 9999 3000W TSRA FEW020 20/13 Q1014 NOSIG")
     ranges = metar.runway_ranges
 
     assert ranges.codes == []
+    assert str(ranges) == ""
 
     for i in range(3):
         with pytest.raises(IndexError):

@@ -39,7 +39,7 @@ class GroupList(Generic[G]):
         self._list: List[G] = []
 
     def __str__(self) -> str:
-        return " | ".join(self._list)
+        return " | ".join(str(group) for group in self._list)
 
     def __iter__(self):
         return self
