@@ -1,7 +1,7 @@
 import re
 
 from ..weather import Weather
-from ..group import Group, GroupList
+from ..group import GroupList
 
 
 class WeatherMixin:
@@ -21,6 +21,6 @@ class WeatherMixin:
         """Returns the weather data of the report.
 
         Returns:
-            Weather: the weather class instance.
+            GroupList[Weather]: the list of Weather class instance.
         """
         return self._weathers

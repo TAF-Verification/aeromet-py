@@ -10,3 +10,4 @@ from .wind import Wind
 from .wind_variation import WindVariation
 from .runway_range import RunwayRange
 from .weather import Weather
+from .cloud import CloudList

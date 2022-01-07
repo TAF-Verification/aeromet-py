@@ -17,7 +17,7 @@ class Numeric(metaclass=ABCMeta):
             return ""
         return f"{self._value:.1f}"
 
-    def converted(self, conversion: Union[float, Callable]) -> float:
+    def converted(self, conversion: Union[float, Callable[[float], float]]) -> float:
         if self.value is None:
             return None
 

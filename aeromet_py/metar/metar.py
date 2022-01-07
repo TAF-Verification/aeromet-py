@@ -9,7 +9,9 @@ from aeromet_py.utils import RegularExpresions, sanitize_visibility, sanitize_wi
 GroupHandler = namedtuple("GroupHandler", "regexp func")
 
 
-class Metar(models.Report, ModifierMixin, WindMixin, VisibilityMixin, WeatherMixin):
+class Metar(
+    models.Report, ModifierMixin, WindMixin, VisibilityMixin, WeatherMixin, CloudMixin
+):
     """Parser for METAR reports."""
 
     def __init__(
@@ -22,6 +24,7 @@ class Metar(models.Report, ModifierMixin, WindMixin, VisibilityMixin, WeatherMix
         WindMixin.__init__(self)
         VisibilityMixin.__init__(self)
         WeatherMixin.__init__(self)
+        CloudMixin.__init__(self)
 
         # Sections
         self._sections = _handle_sections(self._raw_code)
@@ -126,6 +129,10 @@ class Metar(models.Report, ModifierMixin, WindMixin, VisibilityMixin, WeatherMix
             GroupHandler(RegularExpresions.WEATHER, self._handle_weather),
             GroupHandler(RegularExpresions.WEATHER, self._handle_weather),
             GroupHandler(RegularExpresions.WEATHER, self._handle_weather),
+            GroupHandler(RegularExpresions.CLOUD, self._handle_cloud),
+            GroupHandler(RegularExpresions.CLOUD, self._handle_cloud),
+            GroupHandler(RegularExpresions.CLOUD, self._handle_cloud),
+            GroupHandler(RegularExpresions.CLOUD, self._handle_cloud),
         ]
 
         self._parse(handlers, self.body)
