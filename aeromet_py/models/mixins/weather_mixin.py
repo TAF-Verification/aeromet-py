@@ -1,7 +1,7 @@
 import re
 
-from ..weather import Weather
 from ..group import GroupList
+from ..weather import Weather
 
 
 class WeatherMixin:

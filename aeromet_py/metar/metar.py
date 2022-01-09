@@ -34,6 +34,7 @@ class Metar(
         self._wind_variation = models.WindVariation(None)
         self._minimum_visibility = models.MinimumVisibility(None)
         self._runway_ranges = models.GroupList[models.RunwayRange](3)
+        self._temperatures = models.Temperatures(None)
 
         # Parsers
         self._parse_body()
@@ -113,6 +114,20 @@ class Metar(
         """
         return self._runway_ranges
 
+    def _handle_temperatures(self, match: re.Match) -> None:
+        self._temperatures = models.Temperatures(match)
+
+        self._concatenate_string(self._temperatures)
+
+    @property
+    def temperatures(self) -> models.Temperatures:
+        """Returns the temperatures data of METAR.
+
+        Returns:
+            models.Temperatures: the temperatures class instance.
+        """
+        return self._temperatures
+
     def _parse_body(self) -> None:
         handlers = [
             GroupHandler(RegularExpresions.TYPE, self._handle_type),
@@ -133,6 +148,7 @@ class Metar(
             GroupHandler(RegularExpresions.CLOUD, self._handle_cloud),
             GroupHandler(RegularExpresions.CLOUD, self._handle_cloud),
             GroupHandler(RegularExpresions.CLOUD, self._handle_cloud),
+            GroupHandler(RegularExpresions.TEMPERATURES, self._handle_temperatures),
         ]
 
         self._parse(handlers, self.body)
