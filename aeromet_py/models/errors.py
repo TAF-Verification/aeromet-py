@@ -1,2 +1,6 @@
 class ParserError(Exception):
-    """Parser error for METAR and TAF codes"""
+    """Parser error for Report codes"""
+
+
+class RangeError(Exception):
+    """RangeError for lists of Group codes"""
