@@ -1,1 +1,1 @@
-from .metar import Metar
+from .models import Metar

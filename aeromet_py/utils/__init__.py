@@ -1,3 +1,1 @@
-from .regexp import RegularExpresions
-
-REGEXP = RegularExpresions()
+from .metar_regexp import MetarRegExp

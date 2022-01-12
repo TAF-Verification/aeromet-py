@@ -1,4 +1,4 @@
-class RegularExpresions:
+class MetarRegExp:
 
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 
