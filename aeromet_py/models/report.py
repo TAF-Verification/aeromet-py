@@ -2,14 +2,17 @@ import re
 from abc import ABCMeta, abstractmethod
 from typing import List, Any
 
+from .type import Type
+
 
 class Report(metaclass=ABCMeta):
     """Basic structure for an aeronautical report from land stations."""
 
-    def __init__(self, code: str) -> None:
+    def __init__(self, code: str, truncate: bool = False) -> None:
         assert code != "", "code must be a non-empty string"
 
         code = code.strip()
+        self._truncate = truncate
 
         self._raw_code: str = re.sub(r"\s{2,}", " ", code)
         self._raw_code = self._raw_code.replace("=", "")
@@ -18,6 +21,9 @@ class Report(metaclass=ABCMeta):
 
         # String buffer
         self._string: str = ""
+
+        # Type group
+        self._type: Type = Type("METAR")
 
     def __str__(self) -> str:
         return self._string
@@ -34,6 +40,16 @@ class Report(metaclass=ABCMeta):
     def _handle_sections(self) -> None:
         """Handler to separate the sections of the report."""
         self._sections = []
+
+    def _handle_type(self, match: re.Match) -> None:
+        self._type = Type(match.string)
+
+        self._concatenate_string(self._type)
+
+    @property
+    def type(self) -> Type:
+        """Get the type of the report."""
+        return self._type
 
     @property
     def raw_code(self) -> str:

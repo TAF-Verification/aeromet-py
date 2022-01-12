@@ -1,17 +1,84 @@
 import re
+from collections import namedtuple
+from typing import List
 
 from aeromet_py.utils import MetarRegExp
 
+from .. import *
 from ..report import Report
+
+GroupHandler = namedtuple("GroupHandler", "regexp handler")
 
 
 class Metar(Report):
     """Parser for METAR reports."""
 
-    def __init__(self, code: str) -> None:
-        super().__init__(code)
+    def __init__(self, code: str, truncate: bool = False) -> None:
+        super().__init__(code, truncate)
 
         self._handle_sections()
+
+        # Parse groups
+        self._parse_body()
+
+    @property
+    def body(self) -> str:
+        """Get the body part of the METAR."""
+        return self._sections[0]
+
+    @property
+    def trend(self) -> str:
+        """Get the trend part of the METAR."""
+        return self._sections[1]
+
+    @property
+    def remark(self) -> str:
+        """Get the remark part of the METAR."""
+        return self._sections[2]
+
+    def _parse_body(self) -> None:
+        handlers = [
+            GroupHandler(MetarRegExp.TYPE, self._handle_type),
+        ]
+
+        self._parse(handlers, self.body)
+
+    def _parse(
+        self, handlers: List[GroupHandler], section: str, section_type: str = "body"
+    ) -> None:
+        """Parse the groups of section_type.
+        Args:
+            handlers (List[GroupHandler]): handler list to manage and match.
+            section (str): the section containing all the groups to parse.
+            section_type (str, optional): the section type to parse. Defaults to "body".
+                Options: body, trend, remark.
+        Raises:
+            ParserError: if self.unparser_groups has items and self.__truncate == True,
+            raises the error.
+        """
+        index = 0
+        # section = sanitize_visibility(section)
+        # if section_type == "body":
+        #     section = sanitize_windshear(section)
+
+        for group in section.split(" "):
+            self.unparsed_groups.append(group)
+
+            for group_handler in handlers[index:]:
+                match = re.match(group_handler.regexp, group)
+                index += 1
+                if match:
+                    group_handler.handler(match)
+                    self.unparsed_groups.remove(group)
+                    break
+
+        if self.unparsed_groups and self._truncate:
+            raise ParserError(
+                "failed while processing {} from: {}".format(
+                    ", ".join(self.unparsed_groups),
+                    self.raw_code,
+                )
+            )
 
     def _handle_sections(self) -> None:
         trend_re: re.Pattern = re.compile(
@@ -57,21 +124,3 @@ class Metar(Report):
                 remark = self._raw_code[remark_pos:]
 
         self._sections = [body, trend, remark]
-
-    def _parse(self) -> None:
-        return super()._parse()
-
-    @property
-    def body(self) -> str:
-        """Get the body part of the METAR."""
-        return self._sections[0]
-
-    @property
-    def trend(self) -> str:
-        """Get the trend part of the METAR."""
-        return self._sections[1]
-
-    @property
-    def remark(self) -> str:
-        """Get the remark part of the METAR."""
-        return self._sections[2]
