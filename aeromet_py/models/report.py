@@ -3,6 +3,7 @@ from abc import ABCMeta, abstractmethod
 from typing import List, Any
 
 from .type import Type
+from .station import Station
 
 
 class Report(metaclass=ABCMeta):
@@ -24,6 +25,9 @@ class Report(metaclass=ABCMeta):
 
         # Type group
         self._type: Type = Type("METAR")
+
+        # Station group
+        self._station: Station = Station(None, None)
 
     def __str__(self) -> str:
         return self._string
@@ -50,6 +54,16 @@ class Report(metaclass=ABCMeta):
     def type(self) -> Type:
         """Get the type of the report."""
         return self._type
+
+    def _handle_station(self, match: re.Match) -> None:
+        self._station = Station(match.string, "ICAO")
+
+        self._concatenate_string(self._station)
+
+    @property
+    def station(self) -> Station:
+        """Get the station data of the report."""
+        return self._station
 
     @property
     def raw_code(self) -> str:

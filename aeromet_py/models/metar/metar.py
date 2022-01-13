@@ -39,6 +39,7 @@ class Metar(Report):
     def _parse_body(self) -> None:
         handlers = [
             GroupHandler(MetarRegExp.TYPE, self._handle_type),
+            GroupHandler(MetarRegExp.STATION, self._handle_station),
         ]
 
         self._parse(handlers, self.body)
