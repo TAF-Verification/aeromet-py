@@ -4,8 +4,10 @@ from typing import List
 
 from aeromet_py.utils import MetarRegExp
 
-from .. import *
+from ..errors import ParserError
 from ..report import Report
+
+from .models import MetarTime
 
 GroupHandler = namedtuple("GroupHandler", "regexp handler")
 
@@ -13,8 +15,12 @@ GroupHandler = namedtuple("GroupHandler", "regexp handler")
 class Metar(Report):
     """Parser for METAR reports."""
 
-    def __init__(self, code: str, truncate: bool = False) -> None:
+    def __init__(
+        self, code: str, year: int = None, month: int = None, truncate: bool = False
+    ) -> None:
         super().__init__(code, truncate)
+        self._year = year
+        self._month = month
 
         self._handle_sections()
 
@@ -36,10 +42,21 @@ class Metar(Report):
         """Get the remark part of the METAR."""
         return self._sections[2]
 
+    def _handle_time(self, match: re.Match) -> None:
+        self._time = MetarTime(match, self._year, self._month)
+
+        self._concatenate_string(self._time)
+
+    @property
+    def time(self) -> MetarTime:
+        """Get the time of the report."""
+        return self._time
+
     def _parse_body(self) -> None:
         handlers = [
             GroupHandler(MetarRegExp.TYPE, self._handle_type),
             GroupHandler(MetarRegExp.STATION, self._handle_station),
+            GroupHandler(MetarRegExp.TIME, self._handle_time),
         ]
 
         self._parse(handlers, self.body)

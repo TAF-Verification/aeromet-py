@@ -4,6 +4,7 @@ from typing import List, Any
 
 from .type import Type
 from .station import Station
+from .time import Time
 
 
 class Report(metaclass=ABCMeta):
@@ -28,6 +29,9 @@ class Report(metaclass=ABCMeta):
 
         # Station group
         self._station: Station = Station(None, None)
+
+        # Time group
+        self._time: Time = Time(None, None)
 
     def __str__(self) -> str:
         return self._string
@@ -64,6 +68,16 @@ class Report(metaclass=ABCMeta):
     def station(self) -> Station:
         """Get the station data of the report."""
         return self._station
+
+    @abstractmethod
+    def _handle_time(self, match: re.Match) -> None:
+        """Hanlder for the time group of the report."""
+        pass
+
+    @abstractmethod
+    def time(self) -> Time:
+        """Get the time of the report."""
+        return self._time
 
     @property
     def raw_code(self) -> str:
