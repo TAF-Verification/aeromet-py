@@ -4,15 +4,17 @@ from typing import List
 
 from aeromet_py.utils import MetarRegExp
 
+from .models import MetarTime
+
 from ..errors import ParserError
 from ..report import Report
 
-from .models import MetarTime
+from ..mixins import ModifierMixin
 
 GroupHandler = namedtuple("GroupHandler", "regexp handler")
 
 
-class Metar(Report):
+class Metar(Report, ModifierMixin):
     """Parser for METAR reports."""
 
     def __init__(
@@ -23,6 +25,9 @@ class Metar(Report):
         self._month = month
 
         self._handle_sections()
+
+        # Initialize mixins
+        ModifierMixin.__init__(self)
 
         # Parse groups
         self._parse_body()
@@ -57,6 +62,7 @@ class Metar(Report):
             GroupHandler(MetarRegExp.TYPE, self._handle_type),
             GroupHandler(MetarRegExp.STATION, self._handle_station),
             GroupHandler(MetarRegExp.TIME, self._handle_time),
+            GroupHandler(MetarRegExp.MODIFIER, self._handle_modifier),
         ]
 
         self._parse(handlers, self.body)

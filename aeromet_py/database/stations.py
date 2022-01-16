@@ -1,5 +1,6 @@
 from typing import List
 
+
 def get_stations():
     """Get an iterable data for all stations around the world.
 

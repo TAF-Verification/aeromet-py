@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import Dict, List
 
 from aeromet_py.database import get_country, get_stations
 
