@@ -9,12 +9,12 @@ from .models import MetarTime
 from ..errors import ParserError
 from ..report import Report
 
-from ..mixins import ModifierMixin
+from ..mixins import ModifierMixin, MetarWindMixin
 
 GroupHandler = namedtuple("GroupHandler", "regexp handler")
 
 
-class Metar(Report, ModifierMixin):
+class Metar(Report, ModifierMixin, MetarWindMixin):
     """Parser for METAR reports."""
 
     def __init__(
@@ -28,6 +28,7 @@ class Metar(Report, ModifierMixin):
 
         # Initialize mixins
         ModifierMixin.__init__(self)
+        MetarWindMixin.__init__(self)
 
         # Parse groups
         self._parse_body()
@@ -63,6 +64,7 @@ class Metar(Report, ModifierMixin):
             GroupHandler(MetarRegExp.STATION, self._handle_station),
             GroupHandler(MetarRegExp.TIME, self._handle_time),
             GroupHandler(MetarRegExp.MODIFIER, self._handle_modifier),
+            GroupHandler(MetarRegExp.WIND, self._handle_wind),
         ]
 
         self._parse(handlers, self.body)

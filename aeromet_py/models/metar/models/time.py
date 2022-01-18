@@ -5,6 +5,8 @@ from aeromet_py.models.time import Time
 
 
 class MetarTime(Time, Group):
+    """Basic structure for time groups in METAR reports from land stations."""
+
     def __init__(self, match: re.Match, year: int, month: int) -> None:
         Group.__init__(self, match.string)
 
