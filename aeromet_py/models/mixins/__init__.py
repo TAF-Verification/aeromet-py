@@ -1,1 +1,1 @@
-from .metar import ModifierMixin, MetarWindMixin
+from .metar import ModifierMixin, MetarWindMixin, MetarPrevailingMixin

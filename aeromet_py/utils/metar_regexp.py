@@ -15,6 +15,15 @@ class MetarRegExp:
         r"(?P<units>KT|MPS)$"
     )
 
+    VISIBILITY = (
+        r"^(?P<vis>\d{4}|////)"
+        r"(?P<dir>[NSEW]([EW])?)?|"
+        r"(?P<integer>\d{1,2})?_?(M|P)?"
+        r"(?P<fraction>\d/\d)?"
+        r"(?P<units>SM|KM|M|U)|"
+        r"(?P<cavok>CAVOK)$"
+    )
+
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 
     REMARK = r"^(?P<rmk>RMK(S)?)$"

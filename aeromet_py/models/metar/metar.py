@@ -2,19 +2,19 @@ import re
 from collections import namedtuple
 from typing import List
 
-from aeromet_py.utils import MetarRegExp
+from aeromet_py.utils import MetarRegExp, sanitize_visibility
 
 from .models import MetarTime
 
 from ..errors import ParserError
 from ..report import Report
 
-from ..mixins import ModifierMixin, MetarWindMixin
+from ..mixins import ModifierMixin, MetarWindMixin, MetarPrevailingMixin
 
 GroupHandler = namedtuple("GroupHandler", "regexp handler")
 
 
-class Metar(Report, ModifierMixin, MetarWindMixin):
+class Metar(Report, ModifierMixin, MetarWindMixin, MetarPrevailingMixin):
     """Parser for METAR reports."""
 
     def __init__(
@@ -29,6 +29,7 @@ class Metar(Report, ModifierMixin, MetarWindMixin):
         # Initialize mixins
         ModifierMixin.__init__(self)
         MetarWindMixin.__init__(self)
+        MetarPrevailingMixin.__init__(self)
 
         # Parse groups
         self._parse_body()
@@ -65,6 +66,7 @@ class Metar(Report, ModifierMixin, MetarWindMixin):
             GroupHandler(MetarRegExp.TIME, self._handle_time),
             GroupHandler(MetarRegExp.MODIFIER, self._handle_modifier),
             GroupHandler(MetarRegExp.WIND, self._handle_wind),
+            GroupHandler(MetarRegExp.VISIBILITY, self._handle_prevailing),
         ]
 
         self._parse(handlers, self.body)
@@ -83,7 +85,7 @@ class Metar(Report, ModifierMixin, MetarWindMixin):
             raises the error.
         """
         index = 0
-        # section = sanitize_visibility(section)
+        section = sanitize_visibility(section)
         # if section_type == "body":
         #     section = sanitize_windshear(section)
 
