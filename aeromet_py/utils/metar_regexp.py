@@ -15,6 +15,8 @@ class MetarRegExp:
         r"(?P<units>KT|MPS)$"
     )
 
+    WIND_VARIATION = r"^(?P<from>\d{3})V(?P<to>\d{3})$"
+
     VISIBILITY = (
         r"^(?P<vis>\d{4}|////)"
         r"(?P<dir>[NSEW]([EW])?)?|"

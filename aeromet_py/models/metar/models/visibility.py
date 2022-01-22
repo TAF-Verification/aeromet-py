@@ -18,7 +18,6 @@ class MetarMinimumVisibility(Group):
 
             self._visibility = Distance(None)
         else:
-            print(match.string.replace("_", " "))
             super().__init__(match.string.replace("_", " "))
 
             _vis = match.group("vis")

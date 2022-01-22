@@ -1,10 +1,11 @@
 import re
 from collections import namedtuple
 from typing import List
+from aeromet_py.models.wind import Wind
 
 from aeromet_py.utils import MetarRegExp, sanitize_visibility
 
-from .models import MetarTime
+from .models import MetarTime, WindVariation
 
 from ..errors import ParserError
 from ..report import Report
@@ -30,6 +31,9 @@ class Metar(Report, ModifierMixin, MetarWindMixin, MetarPrevailingMixin):
         ModifierMixin.__init__(self)
         MetarWindMixin.__init__(self)
         MetarPrevailingMixin.__init__(self)
+
+        # Groups
+        self._wind_variation = WindVariation(None)
 
         # Parse groups
         self._parse_body()
@@ -59,6 +63,16 @@ class Metar(Report, ModifierMixin, MetarWindMixin, MetarPrevailingMixin):
         """Get the time of the report."""
         return self._time
 
+    def _handle_wind_variation(self, match: re.Match) -> None:
+        self._wind_variation = WindVariation(match)
+
+        self._concatenate_string(self._wind_variation)
+
+    @property
+    def wind_variation(self) -> WindVariation:
+        """Get the wind variation directions from the METAR."""
+        return self._wind_variation
+
     def _parse_body(self) -> None:
         handlers = [
             GroupHandler(MetarRegExp.TYPE, self._handle_type),
@@ -66,6 +80,7 @@ class Metar(Report, ModifierMixin, MetarWindMixin, MetarPrevailingMixin):
             GroupHandler(MetarRegExp.TIME, self._handle_time),
             GroupHandler(MetarRegExp.MODIFIER, self._handle_modifier),
             GroupHandler(MetarRegExp.WIND, self._handle_wind),
+            GroupHandler(MetarRegExp.WIND_VARIATION, self._handle_wind_variation),
             GroupHandler(MetarRegExp.VISIBILITY, self._handle_prevailing),
         ]
 

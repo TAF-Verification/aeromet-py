@@ -12,11 +12,11 @@ class Distance(Numeric):
             code = "10000"
 
         try:
-            _visibility = float(code)
+            _distance = float(code)
         except ValueError:
-            _visibility = None
+            _distance = None
         finally:
-            super().__init__(_visibility)
+            super().__init__(_distance)
 
     def __str__(self) -> None:
         if self._value:
