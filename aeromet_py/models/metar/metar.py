@@ -5,7 +5,7 @@ from aeromet_py.models.wind import Wind
 
 from aeromet_py.utils import MetarRegExp, sanitize_visibility
 
-from .models import MetarTime, WindVariation
+from .models import MetarTime, WindVariation, MetarMinimumVisibility
 
 from ..errors import ParserError
 from ..report import Report
@@ -34,6 +34,7 @@ class Metar(Report, ModifierMixin, MetarWindMixin, MetarPrevailingMixin):
 
         # Groups
         self._wind_variation = WindVariation(None)
+        self._minimum_visibility = MetarMinimumVisibility(None)
 
         # Parse groups
         self._parse_body()
@@ -73,6 +74,16 @@ class Metar(Report, ModifierMixin, MetarWindMixin, MetarPrevailingMixin):
         """Get the wind variation directions from the METAR."""
         return self._wind_variation
 
+    def _handle_minimum_visibility(self, match: re.Match) -> None:
+        self._minimum_visibility = MetarMinimumVisibility(match)
+
+        self._concatenate_string(self._minimum_visibility)
+
+    @property
+    def minimum_visibility(self) -> MetarMinimumVisibility:
+        """Get the minimum visibility data of the METAR."""
+        return self._minimum_visibility
+
     def _parse_body(self) -> None:
         handlers = [
             GroupHandler(MetarRegExp.TYPE, self._handle_type),
@@ -82,6 +93,7 @@ class Metar(Report, ModifierMixin, MetarWindMixin, MetarPrevailingMixin):
             GroupHandler(MetarRegExp.WIND, self._handle_wind),
             GroupHandler(MetarRegExp.WIND_VARIATION, self._handle_wind_variation),
             GroupHandler(MetarRegExp.VISIBILITY, self._handle_prevailing),
+            GroupHandler(MetarRegExp.VISIBILITY, self._handle_minimum_visibility),
         ]
 
         self._parse(handlers, self.body)

@@ -103,35 +103,35 @@ def test_no_visibility():
     assert str(visibility) == ""
 
 
-# def test_minimum_visibility():
-#     metar = Metar(
-#         "METAR UUDD 180100Z 00000MPS 4800 2100NW -SN BR SCT025 M02/M03 Q1007 R32L/290042 NOSIG"
-#     )
-#     min_vis = metar.minimum_visibility
+def test_minimum_visibility():
+    metar = Metar(
+        "METAR UUDD 180100Z 00000MPS 4800 2100NW -SN BR SCT025 M02/M03 Q1007 R32L/290042 NOSIG"
+    )
+    min_vis = metar.minimum_visibility
 
-#     assert min_vis.code == "2100NW"
-#     assert min_vis.in_meters == 2100.0
-#     assert min_vis.in_kilometers == 2.1
-#     assert min_vis.in_sea_miles == 1.1339092872570193
-#     assert min_vis.in_feet == 6889.763779527559
-#     assert min_vis.cardinal_direction == "NW"
-#     assert min_vis.direction_in_degrees == 315.0
-#     assert min_vis.direction_in_radians == 5.497787143782138
-#     assert str(min_vis) == "2.1 km to NW (315.0°)"
+    assert min_vis.code == "2100NW"
+    assert min_vis.in_meters == 2100.0
+    assert min_vis.in_kilometers == 2.1
+    assert min_vis.in_sea_miles == 1.1339092872570193
+    assert min_vis.in_feet == 6889.763779527559
+    assert min_vis.cardinal_direction == "NW"
+    assert min_vis.direction_in_degrees == 315.0
+    assert min_vis.direction_in_radians == 5.497787143782138
+    assert str(min_vis) == "2.1 km to NW (315.0°)"
 
 
-# def test_no_minimum_visibility():
-#     metar = Metar(
-#         "METAR UUDD 180100Z 25005MPS 4800 -SN BR SCT025 M02/M03 Q1007 R32L/290042 NOSIG"
-#     )
-#     min_vis = metar.minimum_visibility
+def test_no_minimum_visibility():
+    metar = Metar(
+        "METAR UUDD 180100Z 25005MPS 4800 -SN BR SCT025 M02/M03 Q1007 R32L/290042 NOSIG"
+    )
+    min_vis = metar.minimum_visibility
 
-#     assert min_vis.code == None
-#     assert min_vis.in_meters == None
-#     assert min_vis.in_kilometers == None
-#     assert min_vis.in_sea_miles == None
-#     assert min_vis.in_feet == None
-#     assert min_vis.cardinal_direction == None
-#     assert min_vis.direction_in_degrees == None
-#     assert min_vis.direction_in_radians == None
-#     assert str(min_vis) == ""
+    assert min_vis.code == None
+    assert min_vis.in_meters == None
+    assert min_vis.in_kilometers == None
+    assert min_vis.in_sea_miles == None
+    assert min_vis.in_feet == None
+    assert min_vis.cardinal_direction == None
+    assert min_vis.direction_in_degrees == None
+    assert min_vis.direction_in_radians == None
+    assert str(min_vis) == ""
