@@ -5,10 +5,11 @@ from aeromet_py.models.wind import Wind
 
 from aeromet_py.utils import MetarRegExp, sanitize_visibility
 
-from .models import MetarTime, WindVariation, MetarMinimumVisibility
+from .models import *
 
 from ..errors import ParserError
 from ..report import Report
+from ..group import GroupList
 
 from ..mixins import ModifierMixin, MetarWindMixin, MetarPrevailingMixin
 
@@ -35,6 +36,7 @@ class Metar(Report, ModifierMixin, MetarWindMixin, MetarPrevailingMixin):
         # Groups
         self._wind_variation = WindVariation(None)
         self._minimum_visibility = MetarMinimumVisibility(None)
+        self._runway_ranges = GroupList[MetarRunwayRange](3)
 
         # Parse groups
         self._parse_body()
@@ -84,6 +86,17 @@ class Metar(Report, ModifierMixin, MetarWindMixin, MetarPrevailingMixin):
         """Get the minimum visibility data of the METAR."""
         return self._minimum_visibility
 
+    def _handle_runway_range(self, match: re.Match) -> None:
+        range: MetarRunwayRange = MetarRunwayRange(match)
+        self._runway_ranges.add(range)
+
+        self._concatenate_string(range)
+
+    @property
+    def runway_ranges(self) -> GroupList[MetarRunwayRange]:
+        """Get the runway ranges data of the METAR if provided."""
+        return self._runway_ranges
+
     def _parse_body(self) -> None:
         handlers = [
             GroupHandler(MetarRegExp.TYPE, self._handle_type),
@@ -94,6 +107,9 @@ class Metar(Report, ModifierMixin, MetarWindMixin, MetarPrevailingMixin):
             GroupHandler(MetarRegExp.WIND_VARIATION, self._handle_wind_variation),
             GroupHandler(MetarRegExp.VISIBILITY, self._handle_prevailing),
             GroupHandler(MetarRegExp.VISIBILITY, self._handle_minimum_visibility),
+            GroupHandler(MetarRegExp.RUNWAY_RANGE, self._handle_runway_range),
+            GroupHandler(MetarRegExp.RUNWAY_RANGE, self._handle_runway_range),
+            GroupHandler(MetarRegExp.RUNWAY_RANGE, self._handle_runway_range),
         ]
 
         self._parse(handlers, self.body)

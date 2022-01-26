@@ -26,6 +26,16 @@ class MetarRegExp:
         r"(?P<cavok>CAVOK)$"
     )
 
+    RUNWAY_RANGE = (
+        r"^R(?P<name>\d{2}[RLC]?)/"
+        r"(?P<rvrlow>[MP])?"
+        r"(?P<low>\d{2,4})"
+        r"(V(?P<rvrhigh>[MP])?"
+        r"(?P<high>\d{2,4}))?"
+        r"(?P<units>FT)?"
+        r"(?P<trend>[NDU])?$"
+    )
+
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 
     REMARK = r"^(?P<rmk>RMK(S)?)$"
