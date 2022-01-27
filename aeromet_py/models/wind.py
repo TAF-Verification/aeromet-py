@@ -105,6 +105,21 @@ class Direction(Numeric):
         """Get if direction is `VRB` (variable) in the report."""
         return self._variable
 
+    @property
+    def in_degrees(self) -> float:
+        """Get the direction in degrees."""
+        return self._value
+
+    @property
+    def in_radians(self) -> float:
+        """Get the direction in radians."""
+        return self.converted(Conversions.DEGREES_TO_RADIANS)
+
+    @property
+    def in_gradians(self) -> float:
+        """Get the direction in gradians."""
+        return self.converted(Conversions.DEGREES_TO_GRADIANS)
+
 
 class Speed(Numeric):
     """Basic structure for speed attributes."""
@@ -130,6 +145,26 @@ class Speed(Numeric):
             return super().__str__() + " kt"
 
         return super().__str__()
+
+    @property
+    def in_knot(self) -> float:
+        """Get the speed in knot."""
+        return self._value
+
+    @property
+    def in_mps(self) -> float:
+        """Get the speed in meters per second."""
+        return self.converted(Conversions.KNOT_TO_MPS)
+
+    @property
+    def in_kph(self) -> float:
+        """Get the speed in kilometers per hour."""
+        return self.converted(Conversions.KNOT_TO_KPH)
+
+    @property
+    def in_miph(self) -> float:
+        """Get the speed in miles per hour."""
+        return self.converted(Conversions.KNOT_TO_MIPH)
 
 
 class Wind:
@@ -186,54 +221,54 @@ class Wind:
     @property
     def direction_in_degrees(self) -> float:
         """Get the wind direction in degrees."""
-        return self._direction.value
+        return self._direction.in_degrees
 
     @property
     def direction_in_radians(self) -> float:
         """Get the wind direction in radians."""
-        return self._direction.converted(Conversions.DEGREES_TO_RADIANS)
+        return self._direction.in_radians
 
     @property
     def direction_in_gradians(self) -> float:
         """Get the wind direction in gradians."""
-        return self._direction.converted(Conversions.DEGREES_TO_GRADIANS)
+        return self._direction.in_gradians
 
     @property
     def speed_in_knot(self) -> float:
         """Get the wind speed in knot."""
-        return self._speed.value
+        return self._speed.in_knot
 
     @property
     def speed_in_mps(self) -> float:
         """Get the wind speed in meters per second"""
-        return self._speed.converted(Conversions.KNOT_TO_MPS)
+        return self._speed.in_mps
 
     @property
     def speed_in_kph(self) -> float:
         """Get the wind speed in kilometers per hour."""
-        return self._speed.converted(Conversions.KNOT_TO_KPH)
+        return self._speed.in_kph
 
     @property
     def speed_in_miph(self) -> float:
         """Get the wind speed in miles per hour."""
-        return self._speed.converted(Conversions.KNOT_TO_MIPH)
+        return self._speed.in_miph
 
     @property
     def gust_in_knot(self) -> float:
         """Get the wind gust in knot."""
-        return self._gust.value
+        return self._gust.in_knot
 
     @property
     def gust_in_mps(self) -> float:
         """Get the wind gust in meters per second"""
-        return self._gust.converted(Conversions.KNOT_TO_MPS)
+        return self._gust.in_mps
 
     @property
     def gust_in_kph(self) -> float:
         """Get the wind gust in kilometers per hour."""
-        return self._gust.converted(Conversions.KNOT_TO_KPH)
+        return self._gust.in_kph
 
     @property
     def gust_in_miph(self) -> float:
         """Get the wind gust in miles per hour."""
-        return self._gust.converted(Conversions.KNOT_TO_MIPH)
+        return self._gust.in_miph
