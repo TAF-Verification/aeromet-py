@@ -113,22 +113,22 @@ class MetarRunwayRange(Group):
     @property
     def low_in_meters(self) -> float:
         """Get the runway low range in meters."""
-        return self._low_range.value
+        return self._low_range.in_meters
 
     @property
     def low_in_kilometers(self) -> float:
         """Get the runway low range in kilometers."""
-        return self._low_range.converted(Conversions.M_TO_KM)
+        return self._low_range.in_kilometers
 
     @property
     def low_in_sea_miles(self) -> float:
         """Get the runway low range in sea miles."""
-        return self._low_range.converted(Conversions.M_TO_SMI)
+        return self._low_range.in_sea_miles
 
     @property
     def low_in_feet(self) -> float:
         """Get the runway low range in feet."""
-        return self._low_range.converted(Conversions.M_TO_FT)
+        return self._low_range.in_feet
 
     @property
     def high_range(self) -> str:
@@ -138,22 +138,22 @@ class MetarRunwayRange(Group):
     @property
     def high_in_meters(self) -> float:
         """Get the runway high range in meters."""
-        return self._high_range.value
+        return self._high_range.in_meters
 
     @property
     def high_in_kilometers(self) -> float:
         """Get the runway high range in kilometers."""
-        return self._high_range.converted(Conversions.M_TO_KM)
+        return self._high_range.in_kilometers
 
     @property
     def high_in_sea_miles(self) -> float:
         """Get the runway high range in sea miles."""
-        return self._high_range.converted(Conversions.M_TO_SMI)
+        return self._high_range.in_sea_miles
 
     @property
     def high_in_feet(self) -> float:
         """Get the runway high range in feet."""
-        return self._high_range.converted(Conversions.M_TO_FT)
+        return self._high_range.in_feet
 
     @property
     def trend(self) -> str:

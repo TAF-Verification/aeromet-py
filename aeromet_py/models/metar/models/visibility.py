@@ -74,22 +74,22 @@ class MetarMinimumVisibility(Group):
     @property
     def in_meters(self) -> float:
         """Get the visibility in meters."""
-        return self._visibility.value
+        return self._visibility.in_meters
 
     @property
     def in_kilometers(self) -> float:
         """Get the visibility in kilometers."""
-        return self._visibility.converted(Conversions.M_TO_KM)
+        return self._visibility.in_kilometers
 
     @property
     def in_sea_miles(self) -> float:
         """Get the visibility in sea miles."""
-        return self._visibility.converted(Conversions.M_TO_SMI)
+        return self._visibility.in_sea_miles
 
     @property
     def in_feet(self) -> float:
         """Get the visibility in feet."""
-        return self._visibility.converted(Conversions.M_TO_FT)
+        return self._visibility.in_feet
 
     @property
     def cardinal_direction(self) -> str:
