@@ -11,12 +11,19 @@ from ..errors import ParserError
 from ..report import Report
 from ..group import GroupList
 
-from ..mixins import ModifierMixin, MetarWindMixin, MetarPrevailingMixin
+from ..mixins import (
+    ModifierMixin,
+    MetarWindMixin,
+    MetarPrevailingMixin,
+    MetarWeatherMixin,
+)
 
 GroupHandler = namedtuple("GroupHandler", "regexp handler")
 
 
-class Metar(Report, ModifierMixin, MetarWindMixin, MetarPrevailingMixin):
+class Metar(
+    Report, ModifierMixin, MetarWindMixin, MetarPrevailingMixin, MetarWeatherMixin
+):
     """Parser for METAR reports."""
 
     def __init__(
@@ -32,6 +39,7 @@ class Metar(Report, ModifierMixin, MetarWindMixin, MetarPrevailingMixin):
         ModifierMixin.__init__(self)
         MetarWindMixin.__init__(self)
         MetarPrevailingMixin.__init__(self)
+        MetarWeatherMixin.__init__(self)
 
         # Groups
         self._wind_variation = WindVariation(None)
@@ -110,6 +118,9 @@ class Metar(Report, ModifierMixin, MetarWindMixin, MetarPrevailingMixin):
             GroupHandler(MetarRegExp.RUNWAY_RANGE, self._handle_runway_range),
             GroupHandler(MetarRegExp.RUNWAY_RANGE, self._handle_runway_range),
             GroupHandler(MetarRegExp.RUNWAY_RANGE, self._handle_runway_range),
+            GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
+            GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
+            GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
         ]
 
         self._parse(handlers, self.body)
