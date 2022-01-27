@@ -44,6 +44,12 @@ class MetarRegExp:
         r"(?P<other>PO|SQ|FC|SS|DS|NSW|/))?$"
     )
 
+    CLOUD = (
+        r"^(?P<cover>VV|CLR|SCK|SCK|NSC|NCD|BKN|SCT|FEW|[O0]VC|///)"
+        r"(?P<height>\d{3}|///)?"
+        r"(?P<type>TCU|CB|///)?$"
+    )
+
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 
     REMARK = r"^(?P<rmk>RMK(S)?)$"

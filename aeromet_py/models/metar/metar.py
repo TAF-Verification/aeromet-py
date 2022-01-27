@@ -16,13 +16,19 @@ from ..mixins import (
     MetarWindMixin,
     MetarPrevailingMixin,
     MetarWeatherMixin,
+    MetarCloudMixin,
 )
 
 GroupHandler = namedtuple("GroupHandler", "regexp handler")
 
 
 class Metar(
-    Report, ModifierMixin, MetarWindMixin, MetarPrevailingMixin, MetarWeatherMixin
+    Report,
+    ModifierMixin,
+    MetarWindMixin,
+    MetarPrevailingMixin,
+    MetarWeatherMixin,
+    MetarCloudMixin,
 ):
     """Parser for METAR reports."""
 
@@ -40,6 +46,7 @@ class Metar(
         MetarWindMixin.__init__(self)
         MetarPrevailingMixin.__init__(self)
         MetarWeatherMixin.__init__(self)
+        MetarCloudMixin.__init__(self)
 
         # Groups
         self._wind_variation = WindVariation(None)
@@ -121,6 +128,10 @@ class Metar(
             GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
             GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
             GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
         ]
 
         self._parse(handlers, self.body)
