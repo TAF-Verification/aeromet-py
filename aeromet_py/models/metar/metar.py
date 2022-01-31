@@ -52,6 +52,7 @@ class Metar(
         self._wind_variation = WindVariation(None)
         self._minimum_visibility = MetarMinimumVisibility(None)
         self._runway_ranges = GroupList[MetarRunwayRange](3)
+        self._temperatures = Temperatures(None)
 
         # Parse groups
         self._parse_body()
@@ -107,6 +108,16 @@ class Metar(
 
         self._concatenate_string(range)
 
+    def _handle_temperatures(self, match: re.Match) -> None:
+        self._temperatures = Temperatures(match)
+
+        self._concatenate_string(self._temperatures)
+
+    @property
+    def temperatures(self) -> Temperatures:
+        """Get the temperatures data of the METAR."""
+        return self._temperatures
+
     @property
     def runway_ranges(self) -> GroupList[MetarRunwayRange]:
         """Get the runway ranges data of the METAR if provided."""
@@ -132,6 +143,7 @@ class Metar(
             GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
             GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
             GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
+            GroupHandler(MetarRegExp.TEMPERATURES, self._handle_temperatures),
         ]
 
         self._parse(handlers, self.body)

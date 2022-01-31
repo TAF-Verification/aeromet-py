@@ -10,7 +10,6 @@ class MetarPrevailingMixin:
         self._prevailing = MetarPrevailingVisibility(None)
 
     def _handle_prevailing(self, match: re.Match) -> None:
-        print("from _handle_prevailing")
         self._prevailing = MetarPrevailingVisibility(match)
 
         self._concatenate_string(self._prevailing)
