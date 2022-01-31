@@ -1,6 +1,7 @@
 import re
 from collections import namedtuple
 from typing import List
+from aeromet_py.models.metar.models.pressure import MetarPressure
 from aeromet_py.models.wind import Wind
 
 from aeromet_py.utils import MetarRegExp, sanitize_visibility
@@ -53,6 +54,7 @@ class Metar(
         self._minimum_visibility = MetarMinimumVisibility(None)
         self._runway_ranges = GroupList[MetarRunwayRange](3)
         self._temperatures = Temperatures(None)
+        self._pressure = MetarPressure(None)
 
         # Parse groups
         self._parse_body()
@@ -108,6 +110,11 @@ class Metar(
 
         self._concatenate_string(range)
 
+    @property
+    def runway_ranges(self) -> GroupList[MetarRunwayRange]:
+        """Get the runway ranges data of the METAR if provided."""
+        return self._runway_ranges
+
     def _handle_temperatures(self, match: re.Match) -> None:
         self._temperatures = Temperatures(match)
 
@@ -118,10 +125,15 @@ class Metar(
         """Get the temperatures data of the METAR."""
         return self._temperatures
 
+    def _handle_pressure(self, match: re.Match) -> None:
+        self._pressure = MetarPressure(match)
+
+        self._concatenate_string(self._pressure)
+
     @property
-    def runway_ranges(self) -> GroupList[MetarRunwayRange]:
-        """Get the runway ranges data of the METAR if provided."""
-        return self._runway_ranges
+    def pressure(self) -> MetarPressure:
+        """Get the pressure of the METAR."""
+        return self._pressure
 
     def _parse_body(self) -> None:
         handlers = [
@@ -144,6 +156,7 @@ class Metar(
             GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
             GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
             GroupHandler(MetarRegExp.TEMPERATURES, self._handle_temperatures),
+            GroupHandler(MetarRegExp.PRESSURE, self._handle_pressure),
         ]
 
         self._parse(handlers, self.body)

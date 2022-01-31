@@ -5,3 +5,4 @@ from .wind_variation import WindVariation
 from .runway_range import MetarRunwayRange
 from .weather import MetarWeather
 from .temperatures import Temperatures
+from .pressure import Pressure

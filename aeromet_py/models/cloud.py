@@ -76,7 +76,7 @@ class Cloud(Group):
             _type = CLOUD_TYPE.get(match.group("type"), None)
 
             height: str = match.group("height")
-            if height == "///":
+            if height is None or height == "///":
                 _height = "////"
             else:
                 height += "00"
