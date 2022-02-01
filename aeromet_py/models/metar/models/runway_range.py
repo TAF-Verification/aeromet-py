@@ -3,8 +3,8 @@ from typing import Dict
 
 from aeromet_py.utils.conversions import Conversions
 
-from ...group import Group
 from ...distance import Distance
+from ...group import Group
 
 NAMES: Dict[str, str] = {
     "R": "right",

@@ -59,6 +59,13 @@ class MetarRegExp:
 
     PRESSURE = r"^(?P<units>A|Q|QNH)?" r"(?P<press>\d{4}|\//\//)" r"(?P<units2>INS)?$"
 
+    RECENT_WEATHER = (
+        r"^RE(?P<desc>MI|PR|BC|DR|BL|SH|TS|FZ)?"
+        r"(?P<prec>DZ|RA|SN|SG|IC|PL|GR|GS|UP)?"
+        r"(?P<obsc>BR|FG|VA|DU|SA|HZ|PY)?"
+        r"(?P<other>PO|SQ|FC|SS|DS)?$"
+    )
+
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 
     REMARK = r"^(?P<rmk>RMK(S)?)$"

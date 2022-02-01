@@ -1,6 +1,6 @@
 import re
 
-from ...cloud import CloudList, Cloud
+from ...cloud import Cloud, CloudList
 
 
 class MetarCloudMixin:

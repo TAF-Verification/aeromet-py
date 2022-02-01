@@ -1,7 +1,7 @@
 import re
 
-from ...metar.models import MetarWeather
 from ...group import GroupList
+from ...metar.models import MetarWeather
 
 
 class MetarWeatherMixin:

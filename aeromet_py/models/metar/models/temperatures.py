@@ -6,7 +6,7 @@ from ...group import Group
 from ...temperature import Temperature
 
 
-class Temperatures(Group):
+class MetarTemperatures(Group):
     """Basic structure for temperatures in METAR from land stations."""
 
     def __init__(self, match: re.Match) -> None:

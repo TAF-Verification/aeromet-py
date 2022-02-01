@@ -1,7 +1,7 @@
 import re
 
-from .metar_regexp import MetarRegExp
 from .conversions import Conversions
+from .metar_regexp import MetarRegExp
 
 
 def sanitize_visibility(report: str) -> str:

@@ -3,7 +3,7 @@ from typing import Dict
 
 from ...group import Group
 
-WEATHER_INT: Dict[str, str] = {
+INTENSITY: Dict[str, str] = {
     "-": "light",
     "+": "heavy",
     "-VC": "nearby light",
@@ -11,7 +11,7 @@ WEATHER_INT: Dict[str, str] = {
     "VC": "nearby",
 }
 
-WEATHER_DESC: Dict[str, str] = {
+DESCRIPTION: Dict[str, str] = {
     "MI": "shallow",
     "PR": "partial",
     "BC": "patches of",
@@ -22,7 +22,7 @@ WEATHER_DESC: Dict[str, str] = {
     "FZ": "freezing",
 }
 
-WEATHER_PREC: Dict[str, str] = {
+PRECIPITATION: Dict[str, str] = {
     "DZ": "drizzle",
     "RA": "rain",
     "SN": "snow",
@@ -35,7 +35,7 @@ WEATHER_PREC: Dict[str, str] = {
     "//": "",
 }
 
-WEATHER_OBSC: Dict[str, str] = {
+OBSCURATION: Dict[str, str] = {
     "BR": "mist",
     "FG": "fog",
     "FU": "smoke",
@@ -46,7 +46,7 @@ WEATHER_OBSC: Dict[str, str] = {
     "PY": "spray",
 }
 
-WEATHER_OTHER: Dict[str, str] = {
+OTHER: Dict[str, str] = {
     "PO": "sand whirls",
     "SQ": "squalls",
     "FC": "funnel cloud",
@@ -70,11 +70,11 @@ class MetarWeather(Group):
         else:
             super().__init__(match.string)
 
-            self._intensity = WEATHER_INT.get(match.group("int"), None)
-            self._description = WEATHER_DESC.get(match.group("desc"), None)
-            self._precipitation = WEATHER_PREC.get(match.group("prec"), None)
-            self._obscuration = WEATHER_OBSC.get(match.group("obsc"), None)
-            self._other = WEATHER_OTHER.get(match.group("other"), None)
+            self._intensity = INTENSITY.get(match.group("int"), None)
+            self._description = DESCRIPTION.get(match.group("desc"), None)
+            self._precipitation = PRECIPITATION.get(match.group("prec"), None)
+            self._obscuration = OBSCURATION.get(match.group("obsc"), None)
+            self._other = OTHER.get(match.group("other"), None)
 
     def __str__(self):
         s = "{} {} {} {} {}".format(

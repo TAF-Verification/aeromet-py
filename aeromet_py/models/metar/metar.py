@@ -1,24 +1,21 @@
 import re
 from collections import namedtuple
 from typing import List
-from aeromet_py.models.metar.models.pressure import MetarPressure
-from aeromet_py.models.wind import Wind
 
+from aeromet_py.models.metar.models.pressure import MetarPressure
 from aeromet_py.utils import MetarRegExp, sanitize_visibility
 
-from .models import *
-
 from ..errors import ParserError
-from ..report import Report
 from ..group import GroupList
-
 from ..mixins import (
-    ModifierMixin,
-    MetarWindMixin,
+    MetarCloudMixin,
     MetarPrevailingMixin,
     MetarWeatherMixin,
-    MetarCloudMixin,
+    MetarWindMixin,
+    ModifierMixin,
 )
+from ..report import Report
+from .models import *
 
 GroupHandler = namedtuple("GroupHandler", "regexp handler")
 
@@ -50,11 +47,12 @@ class Metar(
         MetarCloudMixin.__init__(self)
 
         # Groups
-        self._wind_variation = WindVariation(None)
+        self._wind_variation = MetarWindVariation(None)
         self._minimum_visibility = MetarMinimumVisibility(None)
         self._runway_ranges = GroupList[MetarRunwayRange](3)
-        self._temperatures = Temperatures(None)
+        self._temperatures = MetarTemperatures(None)
         self._pressure = MetarPressure(None)
+        self._recent_weather = MetarRecentWeather(None)
 
         # Parse groups
         self._parse_body()
@@ -85,12 +83,12 @@ class Metar(
         return self._time
 
     def _handle_wind_variation(self, match: re.Match) -> None:
-        self._wind_variation = WindVariation(match)
+        self._wind_variation = MetarWindVariation(match)
 
         self._concatenate_string(self._wind_variation)
 
     @property
-    def wind_variation(self) -> WindVariation:
+    def wind_variation(self) -> MetarWindVariation:
         """Get the wind variation directions from the METAR."""
         return self._wind_variation
 
@@ -116,12 +114,12 @@ class Metar(
         return self._runway_ranges
 
     def _handle_temperatures(self, match: re.Match) -> None:
-        self._temperatures = Temperatures(match)
+        self._temperatures = MetarTemperatures(match)
 
         self._concatenate_string(self._temperatures)
 
     @property
-    def temperatures(self) -> Temperatures:
+    def temperatures(self) -> MetarTemperatures:
         """Get the temperatures data of the METAR."""
         return self._temperatures
 
@@ -134,6 +132,16 @@ class Metar(
     def pressure(self) -> MetarPressure:
         """Get the pressure of the METAR."""
         return self._pressure
+
+    def _handle_recent_weather(self, match: re.Match) -> None:
+        self._recent_weather = MetarRecentWeather(match)
+
+        self._concatenate_string(self._recent_weather)
+
+    @property
+    def recent_weather(self) -> MetarRecentWeather:
+        """Get the recent weather data of the METAR."""
+        return self._recent_weather
 
     def _parse_body(self) -> None:
         handlers = [
@@ -157,6 +165,7 @@ class Metar(
             GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
             GroupHandler(MetarRegExp.TEMPERATURES, self._handle_temperatures),
             GroupHandler(MetarRegExp.PRESSURE, self._handle_pressure),
+            GroupHandler(MetarRegExp.RECENT_WEATHER, self._handle_recent_weather),
         ]
 
         self._parse(handlers, self.body)

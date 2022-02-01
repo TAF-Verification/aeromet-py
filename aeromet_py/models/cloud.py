@@ -3,8 +3,8 @@ from typing import Dict
 
 from aeromet_py.utils import Conversions
 
-from .group import Group, GroupList
 from .distance import Distance
+from .group import Group, GroupList
 
 SKY_COVER: Dict[str, str] = {
     "SKC": "clear",

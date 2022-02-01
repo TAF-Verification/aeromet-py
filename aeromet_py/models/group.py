@@ -1,5 +1,5 @@
 from abc import ABCMeta
-from typing import List, TypeVar, Generic
+from typing import Generic, List, TypeVar
 
 from .errors import RangeError
 

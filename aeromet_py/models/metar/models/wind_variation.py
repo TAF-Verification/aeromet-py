@@ -6,7 +6,7 @@ from ...group import Group
 from ...wind import Direction
 
 
-class WindVariation(Group):
+class MetarWindVariation(Group):
     """Basic structure for wind variation groups in reports from land stations."""
 
     def __init__(self, match: re.Match) -> None:
