@@ -66,6 +66,8 @@ class MetarRegExp:
         r"(?P<other>PO|SQ|FC|SS|DS)?$"
     )
 
+    WINDSHEAR = r"^WS(?P<all>_ALL)?" r"_(RWY|R(?P<name>\d{2}[RCL]?))$"
+
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 
     REMARK = r"^(?P<rmk>RMK(S)?)$"

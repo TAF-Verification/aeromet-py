@@ -3,7 +3,7 @@ from collections import namedtuple
 from typing import List
 
 from aeromet_py.models.metar.models.pressure import MetarPressure
-from aeromet_py.utils import MetarRegExp, sanitize_visibility
+from aeromet_py.utils import MetarRegExp, sanitize_visibility, sanitize_windshear
 
 from ..errors import ParserError
 from ..group import GroupList
@@ -53,6 +53,7 @@ class Metar(
         self._temperatures = MetarTemperatures(None)
         self._pressure = MetarPressure(None)
         self._recent_weather = MetarRecentWeather(None)
+        self._windshear = MetarWindshearList()
 
         # Parse groups
         self._parse_body()
@@ -143,6 +144,17 @@ class Metar(
         """Get the recent weather data of the METAR."""
         return self._recent_weather
 
+    def _handle_windshear(self, match: re.Match) -> None:
+        windshear: MetarWindshearRunway = MetarWindshearRunway(match)
+        self._windshear.add(windshear)
+
+        self._concatenate_string(windshear)
+
+    @property
+    def windshear(self) -> MetarWindshearList:
+        """Get the windshear data of the METAR."""
+        return self._windshear
+
     def _parse_body(self) -> None:
         handlers = [
             GroupHandler(MetarRegExp.TYPE, self._handle_type),
@@ -166,6 +178,9 @@ class Metar(
             GroupHandler(MetarRegExp.TEMPERATURES, self._handle_temperatures),
             GroupHandler(MetarRegExp.PRESSURE, self._handle_pressure),
             GroupHandler(MetarRegExp.RECENT_WEATHER, self._handle_recent_weather),
+            GroupHandler(MetarRegExp.WINDSHEAR, self._handle_windshear),
+            GroupHandler(MetarRegExp.WINDSHEAR, self._handle_windshear),
+            GroupHandler(MetarRegExp.WINDSHEAR, self._handle_windshear),
         ]
 
         self._parse(handlers, self.body)
@@ -185,8 +200,8 @@ class Metar(
         """
         index = 0
         section = sanitize_visibility(section)
-        # if section_type == "body":
-        #     section = sanitize_windshear(section)
+        if section_type == "body":
+            section = sanitize_windshear(section)
 
         for group in section.split(" "):
             self.unparsed_groups.append(group)
