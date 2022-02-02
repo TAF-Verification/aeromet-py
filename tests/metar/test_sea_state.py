@@ -1,0 +1,45 @@
+from aeromet_py import Metar
+from pytest import approx
+
+
+def test_sea_state_with_positive_temperature():
+    metar = Metar(
+        "METAR LXGB 201950Z AUTO 09012KT 9999 BKN080/// 14/07 Q1016 RERA W20/S5"
+    )
+    sea_state = metar.sea_state
+
+    assert sea_state.code == "W20/S5"
+    assert sea_state.state == "rough"
+    assert str(sea_state) == "temperature 20.0°C, rough"
+    assert sea_state.temperature_in_celsius == 20.0
+    assert sea_state.temperature_in_fahrenheit == approx(68.0)
+    assert sea_state.temperature_in_kelvin == 293.15
+    assert sea_state.temperature_in_rankine == approx(527.67)
+
+
+def test_sea_state_with_negative_temperature():
+    metar = Metar(
+        "METAR LXGB 201950Z AUTO 09012KT 9999 BKN080/// 14/07 Q1016 RERA WM01/S8"
+    )
+    sea_state = metar.sea_state
+
+    assert sea_state.code == "WM01/S8"
+    assert sea_state.state == "very high"
+    assert str(sea_state) == "temperature -1.0°C, very high"
+    assert sea_state.temperature_in_celsius == -1.0
+    assert sea_state.temperature_in_fahrenheit == approx(30.2)
+    assert sea_state.temperature_in_kelvin == 272.15
+    assert sea_state.temperature_in_rankine == approx(489.87)
+
+
+def test_no_sea_state():
+    metar = Metar("METAR LXGB 201950Z AUTO 09012KT 9999 BKN080/// 14/07 Q1016 RERA")
+    sea_state = metar.sea_state
+
+    assert sea_state.code == None
+    assert sea_state.state == None
+    assert str(sea_state) == ""
+    assert sea_state.temperature_in_celsius == None
+    assert sea_state.temperature_in_fahrenheit == None
+    assert sea_state.temperature_in_kelvin == None
+    assert sea_state.temperature_in_rankine == None

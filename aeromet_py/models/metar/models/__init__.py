@@ -8,3 +8,4 @@ from .wind import MetarWind
 from .wind_variation import MetarWindVariation
 from .recent_weather import MetarRecentWeather
 from .windshear import MetarWindshearRunway, MetarWindshearList
+from .sea_state import MetarSeaState
