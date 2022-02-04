@@ -4,13 +4,16 @@ from math import pi
 class Conversions:
 
     # Distance conversions
+    FT_TO_M = 0.3048
     SMI_TO_KM = 1.852
     KM_TO_SMI = 1 / SMI_TO_KM
     KM_TO_M = 1000
     M_TO_KM = 1 / KM_TO_M
     M_TO_SMI = M_TO_KM * KM_TO_SMI
-    FT_TO_M = 0.3048
     M_TO_FT = 1 / FT_TO_M
+    M_TO_DM = 10.0
+    M_TO_CM = 100.0
+    M_TO_IN = 39.3701
 
     # Direction conversions
     DEGREES_TO_RADIANS = pi / 180

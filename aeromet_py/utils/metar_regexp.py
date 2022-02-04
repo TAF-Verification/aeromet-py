@@ -68,7 +68,12 @@ class MetarRegExp:
 
     WINDSHEAR = r"^WS(?P<all>_ALL)?" r"_(RWY|R(?P<name>\d{2}[RCL]?))$"
 
-    SEA_STATE = r"^W(?P<sign>M)?" r"(?P<temp>\d{2})" r"/S(?P<state>\d)$"
+    SEA_STATE = (
+        r"^W(?P<sign>M)?"
+        r"(?P<temp>\d{2})"
+        r"/(S(?P<state>\d)"
+        r"|H(?P<height>\d{3}))$"
+    )
 
     RUNWAY_STATE = (
         r"^R(?P<name>\d{2}([RLC])?)?/("

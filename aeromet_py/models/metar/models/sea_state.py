@@ -1,8 +1,10 @@
 import re
 from typing import Dict
 
+from ....utils import Conversions
 from ...temperature import Temperature
 from ...group import Group
+from ...distance import Distance
 
 # Table 3700
 SEA_STATE: Dict[str, str] = {
@@ -28,12 +30,14 @@ class MetarSeaState(Group):
 
             self._temperature = Temperature(None)
             self._state = None
+            self._height = Distance(None)
         else:
             super().__init__(match.string)
 
             _sign: str = match.group("sign")
             _temp: str = match.group("temp")
             _state: str = match.group("state")
+            _height: str = match.group("height")
 
             if _sign in ["M", "-"]:
                 self._temperature = Temperature(f"-{_temp}")
@@ -42,18 +46,40 @@ class MetarSeaState(Group):
 
             self._state = SEA_STATE.get(_state, None)
 
+            _height_as_float: float
+            try:
+                _height_as_float = int(_height) / 10
+            except (ValueError, TypeError):
+                _height_as_float = None
+            finally:
+                self._height = Distance(f"{_height_as_float}")
+
     def __str__(self) -> str:
-        if self._temperature.value is None and self._state:
-            return f"no temperature, {self.state}"
-        elif self._temperature.value and self._state is None:
-            return "temperature {}, no sea state".format(self._temperature)
-        elif self._temperature.value is None and self._state is None:
+        if (
+            self._temperature.value is None
+            and self._height.value is None
+            and self._state is None
+        ):
             return ""
+
+        s: str = ""
+
+        if self._temperature.value:
+            s += f"temperature {self._temperature}, "
         else:
-            return "temperature {}, {}".format(
-                self._temperature,
-                self._state,
-            )
+            s += "no temperature, "
+
+        if self._height.value:
+            s += f"significant wave height {self._height}, "
+        else:
+            s += "no significant wave height, "
+
+        if self._state:
+            s += f"{self._state}"
+        else:
+            s += "no sea state"
+
+        return s
 
     @property
     def state(self) -> str:
@@ -79,3 +105,28 @@ class MetarSeaState(Group):
     def temperature_in_rankine(self) -> float:
         """Get the temperature of the sea in Rankine."""
         return self._temperature.in_rankine
+
+    @property
+    def height_in_meters(self) -> float:
+        """Get the height of the significant wave in meters."""
+        return self._height.in_meters
+
+    @property
+    def height_in_centimeters(self) -> float:
+        """Get the height of the significant wave in centimeters."""
+        return self._height.converted(Conversions.M_TO_CM)
+
+    @property
+    def height_in_decimeters(self) -> float:
+        """Get the height of the significant wave in decimeters."""
+        return self._height.converted(Conversions.M_TO_DM)
+
+    @property
+    def height_in_feet(self) -> float:
+        """Get the height of the significant wave in feet."""
+        return self._height.converted(Conversions.M_TO_FT)
+
+    @property
+    def height_in_inches(self) -> float:
+        """Get the height of the significant wave in inches."""
+        return self._height.converted(Conversions.M_TO_IN)
