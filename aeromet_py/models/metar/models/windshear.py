@@ -2,7 +2,7 @@ import re
 from typing import List
 
 from ...group import Group, GroupList
-from .runway_range import NAMES
+from .runway_range import set_runway_name
 
 
 class MetarWindshearRunway(Group):
@@ -22,9 +22,7 @@ class MetarWindshearRunway(Group):
             if _name is None or len(_name) == 2:
                 self._name = _name
             elif len(_name) == 3:
-                _name_char: str = _name[-1]
-                _name_str: str = NAMES.get(_name_char, None)
-                self._name = _name.replace(_name_char, f" {_name_str}")
+                self._name = set_runway_name(_name)
             else:
                 self._name = None
 

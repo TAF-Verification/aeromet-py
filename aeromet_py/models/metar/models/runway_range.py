@@ -24,6 +24,25 @@ TRENDS: Dict[str, str] = {
 }
 
 
+def set_runway_name(code: str) -> str:
+    """Helper to set the name of the runway."""
+    if code is None:
+        return None
+
+    if len(code) == 3:
+        name_char = code[-1]
+        name_str = NAMES.get(name_char, None)
+        return code.replace(name_char, f" {name_str}")
+
+    if code == "88":
+        return "all runways"
+
+    if code == "99":
+        return "repeated"
+
+    return code
+
+
 class MetarRunwayRange(Group):
     """Basic structure to for runway range groups in reports from land stations."""
 
@@ -48,24 +67,9 @@ class MetarRunwayRange(Group):
             _low_range: str = match.group("low")
             _high_range: str = match.group("high")
 
-            self._name = self._set_name(match.group("name"))
+            self._name = set_runway_name(match.group("name"))
             self._low_range = self._set_range(_low_range, _units)
             self._high_range = self._set_range(_high_range, _units)
-
-    def _set_name(self, code: str) -> str:
-        """Helper to set the name of the runway."""
-        if len(code) == 3:
-            name_char = code[-1]
-            name_str = NAMES.get(name_char, None)
-            return code.replace(name_char, f" {name_str}")
-
-        if code == "88":
-            return "all runways"
-
-        if code == "99":
-            return "repeated"
-
-        return code
 
     def _set_range(self, code: str, units: str) -> Distance:
         """Helper to set the visual range of the runway."""

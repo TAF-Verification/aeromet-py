@@ -70,6 +70,16 @@ class MetarRegExp:
 
     SEA_STATE = r"^W(?P<sign>M)?" r"(?P<temp>\d{2})" r"/S(?P<state>\d)$"
 
+    RUNWAY_STATE = (
+        r"^R(?P<name>\d{2}([RLC])?)?/("
+        r"(?P<deposit>\d|/)"
+        r"(?P<cont>\d|/)"
+        r"(?P<depth>\d\d|//)"
+        r"(?P<fric>\d\d|//)|"
+        r"(?P<snoclo>SNOCLO)|"
+        r"(?P<clrd>CLRD//))$"
+    )
+
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 
     REMARK = r"^(?P<rmk>RMK(S)?)$"

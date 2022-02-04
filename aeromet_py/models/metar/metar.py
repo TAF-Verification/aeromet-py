@@ -55,6 +55,7 @@ class Metar(
         self._recent_weather = MetarRecentWeather(None)
         self._windshear = MetarWindshearList()
         self._sea_state = MetarSeaState(None)
+        self._runway_state = MetarRunwayState(None)
 
         # Parse groups
         self._parse_body()
@@ -166,6 +167,16 @@ class Metar(
         """Get the sea state data of the METAR."""
         return self._sea_state
 
+    def _handle_runway_state(self, match: re.Match) -> None:
+        self._runway_state = MetarRunwayState(match)
+
+        self._concatenate_string(self._runway_state)
+
+    @property
+    def runway_state(self) -> MetarRunwayState:
+        """Get the runway state data of the METAR."""
+        return self._runway_state
+
     def _parse_body(self) -> None:
         handlers = [
             GroupHandler(MetarRegExp.TYPE, self._handle_type),
@@ -193,6 +204,7 @@ class Metar(
             GroupHandler(MetarRegExp.WINDSHEAR, self._handle_windshear),
             GroupHandler(MetarRegExp.WINDSHEAR, self._handle_windshear),
             GroupHandler(MetarRegExp.SEA_STATE, self._handle_sea_state),
+            GroupHandler(MetarRegExp.RUNWAY_STATE, self._handle_runway_state),
         ]
 
         self._parse(handlers, self.body)
