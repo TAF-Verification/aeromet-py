@@ -10,3 +10,4 @@ from .recent_weather import MetarRecentWeather
 from .windshear import MetarWindshearRunway, MetarWindshearList
 from .sea_state import MetarSeaState
 from .runway_state import MetarRunwayState
+from .trend import MetarTrend

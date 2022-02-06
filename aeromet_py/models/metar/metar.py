@@ -46,7 +46,7 @@ class Metar(
         MetarWeatherMixin.__init__(self)
         MetarCloudMixin.__init__(self)
 
-        # Groups
+        # Body groups
         self._wind_variation = MetarWindVariation(None)
         self._minimum_visibility = MetarMinimumVisibility(None)
         self._runway_ranges = GroupList[MetarRunwayRange](3)
@@ -57,8 +57,13 @@ class Metar(
         self._sea_state = MetarSeaState(None)
         self._runway_state = MetarRunwayState(None)
 
+        # Trend groups
+        self._trend = MetarTrend(None)
+        self._trend_wind = MetarWind(None)
+
         # Parse groups
         self._parse_body()
+        self._parse_trend()
 
     @property
     def body(self) -> str:
@@ -66,7 +71,7 @@ class Metar(
         return self._sections[0]
 
     @property
-    def trend(self) -> str:
+    def trend_forecast(self) -> str:
         """Get the trend part of the METAR."""
         return self._sections[1]
 
@@ -177,8 +182,28 @@ class Metar(
         """Get the runway state data of the METAR."""
         return self._runway_state
 
+    def _handle_trend(self, match: re.Match) -> None:
+        self._trend = MetarTrend(match)
+
+        self._concatenate_string(self._trend)
+
+    @property
+    def trend(self) -> MetarTrend:
+        """Get the trend data of the METAR."""
+        return self._trend
+
+    def _handle_trend_wind(self, match: re.Match) -> None:
+        self._trend_wind = MetarWind(match)
+
+        self._concatenate_string(self._trend_wind)
+
+    @property
+    def trend_wind(self) -> MetarWind:
+        """Get the trend wind data of the METAR."""
+        return self._trend_wind
+
     def _parse_body(self) -> None:
-        handlers = [
+        handlers: List[GroupHandler] = [
             GroupHandler(MetarRegExp.TYPE, self._handle_type),
             GroupHandler(MetarRegExp.STATION, self._handle_station),
             GroupHandler(MetarRegExp.TIME, self._handle_time),
@@ -208,6 +233,14 @@ class Metar(
         ]
 
         self._parse(handlers, self.body)
+
+    def _parse_trend(self) -> None:
+        handlers: List[GroupHandler] = [
+            GroupHandler(MetarRegExp.TREND, self._handle_trend),
+            # GroupHandler(MetarRegExp.WIND, self._handle_trend_wind),
+        ]
+
+        self._parse(handlers, self.trend_forecast, section_type="trend")
 
     def _parse(
         self, handlers: List[GroupHandler], section: str, section_type: str = "body"
