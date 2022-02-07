@@ -11,7 +11,10 @@ class Group(metaclass=ABCMeta):
         self._code = code
 
     def __str__(self) -> str:
-        return str(self._code)
+        if self._code is not None:
+            return str(self._code)
+
+        return ""
 
     def __len__(self) -> int:
         if self._code is None:

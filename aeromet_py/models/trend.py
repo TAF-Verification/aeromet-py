@@ -25,6 +25,12 @@ class Trend(Group):
 
             self._translation = TREND_TRANSLATIONS.get(match.group("trend"), None)
 
+    def __str__(self) -> str:
+        if self._translation:
+            return self._translation
+
+        return ""
+
     @property
     def translation(self) -> str:
         """Get the translation of the trend."""

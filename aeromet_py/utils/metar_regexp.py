@@ -87,4 +87,6 @@ class MetarRegExp:
 
     TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
 
+    TREND_TIME_PERIOD = r"^(?P<prefix>FM|TL|AT)" r"(?P<hour>\d{2})" r"(?P<min>\d{2})$"
+
     REMARK = r"^(?P<rmk>RMK(S)?)$"

@@ -1,6 +1,6 @@
 import re
 
-from aeromet_py.models.metar.models import MetarWind
+from ...metar.models.wind import MetarWind
 
 
 class MetarWindMixin:

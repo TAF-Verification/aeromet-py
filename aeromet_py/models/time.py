@@ -7,36 +7,41 @@ class Time:
 
     def __init__(
         self,
-        day: str,
-        hour: str,
+        day: str = None,
+        hour: str = None,
         minute: str = None,
         year: int = None,
         month: int = None,
+        time: datetime = None,
     ) -> None:
-        today: datetime = datetime.utcnow()
-
-        if year is None:
-            year = today.year
-
-        if month is None:
-            month = today.month
-
-        if minute is None:
-            minute = f"{today.minute:02d}"
-
-        self._time: datetime
-
-        if day is None and hour is None:
-            self._time = today
+        if time:
+            self._time = time
         else:
-            generated_date: str = "{}{:02d}{}{}{}".format(
+            today: datetime = datetime.utcnow()
+
+            if year is None:
+                year = today.year
+
+            if month is None:
+                month = f"{today.month:02d}"
+
+            if day is None:
+                day = f"{today.day:02d}"
+
+            if hour is None:
+                hour = f"{today.hour:02d}"
+
+            if minute is None:
+                minute = f"{today.minute:02d}"
+
+            self._time: datetime
+            generated_date: str = "{}{}{}{}{}".format(
                 year,
                 month,
                 day,
                 hour,
                 minute,
             )
-
             self._time = datetime.strptime(generated_date, "%Y%m%d%H%M")
 
     def __str__(self) -> str:

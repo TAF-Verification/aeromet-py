@@ -58,7 +58,7 @@ class Metar(
         self._runway_state = MetarRunwayState(None)
 
         # Trend groups
-        self._trend = MetarTrend(None)
+        self._trend = MetarTrend(None, self._time.time)
         self._trend_wind = MetarWind(None)
 
         # Parse groups
@@ -183,7 +183,7 @@ class Metar(
         return self._runway_state
 
     def _handle_trend(self, match: re.Match) -> None:
-        self._trend = MetarTrend(match)
+        self._trend = MetarTrend(match, self._time.time)
 
         self._concatenate_string(self._trend)
 
@@ -191,6 +191,13 @@ class Metar(
     def trend(self) -> MetarTrend:
         """Get the trend data of the METAR."""
         return self._trend
+
+    def _handle_trend_time_period(self, match: re.Match) -> None:
+        old_trend_as_str = str(self._trend)
+        self._trend.add_period(match)
+        new_trend_as_str = str(self._trend)
+
+        self._string = self._string.replace(old_trend_as_str, new_trend_as_str)
 
     def _handle_trend_wind(self, match: re.Match) -> None:
         self._trend_wind = MetarWind(match)
@@ -237,6 +244,8 @@ class Metar(
     def _parse_trend(self) -> None:
         handlers: List[GroupHandler] = [
             GroupHandler(MetarRegExp.TREND, self._handle_trend),
+            GroupHandler(MetarRegExp.TREND_TIME_PERIOD, self._handle_trend_time_period),
+            GroupHandler(MetarRegExp.TREND_TIME_PERIOD, self._handle_trend_time_period),
             # GroupHandler(MetarRegExp.WIND, self._handle_trend_wind),
         ]
 

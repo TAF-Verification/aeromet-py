@@ -11,7 +11,7 @@ class MetarTime(Time, Group):
         Group.__init__(self, match.string)
 
         if match is None:
-            super().__init__(None, None)
+            super().__init__()
         else:
             day: str = match.group("day")
             hour: str = match.group("hour")
