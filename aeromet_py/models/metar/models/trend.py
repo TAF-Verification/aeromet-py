@@ -1,9 +1,9 @@
 import re
-from typing import Tuple
 from datetime import datetime, timedelta
+from typing import Tuple
 
-from ...trend import Trend
 from ...time import Time
+from ...trend import Trend
 
 
 class MetarTrend(Trend):

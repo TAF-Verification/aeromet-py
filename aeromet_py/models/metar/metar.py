@@ -246,7 +246,7 @@ class Metar(
             GroupHandler(MetarRegExp.TREND, self._handle_trend),
             GroupHandler(MetarRegExp.TREND_TIME_PERIOD, self._handle_trend_time_period),
             GroupHandler(MetarRegExp.TREND_TIME_PERIOD, self._handle_trend_time_period),
-            # GroupHandler(MetarRegExp.WIND, self._handle_trend_wind),
+            GroupHandler(MetarRegExp.WIND, self._handle_trend_wind),
         ]
 
         self._parse(handlers, self.trend_forecast, section_type="trend")
@@ -266,7 +266,7 @@ class Metar(
         """
         index = 0
         section = sanitize_visibility(section)
-        if section_type == "body":
+        if section_type == "body" or section_type == "trend":
             section = sanitize_windshear(section)
 
         for group in section.split(" "):

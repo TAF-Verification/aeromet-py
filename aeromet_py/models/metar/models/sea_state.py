@@ -2,9 +2,9 @@ import re
 from typing import Dict
 
 from ....utils import Conversions
-from ...temperature import Temperature
-from ...group import Group
 from ...distance import Distance
+from ...group import Group
+from ...temperature import Temperature
 
 # Table 3700
 SEA_STATE: Dict[str, str] = {
