@@ -60,6 +60,7 @@ class Metar(
         # Trend groups
         self._trend = MetarTrend(None, self._time.time)
         self._trend_wind = MetarWind(None)
+        self._trend_prevailing = MetarPrevailingVisibility(None)
 
         # Parse groups
         self._parse_body()
@@ -209,6 +210,16 @@ class Metar(
         """Get the trend wind data of the METAR."""
         return self._trend_wind
 
+    def _handle_trend_prevailing(self, match: re.Match) -> None:
+        self._trend_prevailing = MetarPrevailingVisibility(match)
+
+        self._concatenate_string(self._trend_prevailing)
+
+    @property
+    def trend_prevailing_visibility(self) -> MetarPrevailingVisibility:
+        """Get the trend prevailing visibility data of the METAR."""
+        return self._trend_prevailing
+
     def _parse_body(self) -> None:
         handlers: List[GroupHandler] = [
             GroupHandler(MetarRegExp.TYPE, self._handle_type),
@@ -247,6 +258,7 @@ class Metar(
             GroupHandler(MetarRegExp.TREND_TIME_PERIOD, self._handle_trend_time_period),
             GroupHandler(MetarRegExp.TREND_TIME_PERIOD, self._handle_trend_time_period),
             GroupHandler(MetarRegExp.WIND, self._handle_trend_wind),
+            GroupHandler(MetarRegExp.VISIBILITY, self._handle_trend_prevailing),
         ]
 
         self._parse(handlers, self.trend_forecast, section_type="trend")
