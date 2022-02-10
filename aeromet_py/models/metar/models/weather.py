@@ -52,6 +52,7 @@ OTHER: Dict[str, str] = {
     "FC": "funnel cloud",
     "SS": "sandstorm",
     "DS": "dust storm",
+    "NSW": "nil significant weather",
 }
 
 
