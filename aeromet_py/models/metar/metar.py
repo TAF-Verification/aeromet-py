@@ -1,6 +1,7 @@
 import re
 from collections import namedtuple
 from typing import List
+from aeromet_py.models.cloud import Cloud, CloudList
 
 from aeromet_py.models.metar.models.pressure import MetarPressure
 from aeromet_py.utils import MetarRegExp, sanitize_visibility, sanitize_windshear
@@ -62,6 +63,7 @@ class Metar(
         self._trend_wind = MetarWind(None)
         self._trend_prevailing = MetarPrevailingVisibility(None)
         self._trend_weathers = GroupList[MetarWeather](3)
+        self._trend_clouds = CloudList()
 
         # Parse groups
         self._parse_body()
@@ -232,6 +234,17 @@ class Metar(
         """Get the trend weather data of the report if provided."""
         return self._trend_weathers
 
+    def _handle_trend_cloud(self, match: re.Match) -> None:
+        cloud: Cloud = Cloud.from_metar(match)
+        self._trend_clouds.add(cloud)
+
+        self._concatenate_string(cloud)
+
+    @property
+    def trend_clouds(self) -> CloudList:
+        """Get the trend cloud groups data of the METAR."""
+        return self._trend_clouds
+
     def _parse_body(self) -> None:
         handlers: List[GroupHandler] = [
             GroupHandler(MetarRegExp.TYPE, self._handle_type),
@@ -274,6 +287,10 @@ class Metar(
             GroupHandler(MetarRegExp.WEATHER, self._handle_trend_weather),
             GroupHandler(MetarRegExp.WEATHER, self._handle_trend_weather),
             GroupHandler(MetarRegExp.WEATHER, self._handle_trend_weather),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_trend_cloud),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_trend_cloud),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_trend_cloud),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_trend_cloud),
         ]
 
         self._parse(handlers, self.trend_forecast, section_type="trend")

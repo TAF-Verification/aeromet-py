@@ -4,7 +4,7 @@ from aeromet_py import Metar
 from aeromet_py.models.errors import RangeError
 
 
-def test_two_layers():
+def test_two_cloud_layers():
     metar = Metar("METAR BIAR 190800Z 20015KT 9999 FEW049 BKN056 10/03 Q1016")
     clouds = metar.clouds
 
@@ -34,7 +34,7 @@ def test_two_layers():
         assert clouds[2].code == None
 
 
-def test_three_layers():
+def test_three_cloud_layers():
     metar = Metar(
         "METAR KMIA 191458Z 33006KT 5SM R09/1800V4500FT -TSRA BR FEW013 BKN021CB OVC040 23/21 A3003 RMK AO2 OCNL LTGICCG OHD TS OHD MOV SE P0007 T02280211"
     )
