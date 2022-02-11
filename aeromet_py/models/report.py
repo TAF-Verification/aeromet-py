@@ -40,11 +40,6 @@ class Report(metaclass=ABCMeta):
         self._string += str(obj) + "\n"
 
     @abstractmethod
-    def _parse(self) -> None:
-        """Parse the report groups to extract relevant data."""
-        return None
-
-    @abstractmethod
     def _handle_sections(self) -> None:
         """Handler to separate the sections of the report."""
         self._sections = []

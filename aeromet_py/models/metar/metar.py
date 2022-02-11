@@ -1,13 +1,10 @@
 import re
-from collections import namedtuple
 from typing import List
-from aeromet_py.models.cloud import Cloud, CloudList
 
-from aeromet_py.models.metar.models.pressure import MetarPressure
-from aeromet_py.utils import MetarRegExp, sanitize_visibility, sanitize_windshear
-
+from ...utils import MetarRegExp, sanitize_visibility, sanitize_windshear, parse_section
+from ..cloud import Cloud, CloudList
 from ..errors import ParserError
-from ..group import GroupList
+from ..group import GroupHandler, GroupList
 from ..mixins import (
     MetarCloudMixin,
     MetarPrevailingMixin,
@@ -17,8 +14,6 @@ from ..mixins import (
 )
 from ..report import Report
 from .models import *
-
-GroupHandler = namedtuple("GroupHandler", "regexp handler")
 
 
 class Metar(
@@ -246,6 +241,8 @@ class Metar(
         return self._trend_clouds
 
     def _parse_body(self) -> None:
+        """Parse the body section."""
+
         handlers: List[GroupHandler] = [
             GroupHandler(MetarRegExp.TYPE, self._handle_type),
             GroupHandler(MetarRegExp.STATION, self._handle_station),
@@ -275,9 +272,19 @@ class Metar(
             GroupHandler(MetarRegExp.RUNWAY_STATE, self._handle_runway_state),
         ]
 
-        self._parse(handlers, self.body)
+        sanitized_body: str = sanitize_visibility(self.body)
+        sanitized_body = sanitize_windshear(sanitized_body)
+
+        unparsed: List[str] = parse_section(handlers, sanitized_body)
+        self._unparsed_groups += unparsed
 
     def _parse_trend(self) -> None:
+        """Parse the trend section.
+
+        Raises:
+            ParserError: if self.unparser_groups has items and self._truncate is True,
+            raises the error.
+        """
         handlers: List[GroupHandler] = [
             GroupHandler(MetarRegExp.TREND, self._handle_trend),
             GroupHandler(MetarRegExp.TREND_TIME_PERIOD, self._handle_trend_time_period),
@@ -293,36 +300,10 @@ class Metar(
             GroupHandler(MetarRegExp.CLOUD, self._handle_trend_cloud),
         ]
 
-        self._parse(handlers, self.trend_forecast, section_type="trend")
+        sanitiszed_trend = sanitize_visibility(self.trend_forecast)
 
-    def _parse(
-        self, handlers: List[GroupHandler], section: str, section_type: str = "body"
-    ) -> None:
-        """Parse the groups of section_type.
-        Args:
-            handlers (List[GroupHandler]): handler list to manage and match.
-            section (str): the section containing all the groups to parse.
-            section_type (str, optional): the section type to parse. Defaults to "body".
-                Options: body, trend, remark.
-        Raises:
-            ParserError: if self.unparser_groups has items and self.__truncate == True,
-            raises the error.
-        """
-        index = 0
-        section = sanitize_visibility(section)
-        if section_type == "body" or section_type == "trend":
-            section = sanitize_windshear(section)
-
-        for group in section.split(" "):
-            self.unparsed_groups.append(group)
-
-            for group_handler in handlers[index:]:
-                match = re.match(group_handler.regexp, group)
-                index += 1
-                if match:
-                    group_handler.handler(match)
-                    self.unparsed_groups.remove(group)
-                    break
+        unparsed: List[str] = parse_section(handlers, sanitiszed_trend)
+        self._unparsed_groups += unparsed
 
         if self.unparsed_groups and self._truncate:
             raise ParserError(

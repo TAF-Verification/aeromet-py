@@ -1,7 +1,10 @@
 from abc import ABCMeta
+from collections import namedtuple
 from typing import Generic, List, TypeVar
 
 from .errors import RangeError
+
+GroupHandler = namedtuple("GroupHandler", "regexp handler")
 
 
 class Group(metaclass=ABCMeta):
