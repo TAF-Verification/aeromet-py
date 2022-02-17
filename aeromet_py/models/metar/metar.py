@@ -1,17 +1,17 @@
 import re
 from typing import List
 
-from ...utils import MetarRegExp, sanitize_visibility, sanitize_windshear, parse_section
-from ..cloud import Cloud, CloudList
+from ...utils import (
+    MetarRegExp,
+    parse_section,
+    sanitize_visibility,
+    sanitize_windshear,
+    split_sentence,
+)
+from ..cloud import MetarCloudMixin
 from ..errors import ParserError
 from ..group import GroupHandler, GroupList
-from ..mixins import (
-    MetarCloudMixin,
-    MetarPrevailingMixin,
-    MetarWeatherMixin,
-    MetarWindMixin,
-    ModifierMixin,
-)
+from ..modifier import ModifierMixin
 from ..report import Report
 from .models import *
 
@@ -54,15 +54,11 @@ class Metar(
         self._runway_state = MetarRunwayState(None)
 
         # Trend groups
-        self._trend = MetarTrend(None, self._time.time)
-        self._trend_wind = MetarWind(None)
-        self._trend_prevailing = MetarPrevailingVisibility(None)
-        self._trend_weathers = GroupList[MetarWeather](3)
-        self._trend_clouds = CloudList()
+        self._weather_trends = MetarWeatherTrends()
 
         # Parse groups
         self._parse_body()
-        self._parse_trend()
+        self._parse_weather_trend()
 
     @property
     def body(self) -> str:
@@ -70,7 +66,7 @@ class Metar(
         return self._sections[0]
 
     @property
-    def trend_forecast(self) -> str:
+    def trend(self) -> str:
         """Get the trend part of the METAR."""
         return self._sections[1]
 
@@ -181,64 +177,16 @@ class Metar(
         """Get the runway state data of the METAR."""
         return self._runway_state
 
-    def _handle_trend(self, match: re.Match) -> None:
-        self._trend = MetarTrend(match, self._time.time)
+    def _handle_weather_trend(self, code: str) -> None:
+        wt: ChangePeriod = ChangePeriod(code, self._time.time)
+        self._weather_trends.add(wt)
 
-        self._concatenate_string(self._trend)
-
-    @property
-    def trend(self) -> MetarTrend:
-        """Get the trend data of the METAR."""
-        return self._trend
-
-    def _handle_trend_time_period(self, match: re.Match) -> None:
-        old_trend_as_str = str(self._trend)
-        self._trend.add_period(match)
-        new_trend_as_str = str(self._trend)
-
-        self._string = self._string.replace(old_trend_as_str, new_trend_as_str)
-
-    def _handle_trend_wind(self, match: re.Match) -> None:
-        self._trend_wind = MetarWind(match)
-
-        self._concatenate_string(self._trend_wind)
+        self._concatenate_string(wt)
 
     @property
-    def trend_wind(self) -> MetarWind:
-        """Get the trend wind data of the METAR."""
-        return self._trend_wind
-
-    def _handle_trend_prevailing(self, match: re.Match) -> None:
-        self._trend_prevailing = MetarPrevailingVisibility(match)
-
-        self._concatenate_string(self._trend_prevailing)
-
-    @property
-    def trend_prevailing_visibility(self) -> MetarPrevailingVisibility:
-        """Get the trend prevailing visibility data of the METAR."""
-        return self._trend_prevailing
-
-    def _handle_trend_weather(self, match: re.Match) -> None:
-        weather: MetarWeather = MetarWeather(match)
-        self._trend_weathers.add(weather)
-
-        self._concatenate_string(weather)
-
-    @property
-    def trend_weathers(self) -> GroupList[MetarWeather]:
-        """Get the trend weather data of the report if provided."""
-        return self._trend_weathers
-
-    def _handle_trend_cloud(self, match: re.Match) -> None:
-        cloud: Cloud = Cloud.from_metar(match)
-        self._trend_clouds.add(cloud)
-
-        self._concatenate_string(cloud)
-
-    @property
-    def trend_clouds(self) -> CloudList:
-        """Get the trend cloud groups data of the METAR."""
-        return self._trend_clouds
+    def weather_trends(self) -> MetarWeatherTrends:
+        """Get the weather trends of the METAR if provided."""
+        return self._weather_trends
 
     def _parse_body(self) -> None:
         """Parse the body section."""
@@ -278,32 +226,26 @@ class Metar(
         unparsed: List[str] = parse_section(handlers, sanitized_body)
         self._unparsed_groups += unparsed
 
-    def _parse_trend(self) -> None:
-        """Parse the trend section.
+    def _parse_weather_trend(self) -> None:
+        """Parse the weather trend section.
 
         Raises:
             ParserError: if self.unparser_groups has items and self._truncate is True,
             raises the error.
         """
-        handlers: List[GroupHandler] = [
-            GroupHandler(MetarRegExp.TREND, self._handle_trend),
-            GroupHandler(MetarRegExp.TREND_TIME_PERIOD, self._handle_trend_time_period),
-            GroupHandler(MetarRegExp.TREND_TIME_PERIOD, self._handle_trend_time_period),
-            GroupHandler(MetarRegExp.WIND, self._handle_trend_wind),
-            GroupHandler(MetarRegExp.VISIBILITY, self._handle_trend_prevailing),
-            GroupHandler(MetarRegExp.WEATHER, self._handle_trend_weather),
-            GroupHandler(MetarRegExp.WEATHER, self._handle_trend_weather),
-            GroupHandler(MetarRegExp.WEATHER, self._handle_trend_weather),
-            GroupHandler(MetarRegExp.CLOUD, self._handle_trend_cloud),
-            GroupHandler(MetarRegExp.CLOUD, self._handle_trend_cloud),
-            GroupHandler(MetarRegExp.CLOUD, self._handle_trend_cloud),
-            GroupHandler(MetarRegExp.CLOUD, self._handle_trend_cloud),
-        ]
+        _trends: List[str] = split_sentence(
+            self.trend,
+            ["TEMPO", "BECMG"],
+            space="both",
+            count=1,
+        )
 
-        sanitiszed_trend = sanitize_visibility(self.trend_forecast)
+        for trend in _trends:
+            if trend != "":
+                self._handle_weather_trend(trend)
 
-        unparsed: List[str] = parse_section(handlers, sanitiszed_trend)
-        self._unparsed_groups += unparsed
+        for wt in self._weather_trends:
+            self._unparsed_groups += wt.unparsed_groups
 
         if self.unparsed_groups and self._truncate:
             raise ParserError(
@@ -315,7 +257,7 @@ class Metar(
 
     def _handle_sections(self) -> None:
         trend_re: re.Pattern = re.compile(
-            MetarRegExp.TREND.replace("^", "").replace("$", "")
+            MetarRegExp.CHANGE_INDICATOR.replace("^", "").replace("$", "")
         )
         remark_re: re.Pattern = re.compile(
             MetarRegExp.REMARK.replace("^", "").replace("$", "")

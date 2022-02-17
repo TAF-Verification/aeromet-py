@@ -1,8 +1,7 @@
 import re
 from typing import Dict
 
-from aeromet_py.utils import Conversions
-
+from ..utils import Conversions
 from .distance import Distance
 from .group import Group, GroupList
 
@@ -193,3 +192,21 @@ class CloudList(GroupList[Cloud]):
             if _oktas in ["5-7", "8"] and _height <= 1500.0:
                 return True
         return False
+
+
+class MetarCloudMixin:
+    """Mixin to add clouds attribute to the report."""
+
+    def __init__(self) -> None:
+        self._clouds = CloudList()
+
+    def _handle_cloud(self, match: re.Match) -> None:
+        cloud: Cloud = Cloud.from_metar(match)
+        self._clouds.add(cloud)
+
+        self._concatenate_string(cloud)
+
+    @property
+    def clouds(self) -> CloudList:
+        """Get the cloud groups data of the METAR."""
+        return self._clouds

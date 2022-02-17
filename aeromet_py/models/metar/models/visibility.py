@@ -1,7 +1,6 @@
 import re
 
-from aeromet_py.utils import Conversions
-
+from ....utils import Conversions
 from ...distance import Distance
 from ...group import Group
 from ...wind import Direction
@@ -99,17 +98,17 @@ class MetarMinimumVisibility(Group):
     @property
     def direction_in_degrees(self) -> float:
         """Get the visibility direction in degrees."""
-        return self._direction.value
+        return self._direction.in_degrees
 
     @property
     def direction_in_radians(self) -> float:
         """Get the visibility direction in radians."""
-        return self._direction.converted(Conversions.DEGREES_TO_RADIANS)
+        return self._direction.in_radians
 
     @property
     def direction_in_gradians(self) -> float:
         """Get the visibility direction in gradians."""
-        return self._direction.converted(Conversions.DEGREES_TO_GRADIANS)
+        return self._direction.in_gradians
 
 
 class MetarPrevailingVisibility(MetarMinimumVisibility):
@@ -148,3 +147,20 @@ class MetarPrevailingVisibility(MetarMinimumVisibility):
             self._cavok = value
         else:
             raise TypeError("can't set cavok to {} type".format(type(value)))
+
+
+class MetarPrevailingMixin:
+    """Mixin to add prevailing visibility attribute to the report."""
+
+    def __init__(self) -> None:
+        self._prevailing = MetarPrevailingVisibility(None)
+
+    def _handle_prevailing(self, match: re.Match) -> None:
+        self._prevailing = MetarPrevailingVisibility(match)
+
+        self._concatenate_string(self._prevailing)
+
+    @property
+    def prevailing_visibility(self) -> MetarPrevailingVisibility:
+        """Get the prevailing visibility data of the report."""
+        return self._prevailing

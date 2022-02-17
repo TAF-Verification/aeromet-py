@@ -46,7 +46,7 @@ class GroupList(Generic[G]):
     def __str__(self) -> str:
         return " | ".join(str(group) for group in self._list)
 
-    def __iter__(self):
+    def __iter__(self) -> "GroupList[G]":
         return self
 
     def __next__(self) -> G:

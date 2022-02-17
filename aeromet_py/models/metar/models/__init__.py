@@ -5,9 +5,14 @@ from .runway_state import MetarRunwayState
 from .sea_state import MetarSeaState
 from .temperatures import MetarTemperatures
 from .time import MetarTime
-from .trend import MetarTrend
-from .visibility import MetarMinimumVisibility, MetarPrevailingVisibility
-from .weather import MetarWeather
-from .wind import MetarWind
+from .trend_indicator import MetarTrendIndicator
+from .visibility import (
+    MetarMinimumVisibility,
+    MetarPrevailingMixin,
+    MetarPrevailingVisibility,
+)
+from .weather import MetarWeather, MetarWeatherMixin
+from .weather_trend import ChangePeriod, MetarWeatherTrends
+from .wind import MetarWind, MetarWindMixin
 from .wind_variation import MetarWindVariation
 from .windshear import MetarWindshearList, MetarWindshearRunway

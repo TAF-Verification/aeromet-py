@@ -3,15 +3,19 @@ from abc import ABCMeta, abstractmethod
 from typing import Any, List
 
 from .station import Station
+from .string_attribute import StringAttributeMixin
 from .time import Time
 from .type import Type
 
 
-class Report(metaclass=ABCMeta):
+class Report(StringAttributeMixin, metaclass=ABCMeta):
     """Basic structure for an aeronautical report from land stations."""
 
     def __init__(self, code: str, truncate: bool = False) -> None:
         assert code != "", "code must be a non-empty string"
+
+        # Initialize mixins
+        StringAttributeMixin.__init__(self)
 
         code = code.strip()
         self._truncate = truncate
@@ -21,9 +25,6 @@ class Report(metaclass=ABCMeta):
         self._unparsed_groups: List[str] = []
         self._sections: List[str] = []
 
-        # String buffer
-        self._string: str = ""
-
         # Type group
         self._type: Type = Type("METAR")
 
@@ -32,12 +33,6 @@ class Report(metaclass=ABCMeta):
 
         # Time group
         self._time: Time = Time(None, None)
-
-    def __str__(self) -> str:
-        return self._string
-
-    def _concatenate_string(self, obj: Any) -> None:
-        self._string += str(obj) + "\n"
 
     @abstractmethod
     def _handle_sections(self) -> None:

@@ -183,7 +183,7 @@ class Wind:
         direction: str = str(self._direction)
         direction = f"({self._direction})" if self._direction.value else direction
 
-        gust: str = "gusts of " + str(self._gust) if self._gust.value else ""
+        gust: str = "gust of " + str(self._gust) if self._gust.value else ""
 
         s: str = "{} {} {} {}".format(
             cardinal,

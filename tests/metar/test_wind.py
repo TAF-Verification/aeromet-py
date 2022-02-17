@@ -18,7 +18,7 @@ def test_wind_with_gust():
     assert wind.gust_in_knot == 22.0
     assert wind.gust_in_mps == 11.31777768
     assert wind.gust_in_miph == 25.317159999999998
-    assert str(wind) == "E (90.0°) 12.0 kt gusts of 22.0 kt"
+    assert str(wind) == "E (90.0°) 12.0 kt gust of 22.0 kt"
 
 
 def test_wind_without_gust():

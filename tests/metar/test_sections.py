@@ -13,5 +13,5 @@ sections = [
 def test_sections():
     assert metar.sections == sections
     assert metar.body == sections[0]
-    assert metar.trend_forecast == sections[1]
+    assert metar.trend == sections[1]
     assert metar.remark == sections[2]

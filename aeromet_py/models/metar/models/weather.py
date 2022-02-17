@@ -1,7 +1,7 @@
 import re
 from typing import Dict
 
-from ...group import Group
+from ...group import Group, GroupList
 
 INTENSITY: Dict[str, str] = {
     "-": "light",
@@ -114,3 +114,21 @@ class MetarWeather(Group):
     def other(self) -> str:
         """Returns the other parameter of the weather."""
         return self._other
+
+
+class MetarWeatherMixin:
+    """Mixin to add weather list attribute to the report."""
+
+    def __init__(self) -> None:
+        self._weathers = GroupList[MetarWeather](3)
+
+    def _handle_weather(self, match: re.Match) -> None:
+        weather: MetarWeather = MetarWeather(match)
+        self._weathers.add(weather)
+
+        self._concatenate_string(weather)
+
+    @property
+    def weathers(self) -> GroupList[MetarWeather]:
+        """Get the weather data of the report if provided."""
+        return self._weathers

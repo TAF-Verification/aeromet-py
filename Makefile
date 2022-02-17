@@ -37,5 +37,8 @@ lint:
 test:
 	$(POETRY_RUN) pytest tests
 
+test-verbose:
+	$(POETRY_RUN) pytest tests -vv
+
 run:
 	$(POETRY_RUN) python -m $(SOURCES_FOLDER)

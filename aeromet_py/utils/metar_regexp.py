@@ -85,7 +85,7 @@ class MetarRegExp:
         r"(?P<clrd>CLRD//))$"
     )
 
-    TREND = r"^(?P<trend>TEMPO|BECMG|NOSIG|FM\d+|PROB\d{2})$"
+    CHANGE_INDICATOR = r"^TEMPO|BECMG|NOSIG|FM\d{6}|PROB\d{2}(_TEMPO)?$"
 
     TREND_TIME_PERIOD = r"^(?P<prefix>FM|TL|AT)" r"(?P<hour>\d{2})" r"(?P<min>\d{2})$"
 

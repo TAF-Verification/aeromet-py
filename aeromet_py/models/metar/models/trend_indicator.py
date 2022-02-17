@@ -2,11 +2,11 @@ import re
 from datetime import datetime, timedelta
 from typing import Tuple
 
+from ...change_indicator import ChangeIndicator
 from ...time import Time
-from ...trend import Trend
 
 
-class MetarTrend(Trend):
+class MetarTrendIndicator(ChangeIndicator):
     """Basic structure for trend codes in METAR."""
 
     def __init__(self, match: re.Match, time: datetime) -> None:
