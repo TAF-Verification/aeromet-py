@@ -20,7 +20,7 @@ class Report(StringAttributeMixin, metaclass=ABCMeta):
         code = code.strip()
         self._truncate = truncate
 
-        self._raw_code: str = re.sub(r"\s{2,}", " ", code)
+        self._raw_code: str = re.sub(r"\s{2,}|\n+|\t+", " ", code)
         self._raw_code = self._raw_code.replace("=", "")
         self._unparsed_groups: List[str] = []
         self._sections: List[str] = []
