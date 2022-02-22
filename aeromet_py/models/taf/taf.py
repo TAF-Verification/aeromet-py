@@ -1,8 +1,9 @@
 import re
 from typing import List
 
+from ..group import GroupHandler
 from ..report import Report
-from ...utils import split_sentence, sanitize_visibility, parse_section
+from ...utils import split_sentence, sanitize_visibility, parse_section, MetarRegExp
 from ..metar.models.time import MetarTime
 
 
@@ -10,7 +11,7 @@ class Taf(Report):
     """Parser for TAF reports."""
 
     def __init__(self, code: str, truncate: bool = False) -> None:
-        super().__init__(code, truncate)
+        super().__init__(code, truncate=truncate, type="TAF")
         self._body: str = ""
         self._weather_changes: List[str] = []
 
@@ -38,6 +39,15 @@ class Taf(Report):
     def time(self) -> MetarTime:
         """Get the time of the report."""
         return self._time
+
+    def _parse_body(self) -> None:
+        """Parse the body groups."""
+        handlers: List[GroupHandler] = (
+            [GroupHandler(MetarRegExp.TYPE, self._handle_type)],
+        )
+
+        unparsed: List[str] = parse_section(handlers, self._body)
+        self._unparsed_groups += unparsed
 
     def _handle_sections(self) -> None:
         keywords: List[str] = ["FM", "TEMPO", "BECMG", "PROB"]

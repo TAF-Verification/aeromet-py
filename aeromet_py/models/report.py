@@ -11,7 +11,7 @@ from .type import Type
 class Report(StringAttributeMixin, metaclass=ABCMeta):
     """Basic structure for an aeronautical report from land stations."""
 
-    def __init__(self, code: str, truncate: bool = False) -> None:
+    def __init__(self, code: str, truncate: bool = False, type: str = "METAR") -> None:
         assert code != "", "code must be a non-empty string"
 
         # Initialize mixins
@@ -26,7 +26,7 @@ class Report(StringAttributeMixin, metaclass=ABCMeta):
         self._sections: List[str] = []
 
         # Type group
-        self._type: Type = Type("METAR")
+        self._type: Type = Type(type)
 
         # Station group
         self._station: Station = Station(None, None)
