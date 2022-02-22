@@ -19,14 +19,14 @@ def _add_space_both(word: str) -> str:
 
 
 def split_sentence(
-    sentence: str, words: List[str], count: int = 0, space: str = ""
+    sentence: str, keywords: List[str], count: int = 0, space: str = ""
 ) -> List[str]:
-    """Split the `sentence` given by the list of `words` without
-    lost that words.
+    """Split the `sentence` given by the list of `keywords` without
+    lost that keywords.
 
     Args:
         sentence (str): the sentence to split.
-        words (List[str]): the list of words where the sentence will be splitted.
+        keywords (List[str]): the list of keywords where the sentence will be splitted.
         count (int, optional): Number of splits of every coincidence. Defaults to 0.
         space (str, optional): take spaces in count to the left or right of every word.
             Defaults to ''. Options: `left`, `right`, `both`
@@ -34,20 +34,20 @@ def split_sentence(
     Returns:
         List[str, str]: the list of sentence splitted from the original.
     """
-    for word in words:
+    for kw in keywords:
         if space == "left":
-            word = _add_space_left(word)
+            kw = _add_space_left(kw)
         elif space == "right":
-            word = _add_space_right(word)
+            kw = _add_space_right(kw)
         elif space == "both":
-            word = _add_space_both(word)
+            kw = _add_space_both(kw)
         else:
             pass
 
-        pattern = re.compile(word)
+        pattern = re.compile(kw)
         sentence = re.sub(
             pattern,
-            "|" + word.lstrip(),
+            "|" + kw.lstrip(),
             sentence,
             count=count,
         )
