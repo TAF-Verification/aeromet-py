@@ -23,7 +23,7 @@ class Time:
                 year = today.year
 
             if month is None:
-                month = f"{today.month:02d}"
+                month = today.month
 
             if day is None:
                 day = f"{today.day:02d}"
@@ -35,13 +35,14 @@ class Time:
                 minute = f"{today.minute:02d}"
 
             self._time: datetime
-            generated_date: str = "{}{}{}{}{}".format(
+            generated_date: str = "{}{:02d}{}{}{}".format(
                 year,
                 month,
                 day,
                 hour,
                 minute,
             )
+            print(generated_date)
             self._time = datetime.strptime(generated_date, "%Y%m%d%H%M")
 
     def __str__(self) -> str:
