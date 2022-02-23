@@ -11,10 +11,18 @@ from ..metar.models.time import MetarTime
 class Taf(Report, ModifierMixin):
     """Parser for TAF reports."""
 
-    def __init__(self, code: str, truncate: bool = False) -> None:
+    def __init__(
+        self,
+        code: str,
+        year: int = None,
+        month: int = None,
+        truncate: bool = False,
+    ) -> None:
         super().__init__(code, truncate=truncate, type="TAF")
         self._body: str = ""
         self._weather_changes: List[str] = []
+        self._year = year
+        self._month = month
 
         self._handle_sections()
 
@@ -53,6 +61,7 @@ class Taf(Report, ModifierMixin):
             GroupHandler(MetarRegExp.TYPE, self._handle_type),
             GroupHandler(MetarRegExp.MODIFIER, self._handle_modifier),
             GroupHandler(MetarRegExp.STATION, self._handle_station),
+            GroupHandler(MetarRegExp.TIME, self._handle_time),
         ]
 
         unparsed: List[str] = parse_section(handlers, self._body)
