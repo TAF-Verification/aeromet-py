@@ -1,7 +1,7 @@
 from aeromet_py import Metar
 
 
-def test_station():
+def test_metar_station():
     metar = Metar(
         "METAR KJFK 122051Z 32004KT 10SM OVC065 M02/M15 A3031 RMK AO2 SLP264 T10171150 56004"
     )

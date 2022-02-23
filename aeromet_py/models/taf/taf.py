@@ -52,6 +52,7 @@ class Taf(Report, ModifierMixin):
         handlers: List[GroupHandler] = [
             GroupHandler(MetarRegExp.TYPE, self._handle_type),
             GroupHandler(MetarRegExp.MODIFIER, self._handle_modifier),
+            GroupHandler(MetarRegExp.STATION, self._handle_station),
         ]
 
         unparsed: List[str] = parse_section(handlers, self._body)
