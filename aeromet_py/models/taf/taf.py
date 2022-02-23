@@ -3,11 +3,12 @@ from typing import List
 
 from ..group import GroupHandler
 from ..report import Report
+from ..modifier import ModifierMixin
 from ...utils import split_sentence, sanitize_visibility, parse_section, MetarRegExp
 from ..metar.models.time import MetarTime
 
 
-class Taf(Report):
+class Taf(Report, ModifierMixin):
     """Parser for TAF reports."""
 
     def __init__(self, code: str, truncate: bool = False) -> None:
@@ -16,6 +17,12 @@ class Taf(Report):
         self._weather_changes: List[str] = []
 
         self._handle_sections()
+
+        # Initialize mixins
+        ModifierMixin.__init__(self)
+
+        # Parse the body groups.
+        self._parse_body()
 
     @property
     def body(self) -> str:
@@ -42,9 +49,10 @@ class Taf(Report):
 
     def _parse_body(self) -> None:
         """Parse the body groups."""
-        handlers: List[GroupHandler] = (
-            [GroupHandler(MetarRegExp.TYPE, self._handle_type)],
-        )
+        handlers: List[GroupHandler] = [
+            GroupHandler(MetarRegExp.TYPE, self._handle_type),
+            GroupHandler(MetarRegExp.MODIFIER, self._handle_modifier),
+        ]
 
         unparsed: List[str] = parse_section(handlers, self._body)
         self._unparsed_groups += unparsed
