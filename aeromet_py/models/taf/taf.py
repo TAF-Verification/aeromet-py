@@ -1,11 +1,14 @@
 import re
 from typing import List
 
+from aeromet_py.utils.taf_regexp import TafRegExp
+
+from ...utils import MetarRegExp, parse_section, sanitize_visibility, split_sentence
 from ..group import GroupHandler
-from ..report import Report
-from ..modifier import ModifierMixin
-from ...utils import split_sentence, sanitize_visibility, parse_section, MetarRegExp
 from ..metar.models.time import MetarTime
+from ..modifier import ModifierMixin
+from ..report import Report
+from .models import *
 
 
 class Taf(Report, ModifierMixin):
@@ -28,6 +31,9 @@ class Taf(Report, ModifierMixin):
 
         # Initialize mixins
         ModifierMixin.__init__(self)
+
+        # Body groups
+        self._missing = Missing(None)
 
         # Parse the body groups.
         self._parse_body()
@@ -55,13 +61,24 @@ class Taf(Report, ModifierMixin):
         """Get the time of the report."""
         return self._time
 
+    def _handle_missing(self, match: re.Match) -> None:
+        self._missing = Missing(match.string)
+
+        self._concatenate_string(self._missing)
+
+    @property
+    def missing(self) -> Missing:
+        """Get the missing data of the TAF."""
+        return self._missing
+
     def _parse_body(self) -> None:
         """Parse the body groups."""
         handlers: List[GroupHandler] = [
             GroupHandler(MetarRegExp.TYPE, self._handle_type),
-            GroupHandler(MetarRegExp.MODIFIER, self._handle_modifier),
+            GroupHandler(TafRegExp.AMD_COR, self._handle_modifier),
             GroupHandler(MetarRegExp.STATION, self._handle_station),
             GroupHandler(MetarRegExp.TIME, self._handle_time),
+            GroupHandler(TafRegExp.NIL, self._handle_missing),
         ]
 
         unparsed: List[str] = parse_section(handlers, self._body)

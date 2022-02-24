@@ -1,2 +1,1 @@
-from .models import Metar
-from .models import Taf
+from .models import Metar, Taf

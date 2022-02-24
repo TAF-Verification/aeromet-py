@@ -3,9 +3,9 @@ from datetime import datetime, timedelta
 from typing import List
 
 from ....utils import MetarRegExp, parse_section, sanitize_visibility
-from ...group import GroupHandler, GroupList, Group
-from ...string_attribute import StringAttributeMixin
 from ...cloud import MetarCloudMixin
+from ...group import Group, GroupHandler, GroupList
+from ...string_attribute import StringAttributeMixin
 from .trend_indicator import MetarTrendIndicator
 from .visibility import MetarPrevailingMixin
 from .weather import MetarWeatherMixin
