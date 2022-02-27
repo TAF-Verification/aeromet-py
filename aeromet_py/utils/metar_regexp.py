@@ -4,13 +4,17 @@ class MetarRegExp:
 
     STATION = r"^(?P<station>[A-Z][A-Z0-9]{3})$"
 
-    TIME = r"^(?P<day>\d{2})" r"(?P<hour>\d{2})" r"(?P<min>\d{2})Z$"
+    TIME = (
+        r"^(?P<day>0[1-9]|[12][0-9]|3[01])"
+        r"(?P<hour>[0-1]\d|2[0-4])"
+        r"(?P<min>[0-5]\d)Z$"
+    )
 
     MODIFIER = r"^(?P<mod>COR(R)?|AMD|NIL|TEST|FINO|AUTO)$"
 
     WIND = (
         r"^(?P<dir>[0-3]\d{2}|///|VRB)"
-        r"P?(?P<speed>\d{2,3}|//)"
+        r"P?(?P<speed>\d{2,3}|//|///)"
         r"(G(P)?(?P<gust>\d{2,3}))?"
         r"(?P<units>KT|MPS)$"
     )
@@ -87,6 +91,8 @@ class MetarRegExp:
 
     CHANGE_INDICATOR = r"^TEMPO|BECMG|NOSIG|FM\d{6}|PROB\d{2}(_TEMPO)?$"
 
-    TREND_TIME_PERIOD = r"^(?P<prefix>FM|TL|AT)" r"(?P<hour>\d{2})" r"(?P<min>\d{2})$"
+    TREND_TIME_PERIOD = (
+        r"^(?P<prefix>FM|TL|AT)" r"(?P<hour>[01]\d|2[0-4])" r"(?P<min>[0-5]\d)$"
+    )
 
     REMARK = r"^(?P<rmk>RMK(S)?)$"

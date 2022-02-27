@@ -8,9 +8,9 @@ from ...utils import (
     sanitize_windshear,
     split_sentence,
 )
-from ..cloud import MetarCloudMixin
 from ..errors import ParserError
 from ..group import GroupHandler, GroupList
+from ..cloud import MetarCloudMixin
 from ..modifier import ModifierMixin
 from ..report import Report
 from .models import *
@@ -19,6 +19,7 @@ from .models import *
 class Metar(
     Report,
     ModifierMixin,
+    MetarTimeMixin,
     MetarWindMixin,
     MetarPrevailingMixin,
     MetarWeatherMixin,
@@ -37,6 +38,7 @@ class Metar(
 
         # Initialize mixins
         ModifierMixin.__init__(self)
+        MetarTimeMixin.__init__(self)
         MetarWindMixin.__init__(self)
         MetarPrevailingMixin.__init__(self)
         MetarWeatherMixin.__init__(self)

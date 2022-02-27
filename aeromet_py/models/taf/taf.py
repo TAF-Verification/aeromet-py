@@ -1,17 +1,37 @@
 import re
 from typing import List
 
-from aeromet_py.utils.taf_regexp import TafRegExp
-
-from ...utils import MetarRegExp, parse_section, sanitize_visibility, split_sentence
+from ...utils import (
+    MetarRegExp,
+    parse_section,
+    sanitize_visibility,
+    split_sentence,
+    TafRegExp,
+)
 from ..group import GroupHandler
-from ..metar.models.time import MetarTime
+from ..metar.models import (
+    MetarWindMixin,
+    MetarPrevailingMixin,
+    MetarWeatherMixin,
+    MetarTime,
+    MetarTimeMixin,
+)
+from ..cloud import MetarCloudMixin
 from ..modifier import ModifierMixin
 from ..report import Report
 from .models import *
 
 
-class Taf(Report, ModifierMixin):
+class Taf(
+    Report,
+    ModifierMixin,
+    MetarTimeMixin,
+    MetarWindMixin,
+    MetarPrevailingMixin,
+    MetarWeatherMixin,
+    MetarCloudMixin,
+    TafValidMixin,
+):
     """Parser for TAF reports."""
 
     def __init__(
@@ -31,6 +51,12 @@ class Taf(Report, ModifierMixin):
 
         # Initialize mixins
         ModifierMixin.__init__(self)
+        MetarTimeMixin.__init__(self)
+        MetarWindMixin.__init__(self)
+        MetarPrevailingMixin.__init__(self)
+        MetarWeatherMixin.__init__(self)
+        MetarCloudMixin.__init__(self)
+        TafValidMixin.__init__(self, self._time.time)
 
         # Body groups
         self._missing = Missing(None)
@@ -79,6 +105,7 @@ class Taf(Report, ModifierMixin):
             GroupHandler(MetarRegExp.STATION, self._handle_station),
             GroupHandler(MetarRegExp.TIME, self._handle_time),
             GroupHandler(TafRegExp.NIL, self._handle_missing),
+            GroupHandler(TafRegExp.VALID, self._handle_valid_period),
         ]
 
         unparsed: List[str] = parse_section(handlers, self._body)

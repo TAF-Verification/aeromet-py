@@ -42,7 +42,6 @@ class Time:
                 hour,
                 minute,
             )
-            print(generated_date)
             self._time = datetime.strptime(generated_date, "%Y%m%d%H%M")
 
     def __str__(self) -> str:
@@ -77,3 +76,10 @@ class Time:
     def minute(self) -> int:
         """Get the minute of the report."""
         return self._time.minute
+
+
+class TimeMixin:
+    """Basic structure to add `Time` attribute to the report or section."""
+
+    def __init__(self) -> None:
+        self._time: Time = Time()

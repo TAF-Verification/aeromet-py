@@ -14,9 +14,6 @@ class Report(StringAttributeMixin, metaclass=ABCMeta):
     def __init__(self, code: str, truncate: bool = False, type: str = "METAR") -> None:
         assert code != "", "code must be a non-empty string"
 
-        # Initialize mixins
-        StringAttributeMixin.__init__(self)
-
         code = code.strip()
         self._truncate = truncate
 
@@ -25,14 +22,14 @@ class Report(StringAttributeMixin, metaclass=ABCMeta):
         self._unparsed_groups: List[str] = []
         self._sections: List[str] = []
 
+        # Initialize mixins
+        StringAttributeMixin.__init__(self)
+
         # Type group
-        self._type: Type = Type(type)
+        self._type: Type = Type(type.upper())
 
         # Station group
         self._station: Station = Station(None, None)
-
-        # Time group
-        self._time: Time = Time(None, None)
 
     @abstractmethod
     def _handle_sections(self) -> None:

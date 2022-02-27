@@ -1,15 +1,16 @@
 import re
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import List
 
 from ....utils import MetarRegExp, parse_section, sanitize_visibility
-from ...cloud import MetarCloudMixin
 from ...group import Group, GroupHandler, GroupList
 from ...string_attribute import StringAttributeMixin
-from .trend_indicator import MetarTrendIndicator
-from .visibility import MetarPrevailingMixin
-from .weather import MetarWeatherMixin
+from ...time import Time
+from ...cloud import MetarCloudMixin
 from .wind import MetarWindMixin
+from .weather import MetarWeatherMixin
+from .visibility import MetarPrevailingMixin
+from .trend_indicator import MetarTrendIndicator
 
 
 class ChangePeriod(
@@ -26,14 +27,15 @@ class ChangePeriod(
     def __init__(self, code: str, time: datetime) -> None:
         super().__init__(code)
         self._unparsed_groups: List[str] = []
-        self._time: datetime = time
 
-        # Initialize mixins.
+        # Initialize mixins
         StringAttributeMixin.__init__(self)
         MetarWindMixin.__init__(self)
         MetarPrevailingMixin.__init__(self)
         MetarWeatherMixin.__init__(self)
         MetarCloudMixin.__init__(self)
+
+        self._time: Time = Time(time=time)
 
         # Groups
         self._change_indicator = MetarTrendIndicator(None, time)
@@ -50,7 +52,7 @@ class ChangePeriod(
         return self._unparsed_groups
 
     def _handle_change_indicator(self, match: re.Match) -> None:
-        self._change_indicator = MetarTrendIndicator(match, self._time)
+        self._change_indicator = MetarTrendIndicator(match, self._time.time)
 
         self._concatenate_string(self._change_indicator)
 
