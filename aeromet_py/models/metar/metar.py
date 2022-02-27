@@ -8,9 +8,9 @@ from ...utils import (
     sanitize_windshear,
     split_sentence,
 )
+from ..cloud import MetarCloudMixin
 from ..errors import ParserError
 from ..group import GroupHandler, GroupList
-from ..cloud import MetarCloudMixin
 from ..modifier import ModifierMixin
 from ..report import Report
 from .models import *

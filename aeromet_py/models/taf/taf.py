@@ -3,20 +3,20 @@ from typing import List
 
 from ...utils import (
     MetarRegExp,
+    TafRegExp,
     parse_section,
     sanitize_visibility,
     split_sentence,
-    TafRegExp,
-)
-from ..group import GroupHandler
-from ..metar.models import (
-    MetarWindMixin,
-    MetarPrevailingMixin,
-    MetarWeatherMixin,
-    MetarTime,
-    MetarTimeMixin,
 )
 from ..cloud import MetarCloudMixin
+from ..group import GroupHandler
+from ..metar.models import (
+    MetarPrevailingMixin,
+    MetarTime,
+    MetarTimeMixin,
+    MetarWeatherMixin,
+    MetarWindMixin,
+)
 from ..modifier import ModifierMixin
 from ..report import Report
 from .models import *
@@ -60,6 +60,7 @@ class Taf(
 
         # Body groups
         self._missing = Missing(None)
+        self._cancelled = Cancelled(None)
 
         # Parse the body groups.
         self._parse_body()
@@ -97,6 +98,16 @@ class Taf(
         """Get the missing data of the TAF."""
         return self._missing
 
+    def _handle_cancelled(self, match: re.Match) -> None:
+        self._cancelled = Cancelled(match)
+
+        self._concatenate_string(self._cancelled)
+
+    @property
+    def cancelled(self) -> Cancelled:
+        """Get the cancelled group data of the TAF."""
+        return self._cancelled
+
     def _parse_body(self) -> None:
         """Parse the body groups."""
         handlers: List[GroupHandler] = [
@@ -106,6 +117,7 @@ class Taf(
             GroupHandler(MetarRegExp.TIME, self._handle_time),
             GroupHandler(TafRegExp.NIL, self._handle_missing),
             GroupHandler(TafRegExp.VALID, self._handle_valid_period),
+            GroupHandler(TafRegExp.CANCELLED, self._handle_cancelled),
         ]
 
         unparsed: List[str] = parse_section(handlers, self._body)

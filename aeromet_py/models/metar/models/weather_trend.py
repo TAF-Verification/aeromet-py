@@ -3,14 +3,14 @@ from datetime import datetime
 from typing import List
 
 from ....utils import MetarRegExp, parse_section, sanitize_visibility
+from ...cloud import MetarCloudMixin
 from ...group import Group, GroupHandler, GroupList
 from ...string_attribute import StringAttributeMixin
 from ...time import Time
-from ...cloud import MetarCloudMixin
-from .wind import MetarWindMixin
-from .weather import MetarWeatherMixin
-from .visibility import MetarPrevailingMixin
 from .trend_indicator import MetarTrendIndicator
+from .visibility import MetarPrevailingMixin
+from .weather import MetarWeatherMixin
+from .wind import MetarWindMixin
 
 
 class ChangePeriod(
