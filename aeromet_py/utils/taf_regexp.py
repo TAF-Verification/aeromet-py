@@ -19,3 +19,12 @@ class TafRegExp:
         r"(G(P)?(?P<gust>\d{2,3}))?"
         r"(?P<units>KT|MPS)$"
     )
+
+    VISIBILITY = (
+        r"^(?P<vis>\d{4})"
+        r"(?P<dir>[NSEW]([EW])?)?|"
+        r"(M|P)?(?P<integer>\d{1,2})?_?"
+        r"(?P<fraction>\d/\d)?"
+        r"(?P<units>SM|KM|M|U)|"
+        r"(?P<cavok>CAVOK)$"
+    )
