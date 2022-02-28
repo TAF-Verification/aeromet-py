@@ -13,7 +13,7 @@ class MetarRegExp:
     MODIFIER = r"^(?P<mod>COR(R)?|AMD|NIL|TEST|FINO|AUTO)$"
 
     WIND = (
-        r"^(?P<dir>[0-3]\d{2}|///|VRB)"
+        r"^(?P<dir>[0-2][0-9]0|3[0-6]0|///|VRB)"
         r"P?(?P<speed>\d{2,3}|//|///)"
         r"(G(P)?(?P<gust>\d{2,3}))?"
         r"(?P<units>KT|MPS)$"

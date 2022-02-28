@@ -131,7 +131,7 @@ class Speed(Numeric):
         if len(code) == 2:
             code = "0" + code
 
-        assert len(code) == 3, "wind speed code must have 2 or 3 digits length"
+        assert len(code) >= 3, "wind speed code must have 2 or 3 digits length"
 
         try:
             _speed = float(code)
@@ -203,8 +203,8 @@ class Wind:
         except (TypeError, ValueError):
             value = "///"
         else:
-            value_int = round(value_float * Conversions.MPS_TO_KNOT)
-            value = "{:03d}".format(value_int)
+            value_int = value_float * Conversions.MPS_TO_KNOT
+            value = "{}".format(value_int)
 
         return value
 

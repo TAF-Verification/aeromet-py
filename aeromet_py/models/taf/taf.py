@@ -118,6 +118,7 @@ class Taf(
             GroupHandler(TafRegExp.NIL, self._handle_missing),
             GroupHandler(TafRegExp.VALID, self._handle_valid_period),
             GroupHandler(TafRegExp.CANCELLED, self._handle_cancelled),
+            GroupHandler(TafRegExp.WIND, self._handle_wind),
         ]
 
         unparsed: List[str] = parse_section(handlers, self._body)
