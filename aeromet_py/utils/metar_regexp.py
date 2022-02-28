@@ -13,13 +13,15 @@ class MetarRegExp:
     MODIFIER = r"^(?P<mod>COR(R)?|AMD|NIL|TEST|FINO|AUTO)$"
 
     WIND = (
-        r"^(?P<dir>[0-2][0-9]0|3[0-6]0|///|VRB)"
+        r"^(?P<dir>([0-2][0-9]|3[0-6])0|///|VRB)"
         r"P?(?P<speed>\d{2,3}|//|///)"
         r"(G(P)?(?P<gust>\d{2,3}))?"
         r"(?P<units>KT|MPS)$"
     )
 
-    WIND_VARIATION = r"^(?P<from>\d{3})V(?P<to>\d{3})$"
+    WIND_VARIATION = (
+        r"^(?P<from>(0[1-9]|[12][0-9]|3[0-6])0)" r"V(?P<to>(0[1-9]|[12][0-9]|3[0-6])0)$"
+    )
 
     VISIBILITY = (
         r"^(?P<vis>\d{4}|////)"
