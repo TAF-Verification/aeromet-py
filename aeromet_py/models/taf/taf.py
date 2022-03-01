@@ -120,6 +120,9 @@ class Taf(
             GroupHandler(TafRegExp.CANCELLED, self._handle_cancelled),
             GroupHandler(TafRegExp.WIND, self._handle_wind),
             GroupHandler(TafRegExp.VISIBILITY, self._handle_prevailing),
+            GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
+            GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
+            GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
         ]
 
         unparsed: List[str] = parse_section(handlers, self._body)
