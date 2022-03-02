@@ -61,6 +61,8 @@ class Taf(
         # Body groups
         self._missing = Missing(None)
         self._cancelled = Cancelled(None)
+        self._max_temperature = TafTemperature(None, self._time.time)
+        self._min_temperature = TafTemperature(None, self._time.time)
 
         # Parse the body groups.
         self._parse_body()
@@ -108,6 +110,26 @@ class Taf(
         """Get the cancelled group data of the TAF."""
         return self._cancelled
 
+    def _handle_temperature(self, match: re.Match) -> None:
+        if match.group("type") == "X":
+            self._max_temperature = TafTemperature(match, self._time.time)
+
+            self._concatenate_string(self._max_temperature)
+        else:
+            self._min_temperature = TafTemperature(match, self._time.time)
+
+            self._concatenate_string(self._min_temperature)
+
+    @property
+    def max_temperature(self) -> TafTemperature:
+        """Get the maximum temperature expected to happen."""
+        return self._max_temperature
+
+    @property
+    def min_temperature(self) -> TafTemperature:
+        """Get the minimum temperature expected to happen."""
+        return self._min_temperature
+
     def _parse_body(self) -> None:
         """Parse the body groups."""
         handlers: List[GroupHandler] = [
@@ -127,6 +149,8 @@ class Taf(
             GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
             GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
             GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
+            GroupHandler(TafRegExp.TEMPERATURE, self._handle_temperature),
+            GroupHandler(TafRegExp.TEMPERATURE, self._handle_temperature),
         ]
 
         unparsed: List[str] = parse_section(handlers, self._body)

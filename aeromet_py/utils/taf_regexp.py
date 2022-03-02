@@ -28,3 +28,11 @@ class TafRegExp:
         r"(?P<units>SM|KM|M|U)|"
         r"(?P<cavok>CAVOK)$"
     )
+
+    TEMPERATURE = (
+        r"T(?P<type>N|X)"
+        r"(?P<sign>M)?"
+        r"(?P<temp>\d{2})/"
+        r"(?P<day>0[1-9]|[12][0-9]|3[01])"
+        r"(?P<hour>[0-1]\d|2[0-3])Z"
+    )
