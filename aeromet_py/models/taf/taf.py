@@ -123,6 +123,10 @@ class Taf(
             GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
             GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
             GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
         ]
 
         unparsed: List[str] = parse_section(handlers, self._body)
