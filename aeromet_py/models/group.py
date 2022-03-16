@@ -11,6 +11,8 @@ class Group(metaclass=ABCMeta):
     """Basic structure of a group in a aeronautical report from land stations."""
 
     def __init__(self, code: str) -> None:
+        if code is not None:
+            code = code.replace("_", " ")
         self._code = code
 
     def __str__(self) -> str:

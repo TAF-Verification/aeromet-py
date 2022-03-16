@@ -28,7 +28,7 @@ class ChangeIndicator(Group):
             elif match.string.startswith("PROB"):
                 codes: List[str] = match.string.split("_")
                 self._translation = (
-                    CHANGE_TRANSLATIONS[codes[0]] + CHANGE_TRANSLATIONS[codes[1]]
+                    CHANGE_TRANSLATIONS[codes[0]] + " " + CHANGE_TRANSLATIONS[codes[1]]
                 )
             else:
                 self._translation = None

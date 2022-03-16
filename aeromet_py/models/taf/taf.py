@@ -1,12 +1,14 @@
 import re
 from typing import List
 
+from ..errors import ParserError
 from ...utils import (
     MetarRegExp,
     TafRegExp,
     parse_section,
     sanitize_visibility,
     split_sentence,
+    sanitize_change_indicator,
 )
 from ..cloud import MetarCloudMixin
 from ..group import GroupHandler
@@ -43,7 +45,7 @@ class Taf(
     ) -> None:
         super().__init__(code, truncate=truncate, type="TAF")
         self._body: str = ""
-        self._weather_changes: List[str] = []
+        self._changes_codes: List[str] = []
         self._year = year
         self._month = month
 
@@ -56,7 +58,7 @@ class Taf(
         MetarPrevailingMixin.__init__(self)
         MetarWeatherMixin.__init__(self)
         MetarCloudMixin.__init__(self)
-        TafValidMixin.__init__(self, self._time.time)
+        TafValidMixin.__init__(self)
 
         # Body groups
         self._missing = Missing(None)
@@ -64,8 +66,14 @@ class Taf(
         self._max_temperature = TafTemperature(None, self._time.time)
         self._min_temperature = TafTemperature(None, self._time.time)
 
+        # Change periods
+        self._change_periods = TafChangePeriods()
+
         # Parse the body groups.
         self._parse_body()
+
+        # Parse the change periods
+        self._parse_change_periods()
 
     @property
     def body(self) -> str:
@@ -75,10 +83,7 @@ class Taf(
     @property
     def weather_changes(self) -> str:
         """Get the weather changes of the TAF."""
-        if len(self._weather_changes) > 0:
-            return " ".join(self._weather_changes)
-
-        return ""
+        return self._sections[1]
 
     def _handle_time(self, match: re.Match) -> None:
         self._time = MetarTime(match, self._year, self._month)
@@ -130,6 +135,17 @@ class Taf(
         """Get the minimum temperature expected to happen."""
         return self._min_temperature
 
+    def _handle_change_period(self, code: str) -> None:
+        cf: ChangeForecast = ChangeForecast(code, self._valid)
+        self._change_periods.add(cf)
+
+        self._concatenate_string(cf)
+
+    @property
+    def change_periods(self) -> TafChangePeriods:
+        """Get the weather change periods data of the TAF if provided."""
+        return self._change_periods
+
     def _parse_body(self) -> None:
         """Parse the body groups."""
         handlers: List[GroupHandler] = [
@@ -153,15 +169,36 @@ class Taf(
             GroupHandler(TafRegExp.TEMPERATURE, self._handle_temperature),
         ]
 
-        unparsed: List[str] = parse_section(handlers, self._body)
+        sanitized_body: str = sanitize_visibility(self._body)
+        unparsed: List[str] = parse_section(handlers, sanitized_body)
         self._unparsed_groups += unparsed
+
+    def _parse_change_periods(self) -> None:
+        for change in self._changes_codes:
+            if change != "":
+                self._handle_change_period(change)
+
+        for cp in self._change_periods:
+            self._unparsed_groups += cp.unparsed_groups
+
+        if self.unparsed_groups and self._truncate:
+            raise ParserError(
+                "failed while processing {} from: {}".format(
+                    ", ".join(self.unparsed_groups),
+                    self.raw_code,
+                )
+            )
 
     def _handle_sections(self) -> None:
         keywords: List[str] = ["FM", "TEMPO", "BECMG", "PROB"]
-        sections: List[str] = split_sentence(self._raw_code, keywords, space="left")
+        sanitized_code: str = sanitize_change_indicator(self._raw_code)
+        sections: List[str] = split_sentence(sanitized_code, keywords, space="left")
 
         self._body = sections[0]
         if len(sections) > 1:
-            self._weather_changes = sections[1:]
+            self._changes_codes = [section for section in sections[1:]]
 
-        self._sections = [self._body, " ".join(self._weather_changes)]
+        self._sections = [
+            self._body,
+            " ".join(change.replace("_", " ") for change in self._changes_codes),
+        ]

@@ -13,7 +13,7 @@ from .weather import MetarWeatherMixin
 from .wind import MetarWindMixin
 
 
-class ChangePeriod(
+class Forecast(
     Group,
     StringAttributeMixin,
     MetarWindMixin,
@@ -21,10 +21,9 @@ class ChangePeriod(
     MetarWeatherMixin,
     MetarCloudMixin,
 ):
-    """Basic structure for change period of trend and forecast
-    in METAR and TAF respectively."""
+    """Basic structure for change periods and forecasts in METAR and TAF respectively."""
 
-    def __init__(self, code: str, time: datetime) -> None:
+    def __init__(self, code: str) -> None:
         super().__init__(code)
         self._unparsed_groups: List[str] = []
 
@@ -35,14 +34,6 @@ class ChangePeriod(
         MetarWeatherMixin.__init__(self)
         MetarCloudMixin.__init__(self)
 
-        self._time: Time = Time(time=time)
-
-        # Groups
-        self._change_indicator = MetarTrendIndicator(None, time)
-
-        # Parse the groups
-        self._parse()
-
     def __str__(self) -> str:
         return StringAttributeMixin.__str__(self)
 
@@ -51,6 +42,21 @@ class ChangePeriod(
         """Get the unparsed groups of the change period."""
         return self._unparsed_groups
 
+
+class ChangePeriod(Forecast):
+    """Basic structure for change period of trend in METAR."""
+
+    def __init__(self, code: str, time: datetime) -> None:
+        super().__init__(code)
+
+        self._time: Time = Time(time=time)
+
+        # Groups
+        self._change_indicator = MetarTrendIndicator(None, time)
+
+        # Parse the groups
+        self._parse()
+
     def _handle_change_indicator(self, match: re.Match) -> None:
         self._change_indicator = MetarTrendIndicator(match, self._time.time)
 
@@ -58,7 +64,7 @@ class ChangePeriod(
 
     @property
     def change_indicator(self) -> MetarTrendIndicator:
-        """Get the trend data of the METAR."""
+        """Get the trend indicator data of the METAR."""
         return self._change_indicator
 
     def _handle_time_period(self, match: re.Match) -> None:

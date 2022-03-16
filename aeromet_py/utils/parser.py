@@ -50,6 +50,30 @@ def sanitize_windshear(report: str) -> str:
     return report
 
 
+def sanitize_change_indicator(report: str) -> str:
+    """Sanitize the `PROB[34]0 TEMPO` to get match with the
+    regular expression of the change indicator in TAF like reports.
+
+    Args:
+        report (str): the report or section to sanitize.
+
+    Returns:
+        str: the sanitized report or section.
+    """
+    fmt = r"PROB(?P<percent>[34]0)\sTEMPO"
+    pattern = re.compile(fmt)
+    for _ in range(5):
+        match = pattern.search(report)
+        if match:
+            report = re.sub(
+                fmt, "PROB{}_TEMPO".format(match.group("percent")), report, count=1
+            )
+        else:
+            break
+
+    return report
+
+
 def parse_section(handlers: List[GroupHandler], section: str) -> List[str]:
     """Parse the groups of the section.
 

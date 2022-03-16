@@ -36,3 +36,11 @@ class TafRegExp:
         r"(?P<day>0[1-9]|[12][0-9]|3[01])"
         r"(?P<hour>[0-1]\d|2[0-3])Z"
     )
+
+    CHANGE_INDICATOR = (
+        r"^TEMPO|BECMG"
+        r"|FM(?P<day>0[1-9]|[12][0-9]|3[01])"
+        r"(?P<hour>[0-1]\d|2[0-3])"
+        r"(?P<minute>[0-5]\d)"
+        r"|PROB[34]0(_TEMPO)?$"
+    )
