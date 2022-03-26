@@ -15,6 +15,16 @@ class Valid(Group):
 
     @classmethod
     def from_taf(cls, match: re.Match, time: datetime) -> "Valid":
+        """Returns an instance of the Valid class using a TAF like
+        group of valid period of time.
+
+        Args:
+            match (re.Match): the match of the regular expression.
+            time (datetime): the initial valid time of the forecast.
+
+        Returns:
+            Valid: the instance of the Valid class.
+        """
         time = time.replace(minute=0)
 
         if match is None:

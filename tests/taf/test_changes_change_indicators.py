@@ -27,18 +27,27 @@ def test_three_changes():
 
     change0 = changes[0]
     assert change0.code == "TEMPO 0618/0706 1000 SHSN BLSN VV004"
-    assert change0.change_indicator.code == "TEMPO"
-    assert change0.change_indicator.translation == "temporary"
+    assert change0.change_indicator.code == "TEMPO 0618/0706"
+    assert (
+        change0.change_indicator.translation
+        == "temporary from 2022-03-06 18:00:00 until 2022-03-07 06:00:00"
+    )
 
     change1 = changes[1]
     assert change1.code == "BECMG 0700/0702 26006G12MPS"
-    assert change1.change_indicator.code == "BECMG"
-    assert change1.change_indicator.translation == "becoming"
+    assert change1.change_indicator.code == "BECMG 0700/0702"
+    assert (
+        change1.change_indicator.translation
+        == "becoming from 2022-03-07 00:00:00 until 2022-03-07 02:00:00"
+    )
 
     change2 = changes[2]
     assert change2.code == "BECMG 0708/0710 27007G13MPS"
-    assert change2.change_indicator.code == "BECMG"
-    assert change2.change_indicator.translation == "becoming"
+    assert change2.change_indicator.code == "BECMG 0708/0710"
+    assert (
+        change2.change_indicator.translation
+        == "becoming from 2022-03-07 08:00:00 until 2022-03-07 10:00:00"
+    )
 
     with raises(IndexError):
         assert changes[3].code == None
@@ -54,8 +63,8 @@ def test_six_changes():
         FM070500 20010KT P6SM SCT050
         FM071700 22015G25KT P6SM BKN030
         PROB30 0717/0721 4SM -SHRA BR OVC015
-        FM072100 24015G25KT 6SM -SHRA BR BKN035
-        PROB30 TEMPO 0721/0724 4SM TSRA BR OVC025CB
+        FM072200 24015G25KT 6SM -SHRA BR BKN035
+        PROB30 TEMPO 0722/0724 4SM TSRA BR OVC025CB
     """
     taf = Taf(code, year=_year, month=_month)
     changes = taf.change_periods
@@ -66,8 +75,8 @@ def test_six_changes():
         "FM070500 20010KT P6SM SCT050",
         "FM071700 22015G25KT P6SM BKN030",
         "PROB30 0717/0721 4SM -SHRA BR OVC015",
-        "FM072100 24015G25KT 6SM -SHRA BR BKN035",
-        "PROB30 TEMPO 0721/0724 4SM TSRA BR OVC025CB",
+        "FM072200 24015G25KT 6SM -SHRA BR BKN035",
+        "PROB30 TEMPO 0722/0724 4SM TSRA BR OVC025CB",
     ]
 
     change0 = changes[0]
@@ -75,7 +84,7 @@ def test_six_changes():
     assert change0.change_indicator.code == "FM070000"
     assert (
         change0.change_indicator.translation
-        == "from 2018-10-07 00:00:00 until 2018-10-08 00:00:00"
+        == "from 2018-10-07 00:00:00 until 2018-10-07 04:00:00"
     )
 
     change1 = changes[1]
@@ -83,7 +92,7 @@ def test_six_changes():
     assert change1.change_indicator.code == "FM070500"
     assert (
         change1.change_indicator.translation
-        == "from 2018-10-07 05:00:00 until 2018-10-08 00:00:00"
+        == "from 2018-10-07 05:00:00 until 2018-10-07 16:00:00"
     )
 
     change2 = changes[2]
@@ -91,26 +100,32 @@ def test_six_changes():
     assert change2.change_indicator.code == "FM071700"
     assert (
         change2.change_indicator.translation
-        == "from 2018-10-07 17:00:00 until 2018-10-08 00:00:00"
+        == "from 2018-10-07 17:00:00 until 2018-10-07 21:00:00"
     )
 
     change3 = changes[3]
     assert change3.code == "PROB30 0717/0721 4SM -SHRA BR OVC015"
-    assert change3.change_indicator.code == "PROB30"
-    assert change3.change_indicator.translation == "probability 30%"
+    assert change3.change_indicator.code == "PROB30 0717/0721"
+    assert (
+        change3.change_indicator.translation
+        == "probability 30% from 2018-10-07 17:00:00 until 2018-10-07 21:00:00"
+    )
 
     change4 = changes[4]
-    assert change4.code == "FM072100 24015G25KT 6SM -SHRA BR BKN035"
-    assert change4.change_indicator.code == "FM072100"
+    assert change4.code == "FM072200 24015G25KT 6SM -SHRA BR BKN035"
+    assert change4.change_indicator.code == "FM072200"
     assert (
         change4.change_indicator.translation
-        == "from 2018-10-07 21:00:00 until 2018-10-08 00:00:00"
+        == "from 2018-10-07 22:00:00 until 2018-10-08 00:00:00"
     )
 
     change5 = changes[5]
-    assert change5.code == "PROB30 TEMPO 0721/0724 4SM TSRA BR OVC025CB"
-    assert change5.change_indicator.code == "PROB30 TEMPO"
-    assert change5.change_indicator.translation == "probability 30% temporary"
+    assert change5.code == "PROB30 TEMPO 0722/0724 4SM TSRA BR OVC025CB"
+    assert change5.change_indicator.code == "PROB30 TEMPO 0722/0724"
+    assert (
+        change5.change_indicator.translation
+        == "probability 30% temporary from 2018-10-07 22:00:00 until 2018-10-08 00:00:00"
+    )
 
     with raises(IndexError):
         assert changes[6].code == None

@@ -3,6 +3,7 @@ from typing import List
 
 from ...metar.models import Forecast
 from ...group import GroupHandler, GroupList
+from ...time import Time
 from ....utils import TafRegExp, parse_section, sanitize_change_indicator
 from .change_indicator import TafChangeIndicator
 from .valid import Valid
@@ -23,6 +24,12 @@ class ChangeForecast(Forecast):
         # Parse groups
         self._parse()
 
+    def __str__(self) -> str:
+        self._string = ""
+        self._concatenate_string(self._change_indicator)
+
+        return self._string
+
     def _handle_change_indicator(self, match: re.Match) -> None:
         self._change_indicator = TafChangeIndicator(match, self._valid)
 
@@ -31,9 +38,13 @@ class ChangeForecast(Forecast):
         """Get the change indicator data of the change period."""
         return self._change_indicator
 
+    def _handle_valid_period(self, match: re.Match) -> None:
+        self._change_indicator.set_valid_period(match, self._valid.period_from)
+
     def _parse(self) -> None:
         handlers: List[GroupHandler] = [
             GroupHandler(TafRegExp.CHANGE_INDICATOR, self._handle_change_indicator),
+            GroupHandler(TafRegExp.VALID, self._handle_valid_period),
         ]
 
         sanitized_code = sanitize_change_indicator(self._code)
@@ -49,3 +60,35 @@ class TafChangePeriods(GroupList[ChangeForecast]):
 
     def __str__(self) -> str:
         return "\n".join(str(change) for change in self._list)
+
+    def add(self, new_change: ChangeForecast) -> None:
+        """Adds weather changes to the list."""
+        if len(self._list) > 0:
+            if new_change.code.startswith("FM") or new_change.code.startswith("BECMG"):
+                temp_changes: List[ChangeForecast] = []
+
+                last_change: ChangeForecast = self._list.pop()
+                while True:
+                    if last_change.change_indicator.code.startswith(
+                        "PROB"
+                    ) or last_change.change_indicator.code.startswith("TEMPO"):
+                        temp_changes.append(last_change)
+                        try:
+                            last_change = self._list.pop()
+                        except IndexError:
+                            break
+                    elif last_change.change_indicator.code.startswith("FM"):
+                        last_change.change_indicator.reset_until_period(
+                            new_change.change_indicator.valid.period_from
+                        )
+                        temp_changes.append(last_change)
+                        break
+                    else:
+                        temp_changes.append(last_change)
+                        break
+
+                temp_changes.reverse()
+                for temp_change in temp_changes:
+                    super().add(temp_change)
+
+        super().add(new_change)

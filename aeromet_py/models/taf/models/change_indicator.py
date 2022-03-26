@@ -34,19 +34,20 @@ class TafChangeIndicator(ChangeIndicator):
             else:
                 super().__init__(match)
 
-    def set_valid_period(self, match: re.Match, taf_time: Time) -> None:
+    def set_valid_period(self, match: re.Match, init_time: Time) -> None:
         """Set the valid time period group of the change indicator.
 
         Args:
             match (re.Match): the match of the regular expression of valid time period.
-            taf_time (Time): the datetime of the TAF report.
+            init_time (Time): the initial datetime of valid time of the forecast.
         """
-        self._valid = Valid.from_taf(match, taf_time.time)
+        self._valid = Valid.from_taf(match, init_time.time)
 
         if self._code.startswith("FM"):
             self._translation = f"{self._valid}"
         else:
             self._translation = f"{self._translation} {self._valid}"
+            self._code += f" {self._valid.code}"
 
     def reset_until_period(self, until: Time) -> None:
         """Reset the until time period of change indicators in the
@@ -57,6 +58,7 @@ class TafChangeIndicator(ChangeIndicator):
             until (Time): the until time period that this change indicator
             applies to.
         """
+        until = Time(time=until.time - timedelta(hours=1))
         if self._code.startswith("FM"):
             self._valid = Valid(None, self._valid.period_from, until)
             self._translation = f"{self._valid}"
