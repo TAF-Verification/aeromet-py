@@ -45,6 +45,7 @@ class ChangeForecast(Forecast):
         handlers: List[GroupHandler] = [
             GroupHandler(TafRegExp.CHANGE_INDICATOR, self._handle_change_indicator),
             GroupHandler(TafRegExp.VALID, self._handle_valid_period),
+            GroupHandler(TafRegExp.WIND, self._handle_wind),
         ]
 
         sanitized_code = sanitize_change_indicator(self._code)
