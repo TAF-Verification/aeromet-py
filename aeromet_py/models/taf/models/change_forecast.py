@@ -1,10 +1,12 @@
 import re
 from typing import List
 
+from aeromet_py.utils.parser import sanitize_visibility
+
 from ...metar.models import Forecast
 from ...group import GroupHandler, GroupList
 from ...time import Time
-from ....utils import TafRegExp, parse_section, sanitize_change_indicator
+from ....utils import MetarRegExp, TafRegExp, parse_section, sanitize_change_indicator
 from .change_indicator import TafChangeIndicator
 from .valid import Valid
 
@@ -46,9 +48,11 @@ class ChangeForecast(Forecast):
             GroupHandler(TafRegExp.CHANGE_INDICATOR, self._handle_change_indicator),
             GroupHandler(TafRegExp.VALID, self._handle_valid_period),
             GroupHandler(TafRegExp.WIND, self._handle_wind),
+            GroupHandler(MetarRegExp.VISIBILITY, self._handle_prevailing),
         ]
 
         sanitized_code = sanitize_change_indicator(self._code)
+        sanitized_code = sanitize_visibility(sanitized_code)
         unparsed: List[str] = parse_section(handlers, sanitized_code)
         self._unparsed_groups += unparsed
 
