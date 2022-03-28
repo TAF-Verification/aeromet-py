@@ -49,6 +49,7 @@ class ChangeForecast(Forecast):
             GroupHandler(TafRegExp.VALID, self._handle_valid_period),
             GroupHandler(TafRegExp.WIND, self._handle_wind),
             GroupHandler(MetarRegExp.VISIBILITY, self._handle_prevailing),
+            GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
         ]
 
         sanitized_code = sanitize_change_indicator(self._code)

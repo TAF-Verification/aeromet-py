@@ -3,7 +3,7 @@ from pytest import approx
 from aeromet_py import Taf
 
 
-def test_visibility_from_sea_miles():
+def test_changes_visibility_from_sea_miles():
     code = """
     TAF KATL 282202Z 2822/0124 04006KT P6SM SKC
         FM010100 00000KT P6SM SKC
