@@ -1,7 +1,6 @@
 from pytest import raises
 
 from aeromet_py import Taf
-from aeromet_py.models import RangeError
 
 
 def test_changes_weather():

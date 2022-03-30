@@ -50,6 +50,12 @@ class ChangeForecast(Forecast):
             GroupHandler(TafRegExp.WIND, self._handle_wind),
             GroupHandler(MetarRegExp.VISIBILITY, self._handle_prevailing),
             GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
+            GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
+            GroupHandler(MetarRegExp.WEATHER, self._handle_weather),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
+            GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
         ]
 
         sanitized_code = sanitize_change_indicator(self._code)
@@ -73,6 +79,7 @@ class TafChangePeriods(GroupList[ChangeForecast]):
             if new_change.code.startswith("FM") or new_change.code.startswith("BECMG"):
                 temp_changes: List[ChangeForecast] = []
 
+                print([change.code for change in self._list])
                 last_change: ChangeForecast = self._list.pop()
                 while True:
                     if last_change.change_indicator.code.startswith(

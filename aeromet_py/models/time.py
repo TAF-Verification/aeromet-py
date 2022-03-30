@@ -26,13 +26,13 @@ class Time:
                 month = today.month
 
             if day is None:
-                day = f"{today.day:02d}"
+                day = "01"
 
             if hour is None:
-                hour = f"{today.hour:02d}"
+                hour = "00"
 
             if minute is None:
-                minute = f"{today.minute:02d}"
+                minute = "00"
 
             self._time: datetime
             generated_date: str = "{}{:02d}{}{}{}".format(

@@ -192,7 +192,10 @@ class Taf(
     def _handle_sections(self) -> None:
         keywords: List[str] = ["FM", "TEMPO", "BECMG", "PROB"]
         sanitized_code: str = sanitize_change_indicator(self._raw_code)
+        if sanitized_code.startswith("TAF"):
+            sanitized_code = sanitized_code.replace("TAF ", "TAF_")
         sections: List[str] = split_sentence(sanitized_code, keywords, space="left")
+        sections[0] = sections[0].replace("TAF_", "TAF ")
 
         self._body = sections[0]
         if len(sections) > 1:
