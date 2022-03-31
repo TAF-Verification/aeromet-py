@@ -63,8 +63,8 @@ class Taf(
         # Body groups
         self._missing = Missing(None)
         self._cancelled = Cancelled(None)
-        self._max_temperature = TafTemperature(None, self._time.time)
-        self._min_temperature = TafTemperature(None, self._time.time)
+        self._max_temperatures = TafTemperatureList()
+        self._min_temperatures = TafTemperatureList()
 
         # Change periods
         self._change_periods = TafChangePeriods()
@@ -116,24 +116,24 @@ class Taf(
         return self._cancelled
 
     def _handle_temperature(self, match: re.Match) -> None:
+        temperature: TafTemperature = TafTemperature(match, self._time.time)
+
         if match.group("type") == "X":
-            self._max_temperature = TafTemperature(match, self._time.time)
-
-            self._concatenate_string(self._max_temperature)
+            self._max_temperatures.add(temperature)
         else:
-            self._min_temperature = TafTemperature(match, self._time.time)
+            self._min_temperatures.add(temperature)
 
-            self._concatenate_string(self._min_temperature)
-
-    @property
-    def max_temperature(self) -> TafTemperature:
-        """Get the maximum temperature expected to happen."""
-        return self._max_temperature
+        self._concatenate_string(temperature)
 
     @property
-    def min_temperature(self) -> TafTemperature:
-        """Get the minimum temperature expected to happen."""
-        return self._min_temperature
+    def max_temperatures(self) -> TafTemperatureList:
+        """Get the maximum temperatures expected to happen."""
+        return self._max_temperatures
+
+    @property
+    def min_temperatures(self) -> TafTemperatureList:
+        """Get the minimum temperatures expected to happen."""
+        return self._min_temperatures
 
     def _handle_change_period(self, code: str) -> None:
         cf: ChangeForecast = ChangeForecast(code, self._valid)
@@ -165,6 +165,8 @@ class Taf(
             GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
             GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
             GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
+            GroupHandler(TafRegExp.TEMPERATURE, self._handle_temperature),
+            GroupHandler(TafRegExp.TEMPERATURE, self._handle_temperature),
             GroupHandler(TafRegExp.TEMPERATURE, self._handle_temperature),
             GroupHandler(TafRegExp.TEMPERATURE, self._handle_temperature),
         ]

@@ -79,7 +79,6 @@ class TafChangePeriods(GroupList[ChangeForecast]):
             if new_change.code.startswith("FM") or new_change.code.startswith("BECMG"):
                 temp_changes: List[ChangeForecast] = []
 
-                print([change.code for change in self._list])
                 last_change: ChangeForecast = self._list.pop()
                 while True:
                     if last_change.change_indicator.code.startswith(

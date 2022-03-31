@@ -1,7 +1,7 @@
 import re
 from datetime import datetime, timedelta
 
-from ...group import Group
+from ...group import Group, GroupList
 from ...temperature import Temperature
 from ...time import Time
 
@@ -48,3 +48,10 @@ class TafTemperature(Temperature, Group):
     def time(self) -> Time:
         """Get the date and time the temperature is expected to happen."""
         return self._time
+
+
+class TafTemperatureList(GroupList[TafTemperature]):
+    """Basic structure for temperature lists in TAF."""
+
+    def __init__(self) -> None:
+        super().__init__(2)
