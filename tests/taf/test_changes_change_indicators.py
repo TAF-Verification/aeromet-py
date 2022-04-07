@@ -4,10 +4,6 @@ from aeromet_py import Taf
 from aeromet_py.models import RangeError
 
 
-_year: int = 2018
-_month: int = 10
-
-
 def test_three_changes():
     code = """
     TAF UNOO 061700Z 0618/0718 22007G13MPS 6000 -SHSN BKN010 BKN025CB
@@ -15,7 +11,7 @@ def test_three_changes():
         BECMG 0700/0702 26006G12MPS
         BECMG 0708/0710 27007G13MPS
     """
-    taf = Taf(code)
+    taf = Taf(code, year=2022, month=3)
     changes = taf.change_periods
 
     assert len(changes) == 3
@@ -66,7 +62,7 @@ def test_six_changes():
         FM072200 24015G25KT 6SM -SHRA BR BKN035
         PROB30 TEMPO 0722/0724 4SM TSRA BR OVC025CB
     """
-    taf = Taf(code, year=_year, month=_month)
+    taf = Taf(code, year=2018, month=10)
     changes = taf.change_periods
 
     assert len(changes) == 6

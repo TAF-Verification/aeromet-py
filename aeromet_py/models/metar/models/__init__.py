@@ -12,7 +12,7 @@ from .visibility import (
     MetarPrevailingVisibility,
 )
 from .weather import MetarWeather, MetarWeatherMixin
-from .weather_trend import ChangePeriod, MetarWeatherTrends, Forecast
+from .weather_trend import ChangePeriod, Forecast, MetarWeatherTrends
 from .wind import MetarWind, MetarWindMixin
 from .wind_variation import MetarWindVariation
 from .windshear import MetarWindshearList, MetarWindshearRunway

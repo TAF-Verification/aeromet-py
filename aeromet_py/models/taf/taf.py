@@ -1,16 +1,17 @@
 import re
 from typing import List
 
-from ..errors import ParserError
 from ...utils import (
     MetarRegExp,
     TafRegExp,
     parse_section,
+    sanitize_change_indicator,
     sanitize_visibility,
     split_sentence,
-    sanitize_change_indicator,
 )
 from ..cloud import MetarCloudMixin
+from ..errors import ParserError
+from ..flight_rules import FlightRulesMixin
 from ..group import GroupHandler
 from ..metar.models import (
     MetarPrevailingMixin,
@@ -33,6 +34,7 @@ class Taf(
     MetarWeatherMixin,
     MetarCloudMixin,
     TafValidMixin,
+    FlightRulesMixin,
 ):
     """Parser for TAF reports."""
 
@@ -59,6 +61,7 @@ class Taf(
         MetarWeatherMixin.__init__(self)
         MetarCloudMixin.__init__(self)
         TafValidMixin.__init__(self)
+        FlightRulesMixin.__init__(self)
 
         # Body groups
         self._missing = Missing(None)

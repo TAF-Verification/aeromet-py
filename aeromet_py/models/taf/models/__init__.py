@@ -1,5 +1,5 @@
 from .cancelled import Cancelled
+from .change_forecast import ChangeForecast, TafChangePeriods
 from .missing import Missing
-from .valid import TafValidMixin, Valid
 from .temperature import TafTemperature, TafTemperatureList
-from .change_forecast import TafChangePeriods, ChangeForecast
+from .valid import TafValidMixin, Valid

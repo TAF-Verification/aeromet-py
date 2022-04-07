@@ -1,5 +1,5 @@
-from datetime import datetime, timedelta
 import re
+from datetime import datetime, timedelta
 
 from ...change_indicator import ChangeIndicator
 from ...time import Time

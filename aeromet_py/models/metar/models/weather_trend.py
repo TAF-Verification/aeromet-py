@@ -4,6 +4,7 @@ from typing import List
 
 from ....utils import MetarRegExp, parse_section, sanitize_visibility
 from ...cloud import MetarCloudMixin
+from ...flight_rules import FlightRulesMixin
 from ...group import Group, GroupHandler, GroupList
 from ...string_attribute import StringAttributeMixin
 from ...time import Time
@@ -20,6 +21,7 @@ class Forecast(
     MetarPrevailingMixin,
     MetarWeatherMixin,
     MetarCloudMixin,
+    FlightRulesMixin,
 ):
     """Basic structure for change periods and forecasts in METAR and TAF respectively."""
 
@@ -33,6 +35,7 @@ class Forecast(
         MetarPrevailingMixin.__init__(self)
         MetarWeatherMixin.__init__(self)
         MetarCloudMixin.__init__(self)
+        FlightRulesMixin.__init__(self)
 
     def __str__(self) -> str:
         return StringAttributeMixin.__str__(self)

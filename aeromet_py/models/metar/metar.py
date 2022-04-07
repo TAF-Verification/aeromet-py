@@ -10,6 +10,7 @@ from ...utils import (
 )
 from ..cloud import MetarCloudMixin
 from ..errors import ParserError
+from ..flight_rules import FlightRulesMixin
 from ..group import GroupHandler, GroupList
 from ..modifier import ModifierMixin
 from ..report import Report
@@ -24,6 +25,7 @@ class Metar(
     MetarPrevailingMixin,
     MetarWeatherMixin,
     MetarCloudMixin,
+    FlightRulesMixin,
 ):
     """Parser for METAR reports."""
 
@@ -43,6 +45,7 @@ class Metar(
         MetarPrevailingMixin.__init__(self)
         MetarWeatherMixin.__init__(self)
         MetarCloudMixin.__init__(self)
+        FlightRulesMixin.__init__(self)
 
         # Body groups
         self._wind_variation = MetarWindVariation(None)

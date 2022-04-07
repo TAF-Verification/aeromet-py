@@ -115,7 +115,7 @@ class Cloud(Group):
                 return self._cover + f" at {self.height_in_feet} feet"
             return self._cover
 
-        return "{} at undefined height", format(
+        return "{} at undefined height".format(
             self._cover,
         )
 

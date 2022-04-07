@@ -3,10 +3,10 @@ from typing import List
 
 from aeromet_py.utils.parser import sanitize_visibility
 
-from ...metar.models import Forecast
-from ...group import GroupHandler, GroupList
-from ...time import Time
 from ....utils import MetarRegExp, TafRegExp, parse_section, sanitize_change_indicator
+from ...group import GroupHandler, GroupList
+from ...metar.models import Forecast
+from ...time import Time
 from .change_indicator import TafChangeIndicator
 from .valid import Valid
 
