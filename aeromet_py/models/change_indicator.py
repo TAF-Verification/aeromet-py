@@ -1,5 +1,5 @@
 import re
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from .group import Group
 
@@ -15,7 +15,7 @@ CHANGE_TRANSLATIONS: Dict[str, str] = {
 class ChangeIndicator(Group):
     """Basic structure for trend codes in the report."""
 
-    def __init__(self, match: re.Match) -> None:
+    def __init__(self, match: Optional[re.Match]) -> None:
         if match is None:
             super().__init__(None)
 
@@ -40,6 +40,6 @@ class ChangeIndicator(Group):
         return ""
 
     @property
-    def translation(self) -> str:
+    def translation(self) -> Optional[str]:
         """Get the translation of the change indicator."""
         return self._translation

@@ -1,5 +1,5 @@
 import re
-from typing import Dict
+from typing import Dict, Optional
 
 from .group import Group
 
@@ -17,7 +17,7 @@ MODIFIERS: Dict[str, str] = {
 class Modifier(Group):
     """Basic structure for modifier groups in reports from land stations."""
 
-    def __init__(self, code: str) -> None:
+    def __init__(self, code: Optional[str]) -> None:
         super().__init__(code)
         self._modifier = MODIFIERS.get(code, None)
 
@@ -28,7 +28,7 @@ class Modifier(Group):
         return self._modifier.lower()
 
     @property
-    def modifier(self) -> str:
+    def modifier(self) -> Optional[str]:
         """Get the modifier description of the report."""
         return self._modifier
 

@@ -1,5 +1,5 @@
 import re
-from typing import Dict
+from typing import Dict, Optional
 
 from ..utils import Conversions
 from .distance import Distance
@@ -57,7 +57,7 @@ class Cloud(Group):
         self._height = Distance(data.get("height"))
 
     @classmethod
-    def from_metar(cls, match: re.Match) -> "Cloud":
+    def from_metar(cls, match: Optional[re.Match]) -> "Cloud":
         """Classmethod to create a Cloud object from a METAR group."""
 
         _code: str = None
@@ -93,7 +93,7 @@ class Cloud(Group):
             }
         )
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self._type and self._height.value:
             return "{} at {:.1f} feet of {}".format(
                 self._cover,
@@ -135,18 +135,15 @@ class Cloud(Group):
         if code in ["NSC", "NCD"]:
             return "not specified"
 
-        if code in ["///", "VV"]:
-            return "undefined"
-
-        return ""
+        return "undefined"
 
     @property
-    def cover(self) -> str:
+    def cover(self) -> Optional[str]:
         """Returns the cover description of the cloud layer."""
         return self._cover
 
     @property
-    def cloud_type(self) -> str:
+    def cloud_type(self) -> Optional[str]:
         """Returns the cloud type of the layer."""
         return self._type
 
@@ -156,22 +153,22 @@ class Cloud(Group):
         return self._oktas
 
     @property
-    def height_in_meters(self) -> float:
+    def height_in_meters(self) -> Optional[float]:
         """Returns the height of the cloud base in meters."""
         return self._height.in_meters
 
     @property
-    def height_in_kilometers(self) -> float:
+    def height_in_kilometers(self) -> Optional[float]:
         """Returns the height of the cloud base in kilometers."""
         return self._height.in_kilometers
 
     @property
-    def height_in_sea_miles(self) -> float:
+    def height_in_sea_miles(self) -> Optional[float]:
         """Returns the height of the cloud base in sea miles."""
         return self._height.in_sea_miles
 
     @property
-    def height_in_feet(self) -> float:
+    def height_in_feet(self) -> Optional[float]:
         """Returns the height of the cloud base in feet."""
         return self._height.in_feet
 

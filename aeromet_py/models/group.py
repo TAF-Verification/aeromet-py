@@ -1,6 +1,6 @@
 from abc import ABCMeta
 from collections import namedtuple
-from typing import Generic, List, TypeVar
+from typing import Generic, List, TypeVar, Optional
 
 from .errors import RangeError
 
@@ -10,7 +10,7 @@ GroupHandler = namedtuple("GroupHandler", "regexp handler")
 class Group(metaclass=ABCMeta):
     """Basic structure of a group in a aeronautical report from land stations."""
 
-    def __init__(self, code: str) -> None:
+    def __init__(self, code: Optional[str]) -> None:
         if code is not None:
             code = code.replace("_", " ")
         self._code = code
@@ -28,7 +28,7 @@ class Group(metaclass=ABCMeta):
         return len(self._code)
 
     @property
-    def code(self) -> str:
+    def code(self) -> Optional[str]:
         """Get the code of the group."""
         return self._code
 
@@ -86,5 +86,5 @@ class GroupList(Generic[G]):
 
     @property
     def items(self) -> List[G]:
-        """Returns the groups found in report as a List[T]."""
+        """Returns the groups found in report as a List[G]."""
         return self._list

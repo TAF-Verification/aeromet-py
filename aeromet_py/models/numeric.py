@@ -1,13 +1,11 @@
 from abc import ABCMeta
-from ast import Call
-from dataclasses import make_dataclass
-from typing import Callable, Union
+from typing import Callable, Union, Optional
 
 
 class Numeric(metaclass=ABCMeta):
     """Basic structure to handle numeric values."""
 
-    def __init__(self, value: float) -> None:
+    def __init__(self, value: Optional[float]) -> None:
         self._value = value
 
     def __str__(self) -> str:
@@ -16,7 +14,9 @@ class Numeric(metaclass=ABCMeta):
 
         return f"{self._value:.1f}"
 
-    def converted(self, conversion: Union[float, Callable[[float], float]]) -> float:
+    def converted(
+        self, conversion: Union[float, Callable[[float], float]]
+    ) -> Optional[float]:
         if self._value is None:
             return None
 
@@ -26,6 +26,6 @@ class Numeric(metaclass=ABCMeta):
         return self._value * conversion
 
     @property
-    def value(self) -> float:
+    def value(self) -> Optional[float]:
         """Get the value as a float."""
         return self._value

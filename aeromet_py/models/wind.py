@@ -1,5 +1,5 @@
 import re
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from aeromet_py.utils import Conversions
 
@@ -29,7 +29,7 @@ COMPASS_DIRS: Dict[str, List[float]] = {
 class Direction(Numeric):
     """Basic structure for directions attributes."""
 
-    def __init__(self, code: str) -> None:
+    def __init__(self, code: Optional[str]) -> None:
         if code is None or code == "//":
             code = "///"
 
@@ -85,7 +85,7 @@ class Direction(Numeric):
         )
 
     @property
-    def cardinal(self) -> str:
+    def cardinal(self) -> Optional[str]:
         """Get the cardinal direction associated with the wind direction, e.g. "NW" (north west)"""
         value = self.converted(1)
 
@@ -106,17 +106,17 @@ class Direction(Numeric):
         return self._variable
 
     @property
-    def in_degrees(self) -> float:
+    def in_degrees(self) -> Optional[float]:
         """Get the direction in degrees."""
         return self._value
 
     @property
-    def in_radians(self) -> float:
+    def in_radians(self) -> Optional[float]:
         """Get the direction in radians."""
         return self.converted(Conversions.DEGREES_TO_RADIANS)
 
     @property
-    def in_gradians(self) -> float:
+    def in_gradians(self) -> Optional[float]:
         """Get the direction in gradians."""
         return self.converted(Conversions.DEGREES_TO_GRADIANS)
 
@@ -124,7 +124,7 @@ class Direction(Numeric):
 class Speed(Numeric):
     """Basic structure for speed attributes."""
 
-    def __init__(self, code: str) -> None:
+    def __init__(self, code: Optional[str]) -> None:
         if code is None or code == "//":
             code = "///"
 
@@ -147,22 +147,22 @@ class Speed(Numeric):
         return super().__str__()
 
     @property
-    def in_knot(self) -> float:
+    def in_knot(self) -> Optional[float]:
         """Get the speed in knot."""
         return self._value
 
     @property
-    def in_mps(self) -> float:
+    def in_mps(self) -> Optional[float]:
         """Get the speed in meters per second."""
         return self.converted(Conversions.KNOT_TO_MPS)
 
     @property
-    def in_kph(self) -> float:
+    def in_kph(self) -> Optional[float]:
         """Get the speed in kilometers per hour."""
         return self.converted(Conversions.KNOT_TO_KPH)
 
     @property
-    def in_miph(self) -> float:
+    def in_miph(self) -> Optional[float]:
         """Get the speed in miles per hour."""
         return self.converted(Conversions.KNOT_TO_MIPH)
 
@@ -171,13 +171,16 @@ class Wind:
     """Basic structure for wind groups in report from land stations."""
 
     def __init__(
-        self, direction: str = None, speed: str = None, gust: str = None
+        self,
+        direction: Optional[str] = None,
+        speed: Optional[str] = None,
+        gust: Optional[str] = None,
     ) -> None:
         self._direction = Direction(direction)
         self._speed = Speed(speed)
         self._gust = Speed(gust)
 
-    def __str__(self):
+    def __str__(self) -> str:
         cardinal: str = self.cardinal_direction if self.cardinal_direction else ""
 
         direction: str = str(self._direction)
@@ -209,7 +212,7 @@ class Wind:
         return value
 
     @property
-    def cardinal_direction(self) -> str:
+    def cardinal_direction(self) -> Optional[str]:
         """Returns the cardinal direction associated to the wind direction, e.g. "NW" (north west)."""
         return self._direction.cardinal
 
@@ -219,56 +222,56 @@ class Wind:
         return self._direction.variable
 
     @property
-    def direction_in_degrees(self) -> float:
+    def direction_in_degrees(self) -> Optional[float]:
         """Get the wind direction in degrees."""
         return self._direction.in_degrees
 
     @property
-    def direction_in_radians(self) -> float:
+    def direction_in_radians(self) -> Optional[float]:
         """Get the wind direction in radians."""
         return self._direction.in_radians
 
     @property
-    def direction_in_gradians(self) -> float:
+    def direction_in_gradians(self) -> Optional[float]:
         """Get the wind direction in gradians."""
         return self._direction.in_gradians
 
     @property
-    def speed_in_knot(self) -> float:
+    def speed_in_knot(self) -> Optional[float]:
         """Get the wind speed in knot."""
         return self._speed.in_knot
 
     @property
-    def speed_in_mps(self) -> float:
+    def speed_in_mps(self) -> Optional[float]:
         """Get the wind speed in meters per second"""
         return self._speed.in_mps
 
     @property
-    def speed_in_kph(self) -> float:
+    def speed_in_kph(self) -> Optional[float]:
         """Get the wind speed in kilometers per hour."""
         return self._speed.in_kph
 
     @property
-    def speed_in_miph(self) -> float:
+    def speed_in_miph(self) -> Optional[float]:
         """Get the wind speed in miles per hour."""
         return self._speed.in_miph
 
     @property
-    def gust_in_knot(self) -> float:
+    def gust_in_knot(self) -> Optional[float]:
         """Get the wind gust in knot."""
         return self._gust.in_knot
 
     @property
-    def gust_in_mps(self) -> float:
+    def gust_in_mps(self) -> Optional[float]:
         """Get the wind gust in meters per second"""
         return self._gust.in_mps
 
     @property
-    def gust_in_kph(self) -> float:
+    def gust_in_kph(self) -> Optional[float]:
         """Get the wind gust in kilometers per hour."""
         return self._gust.in_kph
 
     @property
-    def gust_in_miph(self) -> float:
+    def gust_in_miph(self) -> Optional[float]:
         """Get the wind gust in miles per hour."""
         return self._gust.in_miph

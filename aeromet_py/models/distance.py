@@ -1,3 +1,5 @@
+from typing import Optional
+
 from ..utils import Conversions
 from .numeric import Numeric
 
@@ -5,7 +7,7 @@ from .numeric import Numeric
 class Distance(Numeric):
     """Basic structure for distance attributes."""
 
-    def __init__(self, code: str) -> None:
+    def __init__(self, code: Optional[str]) -> None:
         if code is None:
             code = "////"
 
@@ -19,28 +21,28 @@ class Distance(Numeric):
         finally:
             super().__init__(_distance)
 
-    def __str__(self) -> None:
+    def __str__(self) -> str:
         if self._value:
             return super().__str__() + " m"
 
         return super().__str__()
 
     @property
-    def in_meters(self) -> float:
+    def in_meters(self) -> Optional[float]:
         """Get the distance in meters."""
         return self._value
 
     @property
-    def in_kilometers(self) -> float:
+    def in_kilometers(self) -> Optional[float]:
         """Get the distance in kilometers."""
         return self.converted(Conversions.M_TO_KM)
 
     @property
-    def in_sea_miles(self) -> float:
+    def in_sea_miles(self) -> Optional[float]:
         """Get the distance in sea miles."""
         return self.converted(Conversions.M_TO_SMI)
 
     @property
-    def in_feet(self) -> float:
+    def in_feet(self) -> Optional[float]:
         """Get the distance in feet."""
         return self.converted(Conversions.M_TO_FT)

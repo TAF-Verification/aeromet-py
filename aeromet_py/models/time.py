@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Union
+from typing import Optional
 
 
 class Time:
@@ -7,12 +7,12 @@ class Time:
 
     def __init__(
         self,
-        day: str = None,
-        hour: str = None,
-        minute: str = None,
-        year: int = None,
-        month: int = None,
-        time: datetime = None,
+        day: Optional[str] = None,
+        hour: Optional[str] = None,
+        minute: Optional[str] = None,
+        year: Optional[int] = None,
+        month: Optional[int] = None,
+        time: Optional[datetime] = None,
     ) -> None:
         if time:
             self._time = time

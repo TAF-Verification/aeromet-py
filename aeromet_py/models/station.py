@@ -1,7 +1,6 @@
-from typing import Dict, List
+from typing import Dict, List, Optional
 
-from aeromet_py.database import get_country, get_stations
-
+from ..database import get_country, get_stations
 from .group import Group
 
 CODE_TYPES: Dict[str, str] = {
@@ -27,7 +26,7 @@ class Station(Group):
         else:
             self._station = [None for _ in range(8)]
 
-    def _get_data(self, code: str, index: int) -> List[str]:
+    def _get_data(self, code: str, index: int) -> List[Optional[str]]:
         for stn in get_stations():
             if code == stn[index]:
                 return stn
@@ -43,41 +42,41 @@ class Station(Group):
         )
 
     @property
-    def name(self) -> str:
+    def name(self) -> Optional[str]:
         """Get the name of the station."""
         return self._station[0]
 
     @property
-    def icao(self) -> str:
+    def icao(self) -> Optional[str]:
         """Get the ICAO code of the station."""
         return self._station[1]
 
     @property
-    def iata(self) -> str:
+    def iata(self) -> Optional[str]:
         """Get the IATA code of the stations."""
         return self._station[2]
 
     @property
-    def synop(self) -> str:
+    def synop(self) -> Optional[str]:
         """Get the SYNOP code of the station."""
         return self._station[3]
 
     @property
-    def latitude(self) -> str:
+    def latitude(self) -> Optional[str]:
         """Get the latitude of the station."""
         return self._station[4]
 
     @property
-    def longitude(self) -> str:
+    def longitude(self) -> Optional[str]:
         """Get the longitude of the station."""
         return self._station[5]
 
     @property
-    def elevation(self) -> str:
+    def elevation(self) -> Optional[str]:
         """Get the elevation in meters above sea level of the station."""
         return self._station[6]
 
     @property
-    def country(self) -> str:
+    def country(self) -> Optional[str]:
         """Get the country of the station."""
         return get_country(self._station[7])

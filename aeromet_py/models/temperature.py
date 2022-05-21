@@ -1,3 +1,5 @@
+from typing import Optional
+
 from ..utils import Conversions
 from .numeric import Numeric
 
@@ -5,7 +7,7 @@ from .numeric import Numeric
 class Temperature(Numeric):
     """Basic structure for temperature attributes."""
 
-    def __init__(self, code: str) -> None:
+    def __init__(self, code: Optional[str]) -> None:
         if code is None or code in ["//", "///"]:
             code = "///"
 
@@ -30,21 +32,21 @@ class Temperature(Numeric):
         return super().__str__()
 
     @property
-    def in_celsius(self) -> float:
+    def in_celsius(self) -> Optional[float]:
         """Get the temperature in Celsius."""
         return self._value
 
     @property
-    def in_kelvin(self) -> float:
+    def in_kelvin(self) -> Optional[float]:
         """Get the temperature in Kelvin"""
         return self.converted(Conversions.celsius_to_kelvin)
 
     @property
-    def in_fahrenheit(self) -> float:
+    def in_fahrenheit(self) -> Optional[float]:
         """Get the temperature in Fahrenheit."""
         return self.converted(Conversions.celsius_to_fahrenheit)
 
     @property
-    def in_rankine(self) -> float:
+    def in_rankine(self) -> Optional[float]:
         """Get the temperature in Rankine."""
         return self.converted(Conversions.celsius_to_rankine)
