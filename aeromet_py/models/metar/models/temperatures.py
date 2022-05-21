@@ -1,6 +1,5 @@
 import re
-
-from aeromet_py.utils import Conversions
+from typing import Optional
 
 from ...group import Group
 from ...temperature import Temperature
@@ -9,7 +8,7 @@ from ...temperature import Temperature
 class MetarTemperatures(Group):
     """Basic structure for temperatures in METAR from land stations."""
 
-    def __init__(self, match: re.Match) -> None:
+    def __init__(self, match: Optional[re.Match]) -> None:
         if match is None:
             super().__init__(None)
 
@@ -44,41 +43,41 @@ class MetarTemperatures(Group):
         return Temperature(code)
 
     @property
-    def temperature_in_celsius(self) -> float:
+    def temperature_in_celsius(self) -> Optional[float]:
         """Get the temperature in °Celsius."""
         return self._temperature.in_celsius
 
     @property
-    def temperature_in_kelvin(self) -> float:
+    def temperature_in_kelvin(self) -> Optional[float]:
         """Get the temperature in °Kelvin."""
         return self._temperature.in_kelvin
 
     @property
-    def temperature_in_fahrenheit(self) -> float:
+    def temperature_in_fahrenheit(self) -> Optional[float]:
         """Get the temperature in °Fahrenheit."""
         return self._temperature.in_fahrenheit
 
     @property
-    def temperature_in_rankine(self) -> float:
+    def temperature_in_rankine(self) -> Optional[float]:
         """Get the temperature in Rankine."""
         return self._temperature.in_rankine
 
     @property
-    def dewpoint_in_celsius(self) -> float:
+    def dewpoint_in_celsius(self) -> Optional[float]:
         """Get the dewpoint in °Celsius."""
         return self._dewpoint.in_celsius
 
     @property
-    def dewpoint_in_kelvin(self) -> float:
+    def dewpoint_in_kelvin(self) -> Optional[float]:
         """Get the dewpoint in °Kelvin."""
         return self._dewpoint.in_kelvin
 
     @property
-    def dewpoint_in_fahrenheit(self) -> float:
+    def dewpoint_in_fahrenheit(self) -> Optional[float]:
         """Get the dewpoint in °Fahrenheit."""
         return self._dewpoint.in_fahrenheit
 
     @property
-    def dewpoint_in_rankine(self) -> float:
+    def dewpoint_in_rankine(self) -> Optional[float]:
         """Get the dewpoint in Rankine."""
         return self._dewpoint.in_rankine

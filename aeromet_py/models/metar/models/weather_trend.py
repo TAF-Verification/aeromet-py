@@ -1,6 +1,6 @@
 import re
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 from ....utils import MetarRegExp, parse_section, sanitize_visibility
 from ...cloud import MetarCloudMixin
@@ -25,7 +25,7 @@ class Forecast(
 ):
     """Basic structure for change periods and forecasts in METAR and TAF respectively."""
 
-    def __init__(self, code: str) -> None:
+    def __init__(self, code: Optional[str]) -> None:
         super().__init__(code)
         self._unparsed_groups: List[str] = []
 
@@ -49,7 +49,7 @@ class Forecast(
 class ChangePeriod(Forecast):
     """Basic structure for change period of trend in METAR."""
 
-    def __init__(self, code: str, time: datetime) -> None:
+    def __init__(self, code: Optional[str], time: datetime) -> None:
         super().__init__(code)
 
         self._time: Time = Time(time=time)

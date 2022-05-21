@@ -1,5 +1,5 @@
 import re
-from typing import Dict
+from typing import Dict, Optional
 
 from ....utils import Conversions
 from ...distance import Distance
@@ -24,7 +24,7 @@ SEA_STATE: Dict[str, str] = {
 class MetarSeaState(Group):
     """Basic structure for sea state data in METAR."""
 
-    def __init__(self, match: re.Match) -> None:
+    def __init__(self, match: Optional[re.Match]) -> None:
         if match is None:
             super().__init__(None)
 
@@ -82,51 +82,51 @@ class MetarSeaState(Group):
         return s
 
     @property
-    def state(self) -> str:
+    def state(self) -> Optional[str]:
         """Get the sea state if provided in METAR."""
         return self._state
 
     @property
-    def temperature_in_celsius(self) -> float:
+    def temperature_in_celsius(self) -> Optional[float]:
         """Get the temperature of the sea in Celsius."""
         return self._temperature.in_celsius
 
     @property
-    def temperature_in_kelvin(self) -> float:
+    def temperature_in_kelvin(self) -> Optional[float]:
         """Get the temperature of the sea in Kelvin."""
         return self._temperature.in_kelvin
 
     @property
-    def temperature_in_fahrenheit(self) -> float:
+    def temperature_in_fahrenheit(self) -> Optional[float]:
         """Get the temperature of the sea in Fahrenheit."""
         return self._temperature.in_fahrenheit
 
     @property
-    def temperature_in_rankine(self) -> float:
+    def temperature_in_rankine(self) -> Optional[float]:
         """Get the temperature of the sea in Rankine."""
         return self._temperature.in_rankine
 
     @property
-    def height_in_meters(self) -> float:
+    def height_in_meters(self) -> Optional[float]:
         """Get the height of the significant wave in meters."""
         return self._height.in_meters
 
     @property
-    def height_in_centimeters(self) -> float:
+    def height_in_centimeters(self) -> Optional[float]:
         """Get the height of the significant wave in centimeters."""
         return self._height.converted(Conversions.M_TO_CM)
 
     @property
-    def height_in_decimeters(self) -> float:
+    def height_in_decimeters(self) -> Optional[float]:
         """Get the height of the significant wave in decimeters."""
         return self._height.converted(Conversions.M_TO_DM)
 
     @property
-    def height_in_feet(self) -> float:
+    def height_in_feet(self) -> Optional[float]:
         """Get the height of the significant wave in feet."""
         return self._height.converted(Conversions.M_TO_FT)
 
     @property
-    def height_in_inches(self) -> float:
+    def height_in_inches(self) -> Optional[float]:
         """Get the height of the significant wave in inches."""
         return self._height.converted(Conversions.M_TO_IN)

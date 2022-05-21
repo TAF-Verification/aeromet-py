@@ -1,5 +1,5 @@
 import re
-from typing import Dict
+from typing import Dict, Optional
 
 from aeromet_py.utils.conversions import Conversions
 
@@ -24,7 +24,7 @@ TRENDS: Dict[str, str] = {
 }
 
 
-def set_runway_name(code: str) -> str:
+def set_runway_name(code: Optional[str]) -> Optional[str]:
     """Helper to set the name of the runway."""
     if code is None:
         return None
@@ -46,7 +46,7 @@ def set_runway_name(code: str) -> str:
 class MetarRunwayRange(Group):
     """Basic structure to for runway range groups in reports from land stations."""
 
-    def __init__(self, match: re.Match) -> None:
+    def __init__(self, match: Optional[re.Match]) -> None:
         if match is None:
             super().__init__(None)
 
@@ -71,7 +71,7 @@ class MetarRunwayRange(Group):
             self._low_range = self._set_range(_low_range, _units)
             self._high_range = self._set_range(_high_range, _units)
 
-    def _set_range(self, code: str, units: str) -> Distance:
+    def _set_range(self, code: Optional[str], units: Optional[str]) -> Distance:
         """Helper to set the visual range of the runway."""
         if code is None:
             return Distance(None)
@@ -83,7 +83,7 @@ class MetarRunwayRange(Group):
 
         return Distance(code)
 
-    def _range2str(self, _range: Distance, rvr: str) -> str:
+    def _range2str(self, _range: Distance, rvr: Optional[str]) -> str:
         """Helper to represent the visual range as a string."""
         if _range.value is None:
             return ""
@@ -105,7 +105,7 @@ class MetarRunwayRange(Group):
         )
 
     @property
-    def name(self) -> str:
+    def name(self) -> Optional[str]:
         """Get the runway name."""
         return self._name
 
@@ -115,22 +115,22 @@ class MetarRunwayRange(Group):
         return self._range2str(self._low_range, self._rvr_low)
 
     @property
-    def low_in_meters(self) -> float:
+    def low_in_meters(self) -> Optional[float]:
         """Get the runway low range in meters."""
         return self._low_range.in_meters
 
     @property
-    def low_in_kilometers(self) -> float:
+    def low_in_kilometers(self) -> Optional[float]:
         """Get the runway low range in kilometers."""
         return self._low_range.in_kilometers
 
     @property
-    def low_in_sea_miles(self) -> float:
+    def low_in_sea_miles(self) -> Optional[float]:
         """Get the runway low range in sea miles."""
         return self._low_range.in_sea_miles
 
     @property
-    def low_in_feet(self) -> float:
+    def low_in_feet(self) -> Optional[float]:
         """Get the runway low range in feet."""
         return self._low_range.in_feet
 
@@ -140,26 +140,26 @@ class MetarRunwayRange(Group):
         return self._range2str(self._high_range, self._rvr_high)
 
     @property
-    def high_in_meters(self) -> float:
+    def high_in_meters(self) -> Optional[float]:
         """Get the runway high range in meters."""
         return self._high_range.in_meters
 
     @property
-    def high_in_kilometers(self) -> float:
+    def high_in_kilometers(self) -> Optional[float]:
         """Get the runway high range in kilometers."""
         return self._high_range.in_kilometers
 
     @property
-    def high_in_sea_miles(self) -> float:
+    def high_in_sea_miles(self) -> Optional[float]:
         """Get the runway high range in sea miles."""
         return self._high_range.in_sea_miles
 
     @property
-    def high_in_feet(self) -> float:
+    def high_in_feet(self) -> Optional[float]:
         """Get the runway high range in feet."""
         return self._high_range.in_feet
 
     @property
-    def trend(self) -> str:
+    def trend(self) -> Optional[str]:
         """Get the trend of the runway range."""
         return self._trend

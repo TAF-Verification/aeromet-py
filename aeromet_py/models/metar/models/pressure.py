@@ -1,4 +1,5 @@
 import re
+from typing import Optional
 
 from ....utils import Conversions
 from ...group import Group
@@ -8,7 +9,7 @@ from ...pressure import Pressure
 class MetarPressure(Pressure, Group):
     """Basic structure for pressure in METAR from land stations."""
 
-    def __init__(self, match: re.Match) -> None:
+    def __init__(self, match: Optional[re.Match]) -> None:
         if match is None:
             super().__init__(None)
             Group.__init__(self, None)

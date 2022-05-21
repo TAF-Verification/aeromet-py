@@ -1,5 +1,5 @@
 import re
-from typing import Dict
+from typing import Dict, Optional
 
 from ...group import Group, GroupList
 
@@ -59,7 +59,7 @@ OTHER: Dict[str, str] = {
 class MetarWeather(Group):
     """Basic structure for weather groups in reports from land stations."""
 
-    def __init__(self, match: re.Match) -> None:
+    def __init__(self, match: Optional[re.Match]) -> None:
         if match is None:
             super().__init__(None)
 
@@ -77,7 +77,7 @@ class MetarWeather(Group):
             self._obscuration = OBSCURATION.get(match.group("obsc"), None)
             self._other = OTHER.get(match.group("other"), None)
 
-    def __str__(self):
+    def __str__(self) -> str:
         s = "{} {} {} {} {}".format(
             self._intensity,
             self._description,
@@ -91,27 +91,27 @@ class MetarWeather(Group):
         return s.strip()
 
     @property
-    def intensity(self) -> str:
+    def intensity(self) -> Optional[str]:
         """Returns the intensity of the weather."""
         return self._intensity
 
     @property
-    def description(self) -> str:
+    def description(self) -> Optional[str]:
         """Returns the description of the weather."""
         return self._description
 
     @property
-    def precipitation(self) -> str:
+    def precipitation(self) -> Optional[str]:
         """Returns the precipitation type of the weather."""
         return self._precipitation
 
     @property
-    def obscuration(self) -> str:
+    def obscuration(self) -> Optional[str]:
         """Returns the obscuration type of the weather."""
         return self._obscuration
 
     @property
-    def other(self) -> str:
+    def other(self) -> Optional[str]:
         """Returns the other parameter of the weather."""
         return self._other
 

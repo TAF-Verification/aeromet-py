@@ -1,5 +1,5 @@
 import re
-from typing import Dict
+from typing import Dict, Optional
 
 from ...group import Group
 from .runway_range import set_runway_name
@@ -66,7 +66,7 @@ SURFACE_FRICTION: Dict[str, str] = {
 class MetarRunwayState(Group):
     """Basic structure for runway state groups in METAR."""
 
-    def __init__(self, match: re.Match) -> None:
+    def __init__(self, match: Optional[re.Match]) -> None:
         self._snoclo: bool = False
         self._clrd: bool = False
         self._match = match
@@ -90,7 +90,8 @@ class MetarRunwayState(Group):
             self._snoclo = match.group("snoclo") != None
             self._clrd = match.group("clrd") != None
 
-    def _set_deposits_depth(self, code: str) -> str:
+    def _set_deposits_depth(self, code: Optional[str]) -> Optional[str]:
+        """Helper to set the deposits type."""
         if code is None:
             return None
 
@@ -105,7 +106,8 @@ class MetarRunwayState(Group):
 
         return DEPOSIT_DEPTH.get(code, None)
 
-    def _set_surface_friction(self, code: str) -> str:
+    def _set_surface_friction(self, code: Optional[str]) -> Optional[str]:
+        """Helper to set the surface friction."""
         if code is None:
             return None
 
@@ -121,6 +123,7 @@ class MetarRunwayState(Group):
         return SURFACE_FRICTION.get(code, None)
 
     def _deposits_to_str(self) -> str:
+        """Helper to convert deposits to string."""
         deposit = self._match.group("deposit")
         depth = self._match.group("depth")
 
@@ -149,6 +152,7 @@ class MetarRunwayState(Group):
         return sep.format(self._deposits_depth, self._deposits)
 
     def _surface_friction_to_str(self) -> str:
+        """Helper to convert the surface friction to string."""
         friction = self._match.group("fric")
 
         if friction is not None:
@@ -182,27 +186,27 @@ class MetarRunwayState(Group):
         )
 
     @property
-    def name(self) -> str:
+    def name(self) -> Optional[str]:
         """Get the name of the runway."""
         return self._name
 
     @property
-    def deposits(self) -> str:
+    def deposits(self) -> Optional[str]:
         """Get the deposits type on the runway."""
         return self._deposits
 
     @property
-    def contamination(self) -> str:
+    def contamination(self) -> Optional[str]:
         """Get the contamination quantity of the deposits."""
         return self._contamination
 
     @property
-    def deposits_depth(self) -> str:
+    def deposits_depth(self) -> Optional[str]:
         """Get the deposits depth."""
         return self._deposits_depth
 
     @property
-    def surface_friction(self) -> str:
+    def surface_friction(self) -> Optional[str]:
         """Get the surface friction index of the runway."""
         return self._surface_friction
 
@@ -215,7 +219,7 @@ class MetarRunwayState(Group):
         return self._snoclo
 
     @property
-    def clrd(self) -> str:
+    def clrd(self) -> Optional[str]:
         """Get if contamination have ceased to exists in some runway as string."""
         clrd_text: str = "contaminations have ceased to exists"
 

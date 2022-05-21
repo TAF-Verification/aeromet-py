@@ -1,4 +1,5 @@
 import re
+from typing import Optional
 
 from ....utils import Conversions
 from ...distance import Distance
@@ -9,7 +10,7 @@ from ...wind import Direction
 class MetarMinimumVisibility(Group):
     """Basic structure for minimum visibility groups in reports from land stations."""
 
-    def __init__(self, match: re.Match) -> None:
+    def __init__(self, match: Optional[re.Match]) -> None:
         self._direction = Direction(None)
 
         if match is None:
@@ -39,11 +40,13 @@ class MetarMinimumVisibility(Group):
             if _dir:
                 self._direction = Direction.from_cardinal(_dir)
 
-    def _from_sea_miles(self, integer: str, fraction: str) -> Distance:
+    def _from_sea_miles(
+        self, integer: Optional[str], fraction: Optional[str]
+    ) -> Distance:
         """Helper to handle the visibility from sea miles.
         Args:
-            integer (str): the integer value of visibility in METAR if provided.
-            fraction (str): the fraction value of the visibility in METAR if provided.
+            integer (str | None): the integer value of visibility in METAR if provided.
+            fraction (str | None): the fraction value of the visibility in METAR if provided.
         """
         if fraction:
             _items = fraction.split("/")
@@ -59,7 +62,7 @@ class MetarMinimumVisibility(Group):
 
         return Distance("{}".format(_vis * Conversions.SMI_TO_KM * Conversions.KM_TO_M))
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self._visibility.value is None:
             return ""
 
@@ -71,42 +74,42 @@ class MetarMinimumVisibility(Group):
         )
 
     @property
-    def in_meters(self) -> float:
+    def in_meters(self) -> Optional[float]:
         """Get the visibility in meters."""
         return self._visibility.in_meters
 
     @property
-    def in_kilometers(self) -> float:
+    def in_kilometers(self) -> Optional[float]:
         """Get the visibility in kilometers."""
         return self._visibility.in_kilometers
 
     @property
-    def in_sea_miles(self) -> float:
+    def in_sea_miles(self) -> Optional[float]:
         """Get the visibility in sea miles."""
         return self._visibility.in_sea_miles
 
     @property
-    def in_feet(self) -> float:
+    def in_feet(self) -> Optional[float]:
         """Get the visibility in feet."""
         return self._visibility.in_feet
 
     @property
-    def cardinal_direction(self) -> str:
+    def cardinal_direction(self) -> Optional[str]:
         """Get the cardinal direction associated to the visibility, e.g. "NW" (north west)."""
         return self._direction.cardinal
 
     @property
-    def direction_in_degrees(self) -> float:
+    def direction_in_degrees(self) -> Optional[float]:
         """Get the visibility direction in degrees."""
         return self._direction.in_degrees
 
     @property
-    def direction_in_radians(self) -> float:
+    def direction_in_radians(self) -> Optional[float]:
         """Get the visibility direction in radians."""
         return self._direction.in_radians
 
     @property
-    def direction_in_gradians(self) -> float:
+    def direction_in_gradians(self) -> Optional[float]:
         """Get the visibility direction in gradians."""
         return self._direction.in_gradians
 
@@ -114,7 +117,7 @@ class MetarMinimumVisibility(Group):
 class MetarPrevailingVisibility(MetarMinimumVisibility):
     """Basic structure for prevailing visibility in reports from land stations."""
 
-    def __init__(self, match: re.Match) -> None:
+    def __init__(self, match: Optional[re.Match]) -> None:
         super().__init__(match)
         self._cavok = False
 
@@ -124,7 +127,7 @@ class MetarPrevailingVisibility(MetarMinimumVisibility):
                 self._cavok = True
                 self._visibility = Distance("9999")
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self._cavok:
             return "Ceiling and Visibility OK"
 

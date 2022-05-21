@@ -1,4 +1,5 @@
 import re
+from typing import Optional
 
 from ...group import Group
 from .weather import DESCRIPTION, OBSCURATION, OTHER, PRECIPITATION
@@ -7,7 +8,7 @@ from .weather import DESCRIPTION, OBSCURATION, OTHER, PRECIPITATION
 class MetarRecentWeather(Group):
     """Basic structure for recent weather groups in METAR."""
 
-    def __init__(self, match: re.Match) -> None:
+    def __init__(self, match: Optional[re.Match]) -> None:
         if match is None:
             super().__init__(None)
 
@@ -23,7 +24,7 @@ class MetarRecentWeather(Group):
             self._other = OTHER.get(match.group("other"), None)
             self._precipitation = PRECIPITATION.get(match.group("prec"), None)
 
-    def __str__(self):
+    def __str__(self) -> str:
         s = "{} {} {} {}".format(
             self._description,
             self._precipitation,
@@ -36,21 +37,21 @@ class MetarRecentWeather(Group):
         return s.strip()
 
     @property
-    def description(self) -> str:
+    def description(self) -> Optional[str]:
         """Get the description of recent weather in METAR."""
         return self._description
 
     @property
-    def obscuration(self) -> str:
+    def obscuration(self) -> Optional[str]:
         """Get the obscuration of recent weather in METAR."""
         return self._obscuration
 
     @property
-    def other(self) -> str:
+    def other(self) -> Optional[str]:
         """Get the other item of recent weather in METAR."""
         return self._other
 
     @property
-    def precipitation(self) -> str:
+    def precipitation(self) -> Optional[str]:
         """Get the precipitation of recent weather in METAR."""
         return self._precipitation

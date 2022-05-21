@@ -1,7 +1,7 @@
 import re
 
-from aeromet_py.models.group import Group
-from aeromet_py.models.time import Time
+from ...group import Group
+from ...time import Time
 
 
 class MetarTime(Time, Group):

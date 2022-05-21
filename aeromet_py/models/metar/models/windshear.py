@@ -1,5 +1,5 @@
 import re
-from typing import List
+from typing import List, Optional
 
 from ...group import Group, GroupList
 from .runway_range import set_runway_name
@@ -8,7 +8,7 @@ from .runway_range import set_runway_name
 class MetarWindshearRunway(Group):
     """Basic structure for windshear runways groups in METAR."""
 
-    def __init__(self, match: re.Match) -> None:
+    def __init__(self, match: Optional[re.Match]) -> None:
         if match is None:
             super().__init__(None)
 
@@ -44,7 +44,7 @@ class MetarWindshearRunway(Group):
         return False
 
     @property
-    def name(self) -> str:
+    def name(self) -> Optional[str]:
         """Get the name of the runway with windshear."""
         return self._name
 

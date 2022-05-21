@@ -1,13 +1,14 @@
 import re
+from typing import Optional
 
-from aeromet_py.models.group import Group
-from aeromet_py.models.wind import Wind
+from ...group import Group
+from ...wind import Wind
 
 
 class MetarWind(Wind, Group):
     """Basic structure for wind groups in METAR reports from land stations."""
 
-    def __init__(self, match: re.Match) -> None:
+    def __init__(self, match: Optional[re.Match]) -> None:
         if match is None:
             super().__init__()
             Group.__init__(self, None)

@@ -1,6 +1,6 @@
 import re
 from datetime import datetime, timedelta
-from typing import Tuple
+from typing import Tuple, Optional
 
 from ...change_indicator import ChangeIndicator
 from ...time import Time
@@ -9,7 +9,7 @@ from ...time import Time
 class MetarTrendIndicator(ChangeIndicator):
     """Basic structure for trend codes in METAR."""
 
-    def __init__(self, match: re.Match, time: datetime) -> None:
+    def __init__(self, match: Optional[re.Match], time: datetime) -> None:
         super().__init__(match)
 
         # Init period and end period of forecast
@@ -18,7 +18,7 @@ class MetarTrendIndicator(ChangeIndicator):
 
         self._from: Time = self._init_period
         self._until: Time = self._end_period
-        self._at: Time = None
+        self._at: Optional[Time] = None
 
     def __str__(self) -> str:
         if self._at:
@@ -78,6 +78,6 @@ class MetarTrendIndicator(ChangeIndicator):
         return self._until
 
     @property
-    def period_at(self) -> Time:
+    def period_at(self) -> Optional[Time]:
         """Get the `at` forecast period."""
         return self._at
