@@ -1,5 +1,5 @@
 from abc import ABCMeta
-from typing import Callable, Union, Optional
+from typing import Callable, Optional, Union
 
 
 class Numeric(metaclass=ABCMeta):

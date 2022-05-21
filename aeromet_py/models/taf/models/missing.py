@@ -1,4 +1,4 @@
-import re
+from typing import Optional
 
 from ...modifier import Modifier
 
@@ -6,7 +6,7 @@ from ...modifier import Modifier
 class Missing(Modifier):
     """Basic structure for missing TAF."""
 
-    def __init__(self, code: str) -> None:
+    def __init__(self, code: Optional[str]) -> None:
         super().__init__(code)
 
         if code != None:

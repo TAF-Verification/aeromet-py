@@ -1,6 +1,6 @@
 from abc import ABCMeta
 from collections import namedtuple
-from typing import Generic, List, TypeVar, Optional
+from typing import Generic, List, Optional, TypeVar
 
 from .errors import RangeError
 

@@ -1,5 +1,5 @@
 import re
-from typing import List
+from typing import List, Optional
 
 from ...utils import (
     MetarRegExp,
@@ -41,8 +41,8 @@ class Taf(
     def __init__(
         self,
         code: str,
-        year: int = None,
-        month: int = None,
+        year: Optional[int] = None,
+        month: Optional[int] = None,
         truncate: bool = False,
     ) -> None:
         super().__init__(code, truncate=truncate, type="TAF")

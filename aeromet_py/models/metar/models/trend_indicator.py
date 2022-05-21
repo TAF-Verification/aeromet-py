@@ -1,6 +1,6 @@
 import re
 from datetime import datetime, timedelta
-from typing import Tuple, Optional
+from typing import Optional, Tuple
 
 from ...change_indicator import ChangeIndicator
 from ...time import Time

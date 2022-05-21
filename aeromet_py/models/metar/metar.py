@@ -30,7 +30,11 @@ class Metar(
     """Parser for METAR reports."""
 
     def __init__(
-        self, code: str, year: Optional[int] = None, month: Optional[int] = None, truncate: bool = False
+        self,
+        code: str,
+        year: Optional[int] = None,
+        month: Optional[int] = None,
+        truncate: bool = False,
     ) -> None:
         super().__init__(code, truncate)
         self._year = year

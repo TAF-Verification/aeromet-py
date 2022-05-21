@@ -1,5 +1,6 @@
 import re
 from datetime import datetime, timedelta
+from typing import Optional
 
 from ...group import Group, GroupList
 from ...temperature import Temperature
@@ -9,7 +10,7 @@ from ...time import Time
 class TafTemperature(Temperature, Group):
     """Basic structure for temperature groups in TAF."""
 
-    def __init__(self, match: re.Match, time: datetime) -> None:
+    def __init__(self, match: Optional[re.Match], time: datetime) -> None:
         time = time.replace(minute=0)
 
         if match is None:

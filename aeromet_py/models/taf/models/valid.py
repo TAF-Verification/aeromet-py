@@ -1,5 +1,6 @@
 import re
 from datetime import datetime, timedelta
+from typing import Optional
 
 from ...group import Group
 from ...time import Time
@@ -14,7 +15,7 @@ class Valid(Group):
         self._until = until_
 
     @classmethod
-    def from_taf(cls, match: re.Match, time: datetime) -> "Valid":
+    def from_taf(cls, match: Optional[re.Match], time: datetime) -> "Valid":
         """Returns an instance of the Valid class using a TAF like
         group of valid period of time.
 

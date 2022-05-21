@@ -1,4 +1,4 @@
-from typing import List, Generator
+from typing import Generator, List
 
 
 def get_stations() -> Generator[List[str], None, None]:
