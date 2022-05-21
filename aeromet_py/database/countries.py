@@ -1,7 +1,7 @@
-from typing import Dict
+from typing import Dict, Optional
 
 
-def get_country(code: str):
+def get_country(code: str) -> Optional[str]:
     """Get the country name for a two character code given.
 
     Args:

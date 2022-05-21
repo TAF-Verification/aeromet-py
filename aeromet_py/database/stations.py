@@ -1,7 +1,7 @@
-from typing import List
+from typing import List, Generator
 
 
-def get_stations():
+def get_stations() -> Generator[List[str], None, None]:
     """Get an iterable data for all stations around the world.
 
     Yields:
