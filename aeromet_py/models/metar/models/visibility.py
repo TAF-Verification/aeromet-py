@@ -4,8 +4,8 @@ from typing import Optional
 from ....utils import Conversions
 from ...distance import Distance
 from ...group import Group
-from ...wind import Direction
 from ...string_attribute import HasConcatenateStringProntocol
+from ...wind import Direction
 
 
 class MetarMinimumVisibility(Group):

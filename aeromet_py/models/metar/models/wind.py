@@ -2,8 +2,8 @@ import re
 from typing import Optional
 
 from ...group import Group
-from ...wind import Wind
 from ...string_attribute import HasConcatenateStringProntocol
+from ...wind import Wind
 
 
 class MetarWind(Wind, Group):

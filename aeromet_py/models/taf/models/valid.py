@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 from typing import Optional, Protocol
 
 from ...group import Group
-from ...time import Time
 from ...string_attribute import HasConcatenateStringProntocol
+from ...time import Time
 
 
 class Valid(Group):
