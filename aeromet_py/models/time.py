@@ -14,6 +14,8 @@ class Time:
         month: Optional[int] = None,
         time: Optional[datetime] = None,
     ) -> None:
+        self._time: datetime
+
         if time:
             self._time = time
         else:
@@ -34,7 +36,6 @@ class Time:
             if minute is None:
                 minute = "00"
 
-            self._time: datetime
             generated_date: str = "{}{:02d}{}{}{}".format(
                 year,
                 month,

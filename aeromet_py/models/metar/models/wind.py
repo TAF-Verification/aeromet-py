@@ -3,6 +3,7 @@ from typing import Optional
 
 from ...group import Group
 from ...wind import Wind
+from ...string_attribute import HasConcatenateStringProntocol
 
 
 class MetarWind(Wind, Group):
@@ -26,7 +27,7 @@ class MetarWind(Wind, Group):
             Group.__init__(self, match.string)
 
 
-class MetarWindMixin:
+class MetarWindMixin(HasConcatenateStringProntocol):
     """Mixin to add a METAR wind group attribute to the report."""
 
     def __init__(self) -> None:

@@ -1,9 +1,10 @@
 import re
 from datetime import datetime, timedelta
-from typing import Optional
+from typing import Optional, Protocol
 
 from ...group import Group
 from ...time import Time
+from ...string_attribute import HasConcatenateStringProntocol
 
 
 class Valid(Group):
@@ -78,7 +79,11 @@ class Valid(Group):
         return self._until
 
 
-class TafValidMixin:
+class HasTimeProtocol(Protocol):
+    _time: Time
+
+
+class TafValidMixin(HasConcatenateStringProntocol, HasTimeProtocol):
     """Mixin to add the valid period of forecast attribute and handler."""
 
     def __init__(self) -> None:

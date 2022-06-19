@@ -113,12 +113,12 @@ class Direction(Numeric):
     @property
     def in_radians(self) -> Optional[float]:
         """Get the direction in radians."""
-        return self.converted(Conversions.DEGREES_TO_RADIANS)
+        return self.converted(factor=Conversions.DEGREES_TO_RADIANS)
 
     @property
     def in_gradians(self) -> Optional[float]:
         """Get the direction in gradians."""
-        return self.converted(Conversions.DEGREES_TO_GRADIANS)
+        return self.converted(factor=Conversions.DEGREES_TO_GRADIANS)
 
 
 class Speed(Numeric):
@@ -154,17 +154,17 @@ class Speed(Numeric):
     @property
     def in_mps(self) -> Optional[float]:
         """Get the speed in meters per second."""
-        return self.converted(Conversions.KNOT_TO_MPS)
+        return self.converted(factor=Conversions.KNOT_TO_MPS)
 
     @property
     def in_kph(self) -> Optional[float]:
         """Get the speed in kilometers per hour."""
-        return self.converted(Conversions.KNOT_TO_KPH)
+        return self.converted(factor=Conversions.KNOT_TO_KPH)
 
     @property
     def in_miph(self) -> Optional[float]:
         """Get the speed in miles per hour."""
-        return self.converted(Conversions.KNOT_TO_MIPH)
+        return self.converted(factor=Conversions.KNOT_TO_MIPH)
 
 
 class Wind:

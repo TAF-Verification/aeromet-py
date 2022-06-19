@@ -15,15 +15,31 @@ class Numeric(metaclass=ABCMeta):
         return f"{self._value:.1f}"
 
     def converted(
-        self, conversion: Union[float, Callable[[float], float]]
+        self,
+        factor: Optional[float] = None,
+        conversion: Optional[Callable[[float], float]] = None,
     ) -> Optional[float]:
+        """Returns the value converted to other units defined by
+        `factor` or `conversion`. If both are provided, `factor`
+        takes precedence.
+
+        Args:
+            factor (float | None): the factor to multiply by. Defaults to None.
+            conversion (Callable[[float], float] | None): the conversion function. Defaults to None.
+
+        Returns:
+            float | None: the value converted to other units. If value is None, returns None.
+        """
         if self._value is None:
             return None
 
-        if isinstance(conversion, Callable):
+        if factor:
+            return self._value * factor
+
+        if conversion:
             return conversion(self._value)
 
-        return self._value * conversion
+        return None
 
     @property
     def value(self) -> Optional[float]:

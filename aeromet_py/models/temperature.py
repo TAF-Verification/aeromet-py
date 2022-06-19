@@ -39,14 +39,14 @@ class Temperature(Numeric):
     @property
     def in_kelvin(self) -> Optional[float]:
         """Get the temperature in Kelvin"""
-        return self.converted(Conversions.celsius_to_kelvin)
+        return self.converted(conversion=Conversions.celsius_to_kelvin)
 
     @property
     def in_fahrenheit(self) -> Optional[float]:
         """Get the temperature in Fahrenheit."""
-        return self.converted(Conversions.celsius_to_fahrenheit)
+        return self.converted(conversion=Conversions.celsius_to_fahrenheit)
 
     @property
     def in_rankine(self) -> Optional[float]:
         """Get the temperature in Rankine."""
-        return self.converted(Conversions.celsius_to_rankine)
+        return self.converted(conversion=Conversions.celsius_to_rankine)

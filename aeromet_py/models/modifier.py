@@ -2,6 +2,7 @@ import re
 from typing import Dict, Optional
 
 from .group import Group
+from .string_attribute import HasConcatenateStringProntocol
 
 MODIFIERS: Dict[str, str] = {
     "COR": "Correction",
@@ -33,7 +34,7 @@ class Modifier(Group):
         return self._modifier
 
 
-class ModifierMixin:
+class ModifierMixin(HasConcatenateStringProntocol):
     """Mixin to add modifier attribute to the report."""
 
     def __init__(self) -> None:

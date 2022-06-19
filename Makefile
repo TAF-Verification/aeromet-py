@@ -14,6 +14,9 @@ else
 	$(error You are not in the main branch)
 endif
 
+check:
+	mypy --config-file mypy.ini aeromet_py/
+
 patch: check_no_main
 	$(POETRY_RUN) bumpversion patch --verbose
 	git push --follow-tags
@@ -31,6 +34,7 @@ style:
 	$(POETRY_RUN) black $(SOURCE_FILES)
 
 lint:
+	make ckeck
 	$(POETRY_RUN) isort $(SOURCES_FOLDER) --check-only
 	$(POETRY_RUN) black $(SOURCE_FILES) --check
 

@@ -35,14 +35,14 @@ class Distance(Numeric):
     @property
     def in_kilometers(self) -> Optional[float]:
         """Get the distance in kilometers."""
-        return self.converted(Conversions.M_TO_KM)
+        return self.converted(factor=Conversions.M_TO_KM)
 
     @property
     def in_sea_miles(self) -> Optional[float]:
         """Get the distance in sea miles."""
-        return self.converted(Conversions.M_TO_SMI)
+        return self.converted(factor=Conversions.M_TO_SMI)
 
     @property
     def in_feet(self) -> Optional[float]:
         """Get the distance in feet."""
-        return self.converted(Conversions.M_TO_FT)
+        return self.converted(factor=Conversions.M_TO_FT)

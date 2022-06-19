@@ -32,19 +32,19 @@ class Pressure(Numeric):
     @property
     def in_inHg(self) -> Optional[float]:
         """Get the pressure in mercury inches (inHg)."""
-        return self.converted(Conversions.HPA_TO_INHG)
+        return self.converted(factor=Conversions.HPA_TO_INHG)
 
     @property
     def in_mbar(self) -> Optional[float]:
         """Get the pressure in millibars (mbar)."""
-        return self.converted(Conversions.HPA_TO_MBAR)
+        return self.converted(factor=Conversions.HPA_TO_MBAR)
 
     @property
     def in_bar(self) -> Optional[float]:
         """Get the pressure in bars (bar)."""
-        return self.converted(Conversions.HPA_TO_BAR)
+        return self.converted(factor=Conversions.HPA_TO_BAR)
 
     @property
     def in_atm(self) -> Optional[float]:
         """Get the pressure in atmospheres (atm)."""
-        return self.converted(Conversions.HPA_TO_ATM)
+        return self.converted(factor=Conversions.HPA_TO_ATM)

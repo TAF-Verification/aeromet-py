@@ -1,4 +1,9 @@
-from typing import Dict, List
+from typing import Dict, List, Protocol
+from aeromet_py.models.distance import Distance
+
+from aeromet_py.models.group import GroupList
+
+from .cloud import Cloud
 
 FLIGHT_RULES: Dict[str, List[float]] = {
     "VLIFR": [60.0, 800.0],
@@ -9,6 +14,11 @@ FLIGHT_RULES: Dict[str, List[float]] = {
 }
 
 
+class HasPrevailingCloudsProtocol(Protocol):
+    _clouds: GroupList[Cloud]
+    _prevailing: Distance
+
+
 class FlightRulesMixin:
     """
     Mixin to add flight rules to the report or forecast.
@@ -17,7 +27,7 @@ class FlightRulesMixin:
     """
 
     @property
-    def flight_rules(self) -> str:
+    def flight_rules(self: HasPrevailingCloudsProtocol) -> str:
         """Get the flight rules of the report or forecast."""
         prevailing: float = self._prevailing.in_meters
         ceiling: float = None

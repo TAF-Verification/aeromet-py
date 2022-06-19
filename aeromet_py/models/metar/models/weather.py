@@ -2,6 +2,7 @@ import re
 from typing import Dict, Optional
 
 from ...group import Group, GroupList
+from ...string_attribute import HasConcatenateStringProntocol
 
 INTENSITY: Dict[str, str] = {
     "-": "light",
@@ -116,7 +117,7 @@ class MetarWeather(Group):
         return self._other
 
 
-class MetarWeatherMixin:
+class MetarWeatherMixin(HasConcatenateStringProntocol):
     """Mixin to add weather list attribute to the report."""
 
     def __init__(self) -> None:

@@ -64,6 +64,7 @@ class Report(StringAttributeMixin, metaclass=ABCMeta):
     @abstractmethod
     def time(self) -> Time:
         """Get the time of the report."""
+        self._time = Time()
         return self._time
 
     @property

@@ -5,6 +5,7 @@ from ....utils import Conversions
 from ...distance import Distance
 from ...group import Group
 from ...wind import Direction
+from ...string_attribute import HasConcatenateStringProntocol
 
 
 class MetarMinimumVisibility(Group):
@@ -48,11 +49,12 @@ class MetarMinimumVisibility(Group):
             integer (str | None): the integer value of visibility in METAR if provided.
             fraction (str | None): the fraction value of the visibility in METAR if provided.
         """
+        _fraction: float
         if fraction:
             _items = fraction.split("/")
-            _fraction: float = int(_items[0]) / int(_items[1])
+            _fraction = int(_items[0]) / int(_items[1])
         else:
-            _fraction: float = 0.0
+            _fraction = 0.0
 
         _vis: float = _fraction
 
@@ -152,7 +154,7 @@ class MetarPrevailingVisibility(MetarMinimumVisibility):
             raise TypeError("can't set cavok to {} type".format(type(value)))
 
 
-class MetarPrevailingMixin:
+class MetarPrevailingMixin(HasConcatenateStringProntocol):
     """Mixin to add prevailing visibility attribute to the report."""
 
     def __init__(self) -> None:

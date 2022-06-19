@@ -1,9 +1,10 @@
 import re
-from typing import Dict, Optional
+from typing import Dict, Optional, Type, TypeVar
 
 from ..utils import Conversions
 from .distance import Distance
 from .group import Group, GroupList
+from .string_attribute import HasConcatenateStringProntocol
 
 SKY_COVER: Dict[str, str] = {
     "SKC": "clear",
@@ -38,6 +39,28 @@ CLOUD_TYPE: Dict[str, str] = {
 }
 
 
+def _set_oktas(code: str) -> str:
+    if code == "FEW":
+        return "1-2"
+
+    if code == "SCT":
+        return "3-4"
+
+    if code == "BKN":
+        return "5-7"
+
+    if code == "OVC":
+        return "8"
+
+    if code in ["NSC", "NCD"]:
+        return "not specified"
+
+    return "undefined"
+
+
+C = TypeVar("C", bound="Cloud")
+
+
 class Cloud(Group):
     """Basic structure for cloud layer groups in reports from land stations.
     To instantiate an object it needs a Dict[str, str] with the following keys:
@@ -57,7 +80,7 @@ class Cloud(Group):
         self._height = Distance(data.get("height"))
 
     @classmethod
-    def from_metar(cls, match: Optional[re.Match]) -> "Cloud":
+    def from_metar(cls: Type[C], match: Optional[re.Match]) -> C:
         """Classmethod to create a Cloud object from a METAR group."""
 
         _code: str = None
@@ -71,7 +94,7 @@ class Cloud(Group):
             cover: str = match.group("cover")
 
             _cover = SKY_COVER.get(cover, None)
-            _oktas = cls._set_oktas(cls, cover)
+            _oktas = _set_oktas(cover)
             _type = CLOUD_TYPE.get(match.group("type"), None)
 
             height: str = match.group("height")
@@ -118,24 +141,6 @@ class Cloud(Group):
         return "{} at undefined height".format(
             self._cover,
         )
-
-    def _set_oktas(self, code: str) -> str:
-        if code == "FEW":
-            return "1-2"
-
-        if code == "SCT":
-            return "3-4"
-
-        if code == "BKN":
-            return "5-7"
-
-        if code == "OVC":
-            return "8"
-
-        if code in ["NSC", "NCD"]:
-            return "not specified"
-
-        return "undefined"
 
     @property
     def cover(self) -> Optional[str]:
@@ -191,7 +196,7 @@ class CloudList(GroupList[Cloud]):
         return False
 
 
-class MetarCloudMixin:
+class MetarCloudMixin(HasConcatenateStringProntocol):
     """Mixin to add clouds attribute to the report."""
 
     def __init__(self) -> None:

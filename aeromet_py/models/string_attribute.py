@@ -1,4 +1,9 @@
-from typing import Any
+from typing import Any, Protocol
+
+
+class HasConcatenateStringProntocol(Protocol):
+    def _concatenate_string(self, obj: Any) -> None:
+        pass
 
 
 class StringAttributeMixin:
