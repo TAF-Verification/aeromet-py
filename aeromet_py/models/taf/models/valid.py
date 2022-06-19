@@ -1,6 +1,8 @@
 import re
 from datetime import datetime, timedelta
-from typing import Optional, Protocol
+from typing import Optional
+
+from typing_extensions import Protocol
 
 from ...group import Group
 from ...string_attribute import HasConcatenateStringProntocol

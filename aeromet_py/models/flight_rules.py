@@ -1,4 +1,6 @@
-from typing import Dict, List, Protocol
+from typing import Dict, List
+
+from typing_extensions import Protocol
 
 from aeromet_py.models.distance import Distance
 from aeromet_py.models.group import GroupList
