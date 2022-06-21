@@ -1,5 +1,5 @@
 import re
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 from ....utils import Conversions
 from ...distance import Distance
@@ -130,3 +130,12 @@ class MetarSeaState(Group):
     def height_in_inches(self) -> Optional[float]:
         """Get the height of the significant wave in inches."""
         return self._height.converted(Conversions.M_TO_IN)
+
+    def to_dict(self) -> Dict[str, Any]:
+        d = {
+            "state": self.state,
+            "temperature": self._temperature.to_dict(),
+            "height": self._height.to_dict(),
+        }
+        d.update(super().to_dict())
+        return d

@@ -1,6 +1,6 @@
 import re
 from datetime import datetime
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from ....utils import MetarRegExp, parse_section, sanitize_visibility
 from ...cloud import MetarCloudMixin
@@ -44,6 +44,17 @@ class Forecast(
     def unparsed_groups(self) -> List[str]:
         """Get the unparsed groups of the change period."""
         return self._unparsed_groups
+
+    def to_dict(self) -> Dict[str, Any]:
+        d: Dict[str, Any] = {
+            "wind": self.wind.to_dict(),
+            "prevailing_visibility": self.prevailing_visibility.to_dict(),
+            "weathers": [weather.to_dict() for weather in self.weathers],
+            "clouds": [cloud.to_dict() for cloud in self.clouds],
+            "flight_rules": self.flight_rules,
+        }
+        d.update(super().to_dict())
+        return d
 
 
 class ChangePeriod(Forecast):

@@ -90,9 +90,9 @@ class Metar(
         self._concatenate_string(self._time)
 
     @property
-    def time(self) -> MetarTime:
+    def time(self) -> MetarTime:  # type: ignore[override]
         """Get the time of the report."""
-        return self._time
+        return self._time  # type: ignore[override]
 
     def _handle_wind_variation(self, match: re.Match) -> None:
         self._wind_variation = MetarWindVariation(match)

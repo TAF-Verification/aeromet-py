@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from ..utils import Conversions
 from .numeric import Numeric
@@ -50,3 +50,9 @@ class Temperature(Numeric):
     def in_rankine(self) -> Optional[float]:
         """Get the temperature in Rankine."""
         return self.converted(conversion=Conversions.celsius_to_rankine)
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "units": "celsius",
+            "temperature": self.in_celsius,
+        }

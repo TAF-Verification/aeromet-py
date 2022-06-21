@@ -1,5 +1,5 @@
 import re
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from ....utils import Conversions
 from ...group import Group
@@ -71,3 +71,9 @@ class MetarWindVariation(Group):
     def to_in_gradians(self) -> Optional[float]:
         """Get the `to` direction in gradians."""
         return self._to.converted(Conversions.DEGREES_TO_GRADIANS)
+
+    def to_dict(self) -> Dict[str, Dict[str, Any]]:
+        return {
+            "from_": self._from.to_dict(),
+            "to": self._to.to_dict(),
+        }

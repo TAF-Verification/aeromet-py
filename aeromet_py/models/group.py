@@ -1,6 +1,7 @@
-from abc import ABCMeta
+import json
+from abc import ABCMeta, abstractmethod
 from collections import namedtuple
-from typing import Generic, List, Optional, TypeVar
+from typing import Any, Dict, Generic, List, Optional, TypeVar
 
 from .errors import RangeError
 
@@ -31,6 +32,13 @@ class Group(metaclass=ABCMeta):
     def code(self) -> Optional[str]:
         """Get the code of the group."""
         return self._code
+
+    @abstractmethod
+    def to_dict(self) -> Dict[str, Any]:
+        return {"code": self.code}
+
+    def to_json(self) -> str:
+        return json.dumps(self.to_dict())
 
 
 G = TypeVar("G", bound=Group)

@@ -9,9 +9,9 @@ def test_taf_type_first_sample():
         BECMG 2315/2317 28002MPS
     """
     taf = Taf(code)
-    assert taf.type.code == "TAF"
-    assert taf.type.type == "Terminal Aerodrome Forecast"
-    assert str(taf.type) == "Terminal Aerodrome Forecast (TAF)"
+    assert taf.type_.code == "TAF"
+    assert taf.type_.type == "Terminal Aerodrome Forecast"
+    assert str(taf.type_) == "Terminal Aerodrome Forecast (TAF)"
 
 
 def test_taf_type_second_sample():
@@ -22,9 +22,9 @@ def test_taf_type_second_sample():
         FM231500 12010KT 4SM HZ SCT010
     """
     taf = Taf(code)
-    assert taf.type.code == "TAF"
-    assert taf.type.type == "Terminal Aerodrome Forecast"
-    assert str(taf.type) == "Terminal Aerodrome Forecast (TAF)"
+    assert taf.type_.code == "TAF"
+    assert taf.type_.type == "Terminal Aerodrome Forecast"
+    assert str(taf.type_) == "Terminal Aerodrome Forecast (TAF)"
 
 
 def test_no_taf_type():
@@ -34,6 +34,6 @@ def test_no_taf_type():
         BECMG 2300/2303 25004KT
     """
     taf = Taf(code)
-    assert taf.type.code == "TAF"
-    assert taf.type.type == "Terminal Aerodrome Forecast"
-    assert str(taf.type) == "Terminal Aerodrome Forecast (TAF)"
+    assert taf.type_.code == "TAF"
+    assert taf.type_.type == "Terminal Aerodrome Forecast"
+    assert str(taf.type_) == "Terminal Aerodrome Forecast (TAF)"

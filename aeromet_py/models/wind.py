@@ -1,5 +1,6 @@
+import json
 import re
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from aeromet_py.utils import Conversions
 
@@ -120,6 +121,14 @@ class Direction(Numeric):
         """Get the direction in gradians."""
         return self.converted(factor=Conversions.DEGREES_TO_GRADIANS)
 
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "cardinal": self.cardinal,
+            "variable": self.variable,
+            "units": "degrees",
+            "direction": self.in_degrees,
+        }
+
 
 class Speed(Numeric):
     """Basic structure for speed attributes."""
@@ -165,6 +174,12 @@ class Speed(Numeric):
     def in_miph(self) -> Optional[float]:
         """Get the speed in miles per hour."""
         return self.converted(factor=Conversions.KNOT_TO_MIPH)
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "units": "knot",
+            "speed": self.in_knot,
+        }
 
 
 class Wind:
@@ -275,3 +290,13 @@ class Wind:
     def gust_in_miph(self) -> Optional[float]:
         """Get the wind gust in miles per hour."""
         return self._gust.in_miph
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "direction": self._direction.to_dict(),
+            "speed": self._speed.to_dict(),
+            "gust": self._gust.to_dict(),
+        }
+
+    def to_json(self) -> str:
+        return json.dumps(self.to_dict())

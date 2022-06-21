@@ -1,5 +1,5 @@
 import re
-from typing import Dict, Optional, Type, TypeVar
+from typing import Any, Dict, Optional, Type, TypeVar
 
 from ..utils import Conversions
 from .distance import Distance
@@ -176,6 +176,17 @@ class Cloud(Group):
     def height_in_feet(self) -> Optional[float]:
         """Returns the height of the cloud base in feet."""
         return self._height.in_feet
+
+    def to_dict(self) -> Dict[str, Any]:
+        d = {
+            "cover": self.cover,
+            "oktas": self.oktas,
+            "height_units": "meters",
+            "height": self.height_in_meters,
+            "type": self.cloud_type,
+        }
+        d.update(super().to_dict())
+        return d
 
 
 class CloudList(GroupList[Cloud]):

@@ -1,3 +1,4 @@
+import json
 import re
 from typing import Dict, List, Optional
 
@@ -43,3 +44,8 @@ class ChangeIndicator(Group):
     def translation(self) -> Optional[str]:
         """Get the translation of the change indicator."""
         return self._translation
+
+    def to_dict(self) -> Dict[str, Optional[str]]:
+        d = {"translation": self.translation}
+        d.update(super().to_dict())
+        return d

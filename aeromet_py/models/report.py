@@ -1,11 +1,11 @@
 import re
 from abc import ABCMeta, abstractmethod
-from typing import Any, List
+from typing import List
 
 from .station import Station
 from .string_attribute import StringAttributeMixin
 from .time import Time
-from .type import Type
+from .type import ReportType
 
 
 class Report(StringAttributeMixin, metaclass=ABCMeta):
@@ -25,8 +25,11 @@ class Report(StringAttributeMixin, metaclass=ABCMeta):
         # Initialize mixins
         StringAttributeMixin.__init__(self)
 
-        # Type group
-        self._type: Type = Type(type.upper())
+        # ReportType group
+        self._type: ReportType = ReportType(type.upper())
+
+        # Time group
+        self._time: Time = None
 
         # Station group
         self._station: Station = Station(None, None)
@@ -37,12 +40,12 @@ class Report(StringAttributeMixin, metaclass=ABCMeta):
         self._sections = []
 
     def _handle_type(self, match: re.Match) -> None:
-        self._type = Type(match.string)
+        self._type = ReportType(match.string)
 
         self._concatenate_string(self._type)
 
     @property
-    def type(self) -> Type:
+    def type_(self) -> ReportType:
         """Get the type of the report."""
         return self._type
 

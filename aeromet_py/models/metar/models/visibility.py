@@ -1,5 +1,5 @@
 import re
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from ....utils import Conversions
 from ...distance import Distance
@@ -114,6 +114,13 @@ class MetarMinimumVisibility(Group):
     def direction_in_gradians(self) -> Optional[float]:
         """Get the visibility direction in gradians."""
         return self._direction.in_gradians
+
+    def to_dict(self) -> Dict[str, Any]:
+        d = {
+            "visibility": self._visibility.to_dict(),
+            "direction": self._direction.to_dict(),
+        }
+        d.update(super().to_dict())
 
 
 class MetarPrevailingVisibility(MetarMinimumVisibility):

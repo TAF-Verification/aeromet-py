@@ -94,9 +94,9 @@ class Taf(
         self._concatenate_string(self._time)
 
     @property
-    def time(self) -> MetarTime:
+    def time(self) -> MetarTime:  # type: ignore[override]
         """Get the time of the report."""
-        return self._time
+        return self._time  # type: ignore[override]
 
     def _handle_missing(self, match: re.Match) -> None:
         self._missing = Missing(match.string)

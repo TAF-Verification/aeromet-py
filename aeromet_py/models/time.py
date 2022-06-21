@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import Dict, Optional
 
 
 class Time:
@@ -77,6 +77,11 @@ class Time:
     def minute(self) -> int:
         """Get the minute of the report."""
         return self._time.minute
+
+    def to_dict(self) -> Dict[str, str]:
+        return {
+            "datetime": str(self.time),
+        }
 
 
 class TimeMixin:

@@ -33,6 +33,13 @@ class Modifier(Group):
         """Get the modifier description of the report."""
         return self._modifier
 
+    def to_dict(self) -> Dict[str, Optional[str]]:
+        d = {
+            "modifier": self.modifier,
+        }
+        d.update(super().to_dict())
+        return d
+
 
 class ModifierMixin(HasConcatenateStringProntocol):
     """Mixin to add modifier attribute to the report."""

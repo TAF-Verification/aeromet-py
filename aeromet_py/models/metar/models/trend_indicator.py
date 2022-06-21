@@ -1,6 +1,6 @@
 import re
 from datetime import datetime, timedelta
-from typing import Optional, Tuple
+from typing import Any, Dict, Optional, Tuple
 
 from ...change_indicator import ChangeIndicator
 from ...time import Time
@@ -81,3 +81,13 @@ class MetarTrendIndicator(ChangeIndicator):
     def period_at(self) -> Optional[Time]:
         """Get the `at` forecast period."""
         return self._at
+
+    def to_dict(self) -> Dict[str, Any]:
+        d = {
+            "forecast_period": self.forecast_period,
+            "from_": self.period_from,
+            "until": self.period_until,
+            "at": self.period_at,
+        }
+        d.update(super().to_dict())
+        return d

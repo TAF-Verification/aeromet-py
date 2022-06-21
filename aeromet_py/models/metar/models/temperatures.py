@@ -1,5 +1,5 @@
 import re
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from ...group import Group
 from ...temperature import Temperature
@@ -81,3 +81,11 @@ class MetarTemperatures(Group):
     def dewpoint_in_rankine(self) -> Optional[float]:
         """Get the dewpoint in Rankine."""
         return self._dewpoint.in_rankine
+
+    def to_dict(self) -> Dict[str, Any]:
+        d = {
+            "temperature": self._temperature.to_dict(),
+            "dewpoint": self._dewpoint.to_dict(),
+        }
+        d.update(super().to_dict())
+        return d

@@ -1,5 +1,5 @@
 import re
-from typing import Optional
+from typing import Dict, Optional
 
 from ...group import Group
 from .weather import DESCRIPTION, OBSCURATION, OTHER, PRECIPITATION
@@ -55,3 +55,13 @@ class MetarRecentWeather(Group):
     def precipitation(self) -> Optional[str]:
         """Get the precipitation of recent weather in METAR."""
         return self._precipitation
+
+    def to_dict(self) -> Dict[str, Optional[str]]:
+        d = {
+            "description": self.description,
+            "obscuration": self.obscuration,
+            "other": self.other,
+            "precipitation": self.precipitation,
+        }
+        d.update(super().to_dict())
+        return d

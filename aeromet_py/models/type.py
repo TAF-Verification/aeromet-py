@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Optional
 
 from .group import Group
 
@@ -9,7 +9,7 @@ TYPES: Dict[str, str] = {
 }
 
 
-class Type(Group):
+class ReportType(Group):
     """Basic structure for type groups in reports from land stations."""
 
     def __init__(self, code: str):
@@ -23,3 +23,10 @@ class Type(Group):
     def type(self) -> str:
         """Get the type of the report."""
         return self._type
+
+    def to_dict(self) -> Dict[str, Optional[str]]:
+        d = {
+            "type": self.type,
+        }
+        d.update(super().to_dict())
+        return d

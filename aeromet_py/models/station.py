@@ -80,3 +80,15 @@ class Station(Group):
     def country(self) -> Optional[str]:
         """Get the country of the station."""
         return get_country(self._station[7])
+
+    def to_dict(self) -> Dict[str, Optional[str]]:
+        d = {
+            "name": self.name,
+            "icao": self.icao,
+            "iata": self.iata,
+            "synop": self.synop,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+        }
+        d.update(super().to_dict())
+        return d

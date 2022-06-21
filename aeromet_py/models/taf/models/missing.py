@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from ...modifier import Modifier
 
@@ -18,3 +18,10 @@ class Missing(Modifier):
     def is_missing(self) -> bool:
         """Get if the TAF is missing."""
         return self._missing
+
+    def to_dict(self) -> Dict[str, Any]:
+        d: Dict[str, Any] = {
+            "is_missing": self.is_missing,
+        }
+        d.update(super().to_dict())
+        return d

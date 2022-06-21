@@ -1,5 +1,6 @@
-from abc import ABCMeta
-from typing import Callable, Optional, Union
+import json
+from abc import ABCMeta, abstractmethod
+from typing import Any, Callable, Dict, Optional
 
 
 class Numeric(metaclass=ABCMeta):
@@ -45,3 +46,10 @@ class Numeric(metaclass=ABCMeta):
     def value(self) -> Optional[float]:
         """Get the value as a float."""
         return self._value
+
+    @abstractmethod
+    def to_dict(self) -> Dict[str, Any]:
+        raise NotImplementedError()
+
+    def to_json(self) -> str:
+        return json.dumps(self.to_dict())

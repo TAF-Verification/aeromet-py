@@ -1,6 +1,6 @@
 import re
 from datetime import datetime, timedelta
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from typing_extensions import Protocol
 
@@ -79,6 +79,14 @@ class Valid(Group):
     def period_until(self) -> Time:
         """Get the time period `until` of the forecast."""
         return self._until
+
+    def to_dict(self) -> Dict[str, Any]:
+        d = {
+            "from_": self.period_from.to_dict(),
+            "until": self.period_until.to_dict(),
+        }
+        d.update(super().to_dict())
+        return d
 
 
 class HasTimeProtocol(Protocol):

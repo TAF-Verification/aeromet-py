@@ -1,5 +1,5 @@
 import re
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 from aeromet_py.utils.conversions import Conversions
 
@@ -163,3 +163,13 @@ class MetarRunwayRange(Group):
     def trend(self) -> Optional[str]:
         """Get the trend of the runway range."""
         return self._trend
+
+    def to_dict(self) -> Dict[str, Any]:
+        d = {
+            "name": self.name,
+            "low_range": self._low_range.to_dict(),
+            "high_range": self._high_range.to_dict(),
+            "trend": self.trend,
+        }
+        d.update(super().to_dict())
+        return d

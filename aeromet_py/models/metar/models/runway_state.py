@@ -1,5 +1,5 @@
 import re
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 from ...group import Group
 from .runway_range import set_runway_name
@@ -233,3 +233,16 @@ class MetarRunwayState(Group):
             return clrd_text + f" on {self._name}"
 
         return clrd_text + f" on runway {self.name}"
+
+    def to_dict(self) -> Dict[str, Any]:
+        d = {
+            "name": self.name,
+            "deposits": self.deposits,
+            "contamination": self.contamination,
+            "deposits_depth": self.deposits_depth,
+            "surface_friction": self.surface_friction,
+            "snoclo": self.snoclo,
+            "clrd": self.clrd,
+        }
+        d.update(super().to_dict())
+        return d

@@ -1,5 +1,5 @@
 import re
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from ...group import Group, GroupList
 from .runway_range import set_runway_name
@@ -47,6 +47,12 @@ class MetarWindshearRunway(Group):
     def name(self) -> Optional[str]:
         """Get the name of the runway with windshear."""
         return self._name
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "all": self.all,
+            "name": self.name,
+        }
 
 
 class MetarWindshearList(GroupList[MetarWindshearRunway]):

@@ -2,10 +2,9 @@ from typing import Dict, List
 
 from typing_extensions import Protocol
 
-from aeromet_py.models.distance import Distance
-from aeromet_py.models.group import GroupList
+from .cloud import CloudList
 
-from .cloud import Cloud
+# from .metar.models.visibility import MetarPrevailingVisibility
 
 FLIGHT_RULES: Dict[str, List[float]] = {
     "VLIFR": [60.0, 800.0],
@@ -17,8 +16,13 @@ FLIGHT_RULES: Dict[str, List[float]] = {
 
 
 class HasPrevailingCloudsProtocol(Protocol):
-    _clouds: GroupList[Cloud]
-    _prevailing: Distance
+    @property
+    def clouds(self) -> CloudList:
+        pass
+
+    @property
+    def prevailing_visibility(self):
+        pass
 
 
 class FlightRulesMixin:
@@ -31,10 +35,10 @@ class FlightRulesMixin:
     @property
     def flight_rules(self: HasPrevailingCloudsProtocol) -> str:
         """Get the flight rules of the report or forecast."""
-        prevailing: float = self._prevailing.in_meters
+        prevailing: float = self.prevailing_visibility.in_meters
         ceiling: float = None
-        if len(self._clouds) > 0:
-            for cloud in self._clouds.items:
+        if len(self.clouds) > 0:
+            for cloud in self.clouds.items:
                 if cloud.cover in ["broken", "overcast", "indefinite ceiling"]:
                     ceiling = cloud.height_in_meters
                     break

@@ -116,6 +116,17 @@ class MetarWeather(Group):
         """Returns the other parameter of the weather."""
         return self._other
 
+    def to_dict(self) -> Dict[str, Optional[str]]:
+        d = {
+            "intensity": self.intensity,
+            "description": self.description,
+            "precipitation": self.precipitation,
+            "obscuration": self.obscuration,
+            "other": self.other,
+        }
+        d.update(super().to_dict())
+        return d
+
 
 class MetarWeatherMixin(HasConcatenateStringProntocol):
     """Mixin to add weather list attribute to the report."""

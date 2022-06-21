@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from ..utils import Conversions
 from .numeric import Numeric
@@ -48,3 +48,9 @@ class Pressure(Numeric):
     def in_atm(self) -> Optional[float]:
         """Get the pressure in atmospheres (atm)."""
         return self.converted(factor=Conversions.HPA_TO_ATM)
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "units": "hectopascals",
+            "pressure": self.in_hPa,
+        }

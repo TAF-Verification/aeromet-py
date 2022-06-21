@@ -1,5 +1,6 @@
 import re
 from datetime import datetime, timedelta
+from typing import Any, Dict
 
 from ...change_indicator import ChangeIndicator
 from ...time import Time
@@ -67,3 +68,10 @@ class TafChangeIndicator(ChangeIndicator):
     def valid(self) -> Valid:
         """Get the valid period of the change indicator."""
         return self._valid
+
+    def to_dict(self) -> Dict[str, Any]:
+        d: Dict[str, Any] = {
+            "valid": self.valid.to_dict(),
+        }
+        d.update(super().to_dict())
+        return d
