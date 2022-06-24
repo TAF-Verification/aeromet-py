@@ -4,7 +4,6 @@ from .runway_range import MetarRunwayRange
 from .runway_state import MetarRunwayState
 from .sea_state import MetarSeaState
 from .temperatures import MetarTemperatures
-from .time import MetarTime, MetarTimeMixin
 from .trend_indicator import MetarTrendIndicator
 from .visibility import (
     MetarMinimumVisibility,

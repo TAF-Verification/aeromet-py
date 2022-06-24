@@ -4,7 +4,7 @@ from typing_extensions import Protocol
 
 from .cloud import CloudList
 
-# from .metar.models.visibility import MetarPrevailingVisibility
+from .metar.models.visibility import MetarPrevailingVisibility
 
 FLIGHT_RULES: Dict[str, List[float]] = {
     "VLIFR": [60.0, 800.0],
@@ -21,7 +21,7 @@ class HasPrevailingCloudsProtocol(Protocol):
         pass
 
     @property
-    def prevailing_visibility(self):
+    def prevailing_visibility(self) -> MetarPrevailingVisibility:
         pass
 
 

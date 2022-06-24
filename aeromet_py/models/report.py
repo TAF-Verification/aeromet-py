@@ -4,11 +4,11 @@ from typing import List
 
 from .station import Station
 from .string_attribute import StringAttributeMixin
-from .time import Time
+from .time import Time, TimeMixin
 from .type import ReportType
 
 
-class Report(StringAttributeMixin, metaclass=ABCMeta):
+class Report(StringAttributeMixin, TimeMixin, metaclass=ABCMeta):
     """Basic structure for an aeronautical report from land stations."""
 
     def __init__(self, code: str, truncate: bool = False, type: str = "METAR") -> None:
@@ -24,6 +24,7 @@ class Report(StringAttributeMixin, metaclass=ABCMeta):
 
         # Initialize mixins
         StringAttributeMixin.__init__(self)
+        TimeMixin.__init__(self)
 
         # ReportType group
         self._type: ReportType = ReportType(type.upper())
@@ -64,10 +65,9 @@ class Report(StringAttributeMixin, metaclass=ABCMeta):
         """Hanlder for the time group of the report."""
         pass
 
-    @abstractmethod
+    @property
     def time(self) -> Time:
         """Get the time of the report."""
-        self._time = Time()
         return self._time
 
     @property

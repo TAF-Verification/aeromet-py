@@ -15,20 +15,18 @@ from ..flight_rules import FlightRulesMixin
 from ..group import GroupHandler
 from ..metar.models import (
     MetarPrevailingMixin,
-    MetarTime,
-    MetarTimeMixin,
     MetarWeatherMixin,
     MetarWindMixin,
 )
 from ..modifier import ModifierMixin
 from ..report import Report
+from ..time import Time
 from .models import *
 
 
 class Taf(
     Report,
     ModifierMixin,
-    MetarTimeMixin,
     MetarWindMixin,
     MetarPrevailingMixin,
     MetarWeatherMixin,
@@ -55,7 +53,6 @@ class Taf(
 
         # Initialize mixins
         ModifierMixin.__init__(self)
-        MetarTimeMixin.__init__(self)
         MetarWindMixin.__init__(self)
         MetarPrevailingMixin.__init__(self)
         MetarWeatherMixin.__init__(self)
@@ -89,14 +86,9 @@ class Taf(
         return self._sections[1]
 
     def _handle_time(self, match: re.Match) -> None:
-        self._time = MetarTime(match, self._year, self._month)
+        self._time = Time.from_metar(match, self._year, self._month)
 
         self._concatenate_string(self._time)
-
-    @property
-    def time(self) -> MetarTime:  # type: ignore[override]
-        """Get the time of the report."""
-        return self._time  # type: ignore[override]
 
     def _handle_missing(self, match: re.Match) -> None:
         self._missing = Missing(match.string)

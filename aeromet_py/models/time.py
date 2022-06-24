@@ -1,5 +1,6 @@
 from datetime import datetime
 from typing import Dict, Optional
+import re
 
 
 class Time:
@@ -7,11 +8,11 @@ class Time:
 
     def __init__(
         self,
-        day: Optional[str] = None,
-        hour: Optional[str] = None,
         minute: Optional[str] = None,
-        year: Optional[int] = None,
+        hour: Optional[str] = None,
+        day: Optional[str] = None,
         month: Optional[int] = None,
+        year: Optional[int] = None,
         time: Optional[datetime] = None,
     ) -> None:
         self._time: datetime
@@ -44,6 +45,28 @@ class Time:
                 minute,
             )
             self._time = datetime.strptime(generated_date, "%Y%m%d%H%M")
+
+    @classmethod
+    def from_metar(
+        cls,
+        match: Optional[re.Match],
+        year: Optional[int] = None,
+        month: Optional[int] = None,
+    ) -> "Time":
+        if match is None:
+            return cls()
+        else:
+            minute = match.group("min")
+            day = match.group("day")
+            hour = match.group("hour")
+
+            return cls(
+                minute=minute,
+                hour=hour,
+                day=day,
+                month=month,
+                year=year,
+            )
 
     def __str__(self) -> str:
         return str(self._time)
