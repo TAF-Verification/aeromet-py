@@ -2,12 +2,15 @@ from datetime import datetime
 from typing import Dict, Optional
 import re
 
+from .group import Group
 
-class Time:
+
+class Time(Group):
     """Basic structure for time code groups in reports from land stations."""
 
     def __init__(
         self,
+        code: Optional[str] = None,
         minute: Optional[str] = None,
         hour: Optional[str] = None,
         day: Optional[str] = None,
@@ -16,6 +19,8 @@ class Time:
         time: Optional[datetime] = None,
     ) -> None:
         self._time: datetime
+
+        super().__init__(code)
 
         if time:
             self._time = time
@@ -59,8 +64,10 @@ class Time:
             minute = match.group("min")
             day = match.group("day")
             hour = match.group("hour")
+            code = match.string
 
             return cls(
+                code=code,
                 minute=minute,
                 hour=hour,
                 day=day,

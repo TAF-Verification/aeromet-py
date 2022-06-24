@@ -56,11 +56,11 @@ class MetarTrendIndicator(ChangeIndicator):
             _time = self._end_period.time + timedelta(minutes=minutes)
 
         if prefix == "FM":
-            self._from = Time(time=_time)
+            self._from = Time(code=match.string, time=_time)
         elif prefix == "TL":
-            self._until = Time(time=_time)
+            self._until = Time(code=match.string, time=_time)
         else:
-            self._at = Time(time=_time)
+            self._at = Time(code=match.string, time=_time)
 
     @property
     def forecast_period(self) -> Tuple[Time, Time]:

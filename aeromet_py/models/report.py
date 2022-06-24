@@ -29,9 +29,6 @@ class Report(StringAttributeMixin, TimeMixin, metaclass=ABCMeta):
         # ReportType group
         self._type: ReportType = ReportType(type.upper())
 
-        # Time group
-        self._time: Time = None
-
         # Station group
         self._station: Station = Station(None, None)
 

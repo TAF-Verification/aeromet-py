@@ -85,6 +85,7 @@ class ChangePeriod(Forecast):
         old_change_indicator = str(self._change_indicator)
         self._change_indicator.add_period(match)
         new_change_indicator = str(self._change_indicator)
+        print(self._change_indicator.period_at)
 
         self._string = self._string.replace(old_change_indicator, new_change_indicator)
 

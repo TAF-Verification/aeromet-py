@@ -1,10 +1,8 @@
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from typing_extensions import Protocol
 
 from .cloud import CloudList
-
-from .metar.models.visibility import MetarPrevailingVisibility
 
 FLIGHT_RULES: Dict[str, List[float]] = {
     "VLIFR": [60.0, 800.0],
@@ -15,13 +13,19 @@ FLIGHT_RULES: Dict[str, List[float]] = {
 }
 
 
+class HasInMetersProtocol(Protocol):
+    @property
+    def in_meters(self) -> Optional[float]:
+        pass
+
+
 class HasPrevailingCloudsProtocol(Protocol):
     @property
     def clouds(self) -> CloudList:
         pass
 
     @property
-    def prevailing_visibility(self) -> MetarPrevailingVisibility:
+    def prevailing_visibility(self) -> HasInMetersProtocol:
         pass
 
 
