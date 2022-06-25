@@ -46,7 +46,7 @@ class TafTemperature(Temperature, Group):
         return super().__str__() + f" at {self._time}"
 
     @property
-    def time(self) -> Time:
+    def time(self) -> Optional[Time]:
         """Get the date and time the temperature is expected to happen."""
         return self._time
 

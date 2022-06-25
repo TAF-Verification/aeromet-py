@@ -89,6 +89,8 @@ class Station(Group):
             "synop": self.synop,
             "latitude": self.latitude,
             "longitude": self.longitude,
+            "elevation": self.elevation,
+            "country": self.country,
         }
         d.update(super().to_dict())
         return d

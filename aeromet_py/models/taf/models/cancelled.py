@@ -1,5 +1,5 @@
 import re
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 from ...group import Group
 
@@ -27,7 +27,7 @@ class Cancelled(Group):
         """Get if the TAF is cancelled."""
         return self._is_cancelled
 
-    def to_dict(self) -> Dict[str, bool]:
+    def to_dict(self) -> Dict[str, Any]:
         d = {
             "is_cancelled": self.is_cancelled,
         }

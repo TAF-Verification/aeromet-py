@@ -84,10 +84,13 @@ class MetarTrendIndicator(ChangeIndicator):
 
     def to_dict(self) -> Dict[str, Any]:
         d = {
-            "forecast_period": self.forecast_period,
-            "from_": self.period_from,
-            "until": self.period_until,
-            "at": self.period_at,
+            "forecast_period": {
+                "init": self.forecast_period[0].to_dict(),
+                "end": self.forecast_period[1].to_dict(),
+            },
+            "from_": self.period_from.to_dict(),
+            "until": self.period_until.to_dict(),
+            "at": self.period_at.to_dict if self.period_at else None,
         }
         d.update(super().to_dict())
         return d

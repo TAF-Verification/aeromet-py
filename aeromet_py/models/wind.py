@@ -291,7 +291,7 @@ class Wind:
         """Get the wind gust in miles per hour."""
         return self._gust.in_miph
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> Dict[str, Dict[str, Any]]:
         return {
             "direction": self._direction.to_dict(),
             "speed": self._speed.to_dict(),

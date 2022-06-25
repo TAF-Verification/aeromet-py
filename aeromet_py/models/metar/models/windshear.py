@@ -49,10 +49,12 @@ class MetarWindshearRunway(Group):
         return self._name
 
     def to_dict(self) -> Dict[str, Any]:
-        return {
+        d = {
             "all": self.all,
             "name": self.name,
         }
+        d.update(super().to_dict())
+        return d
 
 
 class MetarWindshearList(GroupList[MetarWindshearRunway]):

@@ -35,9 +35,11 @@ class Group(metaclass=ABCMeta):
 
     @abstractmethod
     def to_dict(self) -> Dict[str, Any]:
+        """Returns the object data as a dictionary like `Dict[str, Any]`."""
         return {"code": self.code}
 
     def to_json(self) -> str:
+        """Returns the object data as a string in JSON format."""
         return json.dumps(self.to_dict())
 
 

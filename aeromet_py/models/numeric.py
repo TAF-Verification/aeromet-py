@@ -49,7 +49,9 @@ class Numeric(metaclass=ABCMeta):
 
     @abstractmethod
     def to_dict(self) -> Dict[str, Any]:
+        """Returns the numeric value data as a dictionary like `Dict[str, Any]`."""
         raise NotImplementedError()
 
     def to_json(self) -> str:
+        """Returns the object data as a string in JSON format."""
         return json.dumps(self.to_dict())

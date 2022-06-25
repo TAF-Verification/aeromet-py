@@ -121,6 +121,7 @@ class MetarMinimumVisibility(Group):
             "direction": self._direction.to_dict(),
         }
         d.update(super().to_dict())
+        return d
 
 
 class MetarPrevailingVisibility(MetarMinimumVisibility):
@@ -159,6 +160,11 @@ class MetarPrevailingVisibility(MetarMinimumVisibility):
             self._cavok = value
         else:
             raise TypeError("can't set cavok to {} type".format(type(value)))
+
+    def to_dict(self) -> Dict[str, Any]:
+        d = super().to_dict()
+        d.update({"cavok": self.cavok})
+        return d
 
 
 class MetarPrevailingMixin(HasConcatenateStringProntocol):

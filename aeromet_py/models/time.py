@@ -109,9 +109,11 @@ class Time(Group):
         return self._time.minute
 
     def to_dict(self) -> Dict[str, str]:
-        return {
+        d = {
             "datetime": str(self.time),
         }
+        d.update(super().to_dict())
+        return d
 
 
 class TimeMixin:
