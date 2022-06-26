@@ -1,5 +1,5 @@
 import re
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from ...utils import (
     MetarRegExp,
@@ -202,3 +202,22 @@ class Taf(
             self._body,
             " ".join(change.replace("_", " ") for change in self._changes_codes),
         ]
+
+    def as_dict(self) -> Dict[str, Any]:
+        d = super().as_dict()
+        d.update(
+            {
+                "modifier": self.modifier.as_dict(),
+                "missing": self.missing.as_dict(),
+                "valid": self.valid.as_dict(),
+                "cancelled": self.cancelled.as_dict(),
+                "wind": self.wind.as_dict(),
+                "prevailing_visibility": self.prevailing_visibility.as_dict(),
+                "weathers": self.weathers.as_dict(),
+                "clouds": self.clouds.as_dict(),
+                "max_temperatures": self.max_temperatures.as_dict(),
+                "min_temperatures": self.min_temperatures.as_dict(),
+                "change_periods": self.change_periods.as_dict(),
+            }
+        )
+        return d
