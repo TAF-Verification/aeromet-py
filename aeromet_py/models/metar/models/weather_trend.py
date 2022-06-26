@@ -45,15 +45,15 @@ class Forecast(
         """Get the unparsed groups of the change period."""
         return self._unparsed_groups
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         d: Dict[str, Any] = {
-            "wind": self.wind.to_dict(),
-            "prevailing_visibility": self.prevailing_visibility.to_dict(),
-            "weathers": [weather.to_dict() for weather in self.weathers],
-            "clouds": [cloud.to_dict() for cloud in self.clouds],
+            "wind": self.wind.as_dict(),
+            "prevailing_visibility": self.prevailing_visibility.as_dict(),
+            "weathers": [weather.as_dict() for weather in self.weathers],
+            "clouds": [cloud.as_dict() for cloud in self.clouds],
             "flight_rules": self.flight_rules,
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d
 
 

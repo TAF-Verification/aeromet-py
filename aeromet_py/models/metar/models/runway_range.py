@@ -164,14 +164,14 @@ class MetarRunwayRange(Group):
         """Get the trend of the runway range."""
         return self._trend
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         d = {
             "name": self.name,
             "rvr_low": self._rvr_low,
-            "low_range": self._low_range.to_dict(),
+            "low_range": self._low_range.as_dict(),
             "rvr_high": self._rvr_high,
-            "high_range": self._high_range.to_dict(),
+            "high_range": self._high_range.as_dict(),
             "trend": self.trend,
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d

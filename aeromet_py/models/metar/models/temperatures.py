@@ -82,10 +82,10 @@ class MetarTemperatures(Group):
         """Get the dewpoint in Rankine."""
         return self._dewpoint.in_rankine
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         d = {
-            "temperature": self._temperature.to_dict(),
-            "dewpoint": self._dewpoint.to_dict(),
+            "temperature": self._temperature.as_dict(),
+            "dewpoint": self._dewpoint.as_dict(),
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d

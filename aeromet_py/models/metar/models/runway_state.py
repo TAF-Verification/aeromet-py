@@ -234,7 +234,7 @@ class MetarRunwayState(Group):
 
         return clrd_text + f" on runway {self.name}"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         d = {
             "name": self.name,
             "deposits": self.deposits,
@@ -244,5 +244,5 @@ class MetarRunwayState(Group):
             "snoclo": self.snoclo,
             "clrd": self.clrd,
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d

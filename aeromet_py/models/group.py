@@ -34,13 +34,13 @@ class Group(metaclass=ABCMeta):
         return self._code
 
     @abstractmethod
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         """Returns the object data as a dictionary like `Dict[str, Any]`."""
         return {"code": self.code}
 
     def to_json(self) -> str:
         """Returns the object data as a string in JSON format."""
-        return json.dumps(self.to_dict())
+        return json.dumps(self.as_dict())
 
 
 G = TypeVar("G", bound=Group)
@@ -98,3 +98,27 @@ class GroupList(Generic[G]):
     def items(self) -> List[G]:
         """Returns the groups found in report as a List[G]."""
         return self._list
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Returns the items data as a dictionary like `Dict[str, Any]`."""
+        d = {}
+        labels = [
+            "first",
+            "second",
+            "third",
+            "fourth",
+            "fifth",
+            "sixth",
+            "seventh",
+            "eighth",
+            "nineth",
+            "tenth",
+        ]
+        for i, obj in enumerate(self._list):
+            d[f"{labels[i]}"] = obj.as_dict()
+
+        return d
+
+    def to_json(self) -> str:
+        """Returns the items data as a string in JSON format."""
+        return json.dumps(self.as_dict())

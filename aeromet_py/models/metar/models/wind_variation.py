@@ -72,10 +72,10 @@ class MetarWindVariation(Group):
         """Get the `to` direction in gradians."""
         return self._to.converted(Conversions.DEGREES_TO_GRADIANS)
 
-    def to_dict(self) -> Dict[str, Dict[str, Any]]:
+    def as_dict(self) -> Dict[str, Dict[str, Any]]:
         d = {
-            "from_": self._from.to_dict(),
-            "to": self._to.to_dict(),
+            "from_": self._from.as_dict(),
+            "to": self._to.as_dict(),
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d

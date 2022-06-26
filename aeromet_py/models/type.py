@@ -24,9 +24,9 @@ class ReportType(Group):
         """Get the type of the report."""
         return self._type
 
-    def to_dict(self) -> Dict[str, Optional[str]]:
+    def as_dict(self) -> Dict[str, Optional[str]]:
         d = {
             "type": self.type,
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d

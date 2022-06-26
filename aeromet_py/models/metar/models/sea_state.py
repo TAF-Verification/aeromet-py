@@ -131,11 +131,11 @@ class MetarSeaState(Group):
         """Get the height of the significant wave in inches."""
         return self._height.converted(Conversions.M_TO_IN)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         d = {
             "state": self.state,
-            "temperature": self._temperature.to_dict(),
-            "height": self._height.to_dict(),
+            "temperature": self._temperature.as_dict(),
+            "height": self._height.as_dict(),
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d

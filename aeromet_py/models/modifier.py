@@ -33,11 +33,11 @@ class Modifier(Group):
         """Get the modifier description of the report."""
         return self._modifier
 
-    def to_dict(self) -> Dict[str, Optional[str]]:
+    def as_dict(self) -> Dict[str, Optional[str]]:
         d = {
             "modifier": self.modifier,
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d
 
 

@@ -121,7 +121,7 @@ class Direction(Numeric):
         """Get the direction in gradians."""
         return self.converted(factor=Conversions.DEGREES_TO_GRADIANS)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         return {
             "cardinal": self.cardinal,
             "variable": self.variable,
@@ -175,7 +175,7 @@ class Speed(Numeric):
         """Get the speed in miles per hour."""
         return self.converted(factor=Conversions.KNOT_TO_MIPH)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         return {
             "units": "knot",
             "speed": self.in_knot,
@@ -291,12 +291,12 @@ class Wind:
         """Get the wind gust in miles per hour."""
         return self._gust.in_miph
 
-    def to_dict(self) -> Dict[str, Dict[str, Any]]:
+    def as_dict(self) -> Dict[str, Dict[str, Any]]:
         return {
-            "direction": self._direction.to_dict(),
-            "speed": self._speed.to_dict(),
-            "gust": self._gust.to_dict(),
+            "direction": self._direction.as_dict(),
+            "speed": self._speed.as_dict(),
+            "gust": self._gust.as_dict(),
         }
 
     def to_json(self) -> str:
-        return json.dumps(self.to_dict())
+        return json.dumps(self.as_dict())

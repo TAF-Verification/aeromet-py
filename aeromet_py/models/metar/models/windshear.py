@@ -48,12 +48,12 @@ class MetarWindshearRunway(Group):
         """Get the name of the runway with windshear."""
         return self._name
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         d = {
             "all": self.all,
             "name": self.name,
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d
 
 

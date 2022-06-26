@@ -1,6 +1,7 @@
+import json
 import re
 from abc import ABCMeta, abstractmethod
-from typing import List
+from typing import Any, Dict, List
 
 from .station import Station
 from .string_attribute import StringAttributeMixin
@@ -81,3 +82,19 @@ class Report(StringAttributeMixin, TimeMixin, metaclass=ABCMeta):
     def sections(self) -> List[str]:
         """Get the report separated in its sections as a list of strings."""
         return self._sections
+
+    @abstractmethod
+    def as_dict(self) -> Dict[str, Any]:
+        """Returns the report data as a dictionary like `Dict[str, Any]`."""
+        return {
+            "code": self.raw_code,
+            "sections": self.sections,
+            "unparsed_groups": self.unparsed_groups,
+            "type_": self.type_.as_dict(),
+            "station": self.station.as_dict(),
+            "time": self.time.as_dict(),
+        }
+
+    def to_json(self) -> str:
+        """Returns the report data as a string in JSON format."""
+        return json.dumps(self.as_dict())

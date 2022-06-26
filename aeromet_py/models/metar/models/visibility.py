@@ -115,12 +115,12 @@ class MetarMinimumVisibility(Group):
         """Get the visibility direction in gradians."""
         return self._direction.in_gradians
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         d = {
-            "visibility": self._visibility.to_dict(),
-            "direction": self._direction.to_dict(),
+            "visibility": self._visibility.as_dict(),
+            "direction": self._direction.as_dict(),
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d
 
 
@@ -161,8 +161,8 @@ class MetarPrevailingVisibility(MetarMinimumVisibility):
         else:
             raise TypeError("can't set cavok to {} type".format(type(value)))
 
-    def to_dict(self) -> Dict[str, Any]:
-        d = super().to_dict()
+    def as_dict(self) -> Dict[str, Any]:
+        d = super().as_dict()
         d.update({"cavok": self.cavok})
         return d
 

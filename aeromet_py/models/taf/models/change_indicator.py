@@ -69,9 +69,9 @@ class TafChangeIndicator(ChangeIndicator):
         """Get the valid period of the change indicator."""
         return self._valid
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         d: Dict[str, Any] = {
-            "valid": self.valid.to_dict(),
+            "valid": self.valid.as_dict(),
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d

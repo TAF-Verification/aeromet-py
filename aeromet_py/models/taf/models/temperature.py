@@ -50,10 +50,10 @@ class TafTemperature(Temperature, Group):
         """Get the date and time the temperature is expected to happen."""
         return self._time
 
-    def to_dict(self) -> Dict[str, Any]:
-        d = super().to_dict()
-        d.update(Group.to_dict(self))
-        d.update(self.time.to_dict())
+    def as_dict(self) -> Dict[str, Any]:
+        d = super().as_dict()
+        d.update(Group.as_dict(self))
+        d.update(self.time.as_dict())
         return d
 
 

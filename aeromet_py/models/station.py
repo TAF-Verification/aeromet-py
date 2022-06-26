@@ -81,7 +81,7 @@ class Station(Group):
         """Get the country of the station."""
         return get_country(self._station[7])
 
-    def to_dict(self) -> Dict[str, Optional[str]]:
+    def as_dict(self) -> Dict[str, Optional[str]]:
         d = {
             "name": self.name,
             "icao": self.icao,
@@ -92,5 +92,5 @@ class Station(Group):
             "elevation": self.elevation,
             "country": self.country,
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d

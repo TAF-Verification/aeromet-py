@@ -80,12 +80,12 @@ class Valid(Group):
         """Get the time period `until` of the forecast."""
         return self._until
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         d = {
-            "from_": self.period_from.to_dict(),
-            "until": self.period_until.to_dict(),
+            "from_": self.period_from.as_dict(),
+            "until": self.period_until.as_dict(),
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d
 
 

@@ -45,7 +45,7 @@ class ChangeIndicator(Group):
         """Get the translation of the change indicator."""
         return self._translation
 
-    def to_dict(self) -> Dict[str, Optional[str]]:
+    def as_dict(self) -> Dict[str, Optional[str]]:
         d = {"translation": self.translation}
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d

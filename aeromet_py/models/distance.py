@@ -47,7 +47,7 @@ class Distance(Numeric):
         """Get the distance in feet."""
         return self.converted(factor=Conversions.M_TO_FT)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         return {
             "units": "meters",
             "distance": self.in_meters,

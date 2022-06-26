@@ -51,7 +51,7 @@ class Temperature(Numeric):
         """Get the temperature in Rankine."""
         return self.converted(conversion=Conversions.celsius_to_rankine)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         return {
             "units": "celsius",
             "temperature": self.in_celsius,

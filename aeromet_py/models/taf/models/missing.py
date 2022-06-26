@@ -19,9 +19,9 @@ class Missing(Modifier):
         """Get if the TAF is missing."""
         return self._missing
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         d: Dict[str, Any] = {
             "is_missing": self.is_missing,
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d

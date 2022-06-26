@@ -116,7 +116,7 @@ class MetarWeather(Group):
         """Returns the other parameter of the weather."""
         return self._other
 
-    def to_dict(self) -> Dict[str, Optional[str]]:
+    def as_dict(self) -> Dict[str, Optional[str]]:
         d = {
             "intensity": self.intensity,
             "description": self.description,
@@ -124,7 +124,7 @@ class MetarWeather(Group):
             "obscuration": self.obscuration,
             "other": self.other,
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d
 
 

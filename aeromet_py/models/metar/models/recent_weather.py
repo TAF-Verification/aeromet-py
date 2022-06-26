@@ -56,12 +56,12 @@ class MetarRecentWeather(Group):
         """Get the precipitation of recent weather in METAR."""
         return self._precipitation
 
-    def to_dict(self) -> Dict[str, Optional[str]]:
+    def as_dict(self) -> Dict[str, Optional[str]]:
         d = {
             "description": self.description,
             "obscuration": self.obscuration,
             "other": self.other,
             "precipitation": self.precipitation,
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d

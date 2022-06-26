@@ -1,5 +1,6 @@
+import json
 import re
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from ...utils import (
     MetarRegExp,
@@ -279,3 +280,28 @@ class Metar(
                 body = section
 
         self._sections = [body, trend.strip(), remark]
+
+    def as_dict(self) -> Dict[str, Any]:
+        d = super().as_dict()
+        d.update(
+            {
+                "modifier": self.modifier.as_dict(),
+                "wind": self.wind.as_dict(),
+                "wind_variation": self.wind_variation.as_dict(),
+                "prevailing_visibility": self.prevailing_visibility.as_dict(),
+                "minimum_visibility": self.minimum_visibility.as_dict(),
+                "runway_ranges": self.runway_ranges.as_dict(),
+                "weathers": self.weathers.as_dict(),
+                "clouds": self.clouds.as_dict(),
+                "temperatures": self.temperatures.as_dict(),
+                "pressure": self.pressure.as_dict(),
+                "recent_weather": self.recent_weather.as_dict(),
+                "windshear": self.windshear.as_dict(),
+                "sea_state": self.sea_state.as_dict(),
+                "runway_state": self.runway_state.as_dict(),
+                "flight_rules": self.flight_rules,
+                "weather_trends": self.weather_trends.as_dict(),
+                "remark": self.remark,
+            }
+        )
+        return d

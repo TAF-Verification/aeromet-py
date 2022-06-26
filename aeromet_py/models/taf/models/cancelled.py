@@ -27,9 +27,9 @@ class Cancelled(Group):
         """Get if the TAF is cancelled."""
         return self._is_cancelled
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         d = {
             "is_cancelled": self.is_cancelled,
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d

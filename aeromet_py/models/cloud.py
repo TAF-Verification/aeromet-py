@@ -177,7 +177,7 @@ class Cloud(Group):
         """Returns the height of the cloud base in feet."""
         return self._height.in_feet
 
-    def to_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> Dict[str, Any]:
         d = {
             "cover": self.cover,
             "oktas": self.oktas,
@@ -185,7 +185,7 @@ class Cloud(Group):
             "height": self.height_in_meters,
             "type": self.cloud_type,
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d
 
 

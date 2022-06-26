@@ -108,11 +108,11 @@ class Time(Group):
         """Get the minute of the report."""
         return self._time.minute
 
-    def to_dict(self) -> Dict[str, str]:
+    def as_dict(self) -> Dict[str, str]:
         d = {
             "datetime": str(self.time),
         }
-        d.update(super().to_dict())
+        d.update(super().as_dict())
         return d
 
 
