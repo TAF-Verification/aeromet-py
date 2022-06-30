@@ -20,3 +20,14 @@ def test_metar_station():
         str(station)
         == "Name: NY NYC/JFK ARPT | Coordinates: 40.38N 073.46W | Elevation: 9 m MSL | Country: United States of America (the)"
     )
+    assert station.as_dict() == {
+        "code": "KJFK",
+        "country": "United States of America (the)",
+        "elevation": "9",
+        "iata": "JFK",
+        "icao": "KJFK",
+        "latitude": "40.38N",
+        "longitude": "073.46W",
+        "name": "NY NYC/JFK ARPT",
+        "synop": "74486",
+    }

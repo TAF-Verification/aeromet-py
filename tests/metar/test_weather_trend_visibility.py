@@ -26,6 +26,17 @@ def test_weather_trend_visibility_from_meters():
     assert first.prevailing_visibility.direction_in_degrees == None
     assert first.prevailing_visibility.direction_in_radians == None
     assert str(first.prevailing_visibility) == "5.0 km"
+    assert first.prevailing_visibility.as_dict() == {
+        "cavok": False,
+        "code": "5000",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": 5000.0, "units": "meters"},
+    }
 
     with pytest.raises(IndexError):
         assert trends[1].code == None
@@ -49,6 +60,17 @@ def test_weather_trend_visibility_from_seamiles():
     assert first.prevailing_visibility.direction_in_degrees == None
     assert first.prevailing_visibility.direction_in_radians == None
     assert str(first.prevailing_visibility) == "2.3 km"
+    assert first.prevailing_visibility.as_dict() == {
+        "cavok": False,
+        "code": "1 1/4SM",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": 2315.0, "units": "meters"},
+    }
 
     with pytest.raises(IndexError):
         assert trends[1].code == None
@@ -72,6 +94,17 @@ def test_weather_trend_visibility_from_seamiles_only_fraction():
     assert first.prevailing_visibility.direction_in_degrees == None
     assert first.prevailing_visibility.direction_in_radians == None
     assert str(first.prevailing_visibility) == "0.9 km"
+    assert first.prevailing_visibility.as_dict() == {
+        "cavok": False,
+        "code": "1/2SM",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": 926.0, "units": "meters"},
+    }
 
     with pytest.raises(IndexError):
         assert trends[1].code == None
@@ -93,6 +126,17 @@ def test_weather_trend_visibility_from_kilometers():
     assert first.prevailing_visibility.direction_in_degrees == None
     assert first.prevailing_visibility.direction_in_radians == None
     assert str(first.prevailing_visibility) == "5.0 km"
+    assert first.prevailing_visibility.as_dict() == {
+        "cavok": False,
+        "code": "5KM",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": 5000.0, "units": "meters"},
+    }
 
     with pytest.raises(IndexError):
         assert trends[1].code == None
@@ -116,6 +160,17 @@ def test_weather_trend_visibility_from_cavok():
     assert first.prevailing_visibility.direction_in_degrees == None
     assert first.prevailing_visibility.direction_in_radians == None
     assert str(first.prevailing_visibility) == "Ceiling and Visibility OK"
+    assert first.prevailing_visibility.as_dict() == {
+        "cavok": True,
+        "code": "CAVOK",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": 10000.0, "units": "meters"},
+    }
 
     with pytest.raises(IndexError):
         assert trends[1].code == None
@@ -139,6 +194,17 @@ def test_no_weather_trend_visibility():
     assert first.prevailing_visibility.direction_in_degrees == None
     assert first.prevailing_visibility.direction_in_radians == None
     assert str(first.prevailing_visibility) == ""
+    assert first.prevailing_visibility.as_dict() == {
+        "cavok": False,
+        "code": None,
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": None, "units": "meters"},
+    }
 
     with pytest.raises(IndexError):
         assert trends[1].code == None

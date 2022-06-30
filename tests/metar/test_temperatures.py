@@ -19,6 +19,11 @@ def test_positive_temperatures():
     assert temperatures.dewpoint_in_fahrenheit == approx(35.6)
     assert temperatures.dewpoint_in_rankine == approx(495.27)
     assert str(temperatures) == "temperature: 4.0°C | dewpoint: 2.0°C"
+    assert temperatures.as_dict() == {
+        "code": "04/02",
+        "dewpoint": {"temperature": 2.0, "units": "celsius"},
+        "temperature": {"temperature": 4.0, "units": "celsius"},
+    }
 
 
 def test_negative_temperatures():
@@ -37,6 +42,11 @@ def test_negative_temperatures():
     assert temperatures.dewpoint_in_fahrenheit == approx(24.8)
     assert temperatures.dewpoint_in_rankine == approx(484.47)
     assert str(temperatures) == "temperature: -1.0°C | dewpoint: -4.0°C"
+    assert temperatures.as_dict() == {
+        "code": "M01/M04",
+        "dewpoint": {"temperature": -4.0, "units": "celsius"},
+        "temperature": {"temperature": -1.0, "units": "celsius"},
+    }
 
 
 def test_no_temperatures():
@@ -53,3 +63,8 @@ def test_no_temperatures():
     assert temperatures.dewpoint_in_fahrenheit == None
     assert temperatures.dewpoint_in_rankine == None
     assert str(temperatures) == ""
+    assert temperatures.as_dict() == {
+        "code": "/////",
+        "dewpoint": {"temperature": None, "units": "celsius"},
+        "temperature": {"temperature": None, "units": "celsius"},
+    }

@@ -20,6 +20,14 @@ def test_two_cloud_layers():
     assert clouds[0].height_in_kilometers == 1.49352
     assert clouds[0].height_in_sea_miles == 0.8064362850971921
     assert clouds[0].cloud_type == None
+    assert clouds[0].as_dict() == {
+        "code": "FEW049",
+        "cover": "a few",
+        "height": 1493.52,
+        "height_units": "meters",
+        "oktas": "1-2",
+        "type": None,
+    }
 
     assert clouds[1].code == "BKN056"
     assert clouds[1].cover == "broken"
@@ -29,6 +37,14 @@ def test_two_cloud_layers():
     assert clouds[1].height_in_kilometers == 1.7068800000000002
     assert clouds[1].height_in_sea_miles == 0.9216414686825053
     assert clouds[1].cloud_type == None
+    assert clouds[1].as_dict() == {
+        "code": "BKN056",
+        "cover": "broken",
+        "height": 1706.88,
+        "height_units": "meters",
+        "oktas": "5-7",
+        "type": None,
+    }
 
     with pytest.raises(IndexError):
         assert clouds[2].code == None
@@ -55,6 +71,14 @@ def test_three_cloud_layers():
     assert clouds[0].height_in_kilometers == 0.39624000000000004
     assert clouds[0].height_in_sea_miles == 0.21395248380129586
     assert clouds[0].cloud_type == None
+    assert clouds[0].as_dict() == {
+        "code": "FEW013",
+        "cover": "a few",
+        "height": 396.24,
+        "height_units": "meters",
+        "oktas": "1-2",
+        "type": None,
+    }
 
     assert clouds[1].code == "BKN021CB"
     assert clouds[1].cover == "broken"
@@ -64,6 +88,14 @@ def test_three_cloud_layers():
     assert clouds[1].height_in_kilometers == 0.6400800000000001
     assert clouds[1].height_in_sea_miles == 0.34561555075593947
     assert clouds[1].cloud_type == "cumulonimbus"
+    assert clouds[1].as_dict() == {
+        "code": "BKN021CB",
+        "cover": "broken",
+        "height": 640.08,
+        "height_units": "meters",
+        "oktas": "5-7",
+        "type": "cumulonimbus",
+    }
 
     assert clouds[2].code == "OVC040"
     assert clouds[2].cover == "overcast"
@@ -73,6 +105,14 @@ def test_three_cloud_layers():
     assert clouds[2].height_in_kilometers == 1.2192
     assert clouds[2].height_in_sea_miles == 0.6583153347732181
     assert clouds[2].cloud_type == None
+    assert clouds[2].as_dict() == {
+        "code": "OVC040",
+        "cover": "overcast",
+        "height": 1219.2,
+        "height_units": "meters",
+        "oktas": "8",
+        "type": None,
+    }
 
     with pytest.raises(RangeError):
         assert clouds[4].code == None
@@ -106,6 +146,14 @@ def test_vertical_visibility():
     assert clouds[0].height_in_kilometers == None
     assert clouds[0].height_in_sea_miles == None
     assert clouds[0].cloud_type == None
+    assert clouds[0].as_dict() == {
+        "code": "VV///",
+        "cover": "indefinite ceiling",
+        "height": None,
+        "height_units": "meters",
+        "oktas": "undefined",
+        "type": None,
+    }
 
     for i in range(1, 3):
         with pytest.raises(IndexError):
@@ -128,6 +176,14 @@ def test_vertical_visibility_with_height():
     assert clouds[0].height_in_kilometers == 0.1524
     assert clouds[0].height_in_sea_miles == 0.08228941684665227
     assert clouds[0].cloud_type == None
+    assert clouds[0].as_dict() == {
+        "code": "VV005",
+        "cover": "indefinite ceiling",
+        "height": 152.4,
+        "height_units": "meters",
+        "oktas": "undefined",
+        "type": None,
+    }
 
     for i in range(1, 3):
         with pytest.raises(IndexError):

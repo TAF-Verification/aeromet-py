@@ -28,6 +28,15 @@ def test_runway_range():
         str(ranges[0])
         == "runway 07 left below of 150.0 m varying to 600.0 m, increasing"
     )
+    assert ranges[0].as_dict() == {
+        "code": "R07L/M0150V0600U",
+        "high_range": {"distance": 600.0, "units": "meters"},
+        "low_range": {"distance": 150.0, "units": "meters"},
+        "name": "07 left",
+        "rvr_high": None,
+        "rvr_low": "below of",
+        "trend": "increasing",
+    }
 
     with pytest.raises(IndexError):
         ranges[1].code = None
@@ -54,6 +63,15 @@ def test_runway_range_no_high():
     assert ranges[0].low_range == "above of 150.0 m"
     assert ranges[0].high_range == ""
     assert str(ranges[0]) == "runway 25 center above of 150.0 m, decreasing"
+    assert ranges[0].as_dict() == {
+        "code": "R25C/P0150D",
+        "high_range": {"distance": None, "units": "meters"},
+        "low_range": {"distance": 150.0, "units": "meters"},
+        "name": "25 center",
+        "rvr_high": None,
+        "rvr_low": "above of",
+        "trend": "decreasing",
+    }
 
     with pytest.raises(IndexError):
         ranges[1].code = None
@@ -81,6 +99,15 @@ def test_two_runway_ranges():
         str(ranges[0])
         == "runway 07 left below of 150.0 m varying to 600.0 m, increasing"
     )
+    assert ranges[0].as_dict() == {
+        "code": "R07L/M0150V0600U",
+        "high_range": {"distance": 600.0, "units": "meters"},
+        "low_range": {"distance": 150.0, "units": "meters"},
+        "name": "07 left",
+        "rvr_high": None,
+        "rvr_low": "below of",
+        "trend": "increasing",
+    }
 
     assert ranges[1].code == "R25C/P0150D"
     assert ranges[1].low_in_meters == 150.0
@@ -93,6 +120,15 @@ def test_two_runway_ranges():
     assert ranges[1].low_range == "above of 150.0 m"
     assert ranges[1].high_range == ""
     assert str(ranges[1]) == "runway 25 center above of 150.0 m, decreasing"
+    assert ranges[1].as_dict() == {
+        "code": "R25C/P0150D",
+        "high_range": {"distance": None, "units": "meters"},
+        "low_range": {"distance": 150.0, "units": "meters"},
+        "name": "25 center",
+        "rvr_high": None,
+        "rvr_low": "above of",
+        "trend": "decreasing",
+    }
 
     with pytest.raises(IndexError):
         ranges[2].code = None

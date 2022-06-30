@@ -33,6 +33,17 @@ def test_weather_trend_wind_with_gust():
     assert first.wind.gust_in_knot == 22.0
     assert first.wind.gust_in_mps == 11.31777768
     assert first.wind.gust_in_miph == 25.317159999999998
+    assert first.wind.as_dict() == {
+        "code": "09012G22KT",
+        "direction": {
+            "cardinal": "E",
+            "direction": 90.0,
+            "units": "degrees",
+            "variable": False,
+        },
+        "gust": {"speed": 22.0, "units": "knot"},
+        "speed": {"speed": 12.0, "units": "knot"},
+    }
 
     with pytest.raises(IndexError):
         assert trends[1].code == None
@@ -65,6 +76,17 @@ def test_weather_trend_wind_without_gust():
     assert first.wind.gust_in_knot == None
     assert first.wind.gust_in_mps == None
     assert first.wind.gust_in_miph == None
+    assert first.wind.as_dict() == {
+        "code": "34012KT",
+        "direction": {
+            "cardinal": "NNW",
+            "direction": 340.0,
+            "units": "degrees",
+            "variable": False,
+        },
+        "gust": {"speed": None, "units": "knot"},
+        "speed": {"speed": 12.0, "units": "knot"},
+    }
 
     with pytest.raises(IndexError):
         assert trends[1].code == None
@@ -97,6 +119,17 @@ def test_weather_trend_no_wind():
     assert first.wind.gust_in_knot == None
     assert first.wind.gust_in_mps == None
     assert first.wind.gust_in_miph == None
+    assert first.wind.as_dict() == {
+        "code": None,
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "gust": {"speed": None, "units": "knot"},
+        "speed": {"speed": None, "units": "knot"},
+    }
 
     with pytest.raises(IndexError):
         assert trends[1].code == None

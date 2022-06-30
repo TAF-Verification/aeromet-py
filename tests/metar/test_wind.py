@@ -19,6 +19,17 @@ def test_wind_with_gust():
     assert wind.gust_in_mps == 11.31777768
     assert wind.gust_in_miph == 25.317159999999998
     assert str(wind) == "E (90.0°) 12.0 kt gust of 22.0 kt"
+    assert wind.as_dict() == {
+        "code": "09012G22KT",
+        "direction": {
+            "cardinal": "E",
+            "direction": 90.0,
+            "units": "degrees",
+            "variable": False,
+        },
+        "gust": {"speed": 22.0, "units": "knot"},
+        "speed": {"speed": 12.0, "units": "knot"},
+    }
 
 
 def test_wind_without_gust():
@@ -39,6 +50,17 @@ def test_wind_without_gust():
     assert wind.gust_in_mps == None
     assert wind.gust_in_miph == None
     assert str(wind) == "NNW (340.0°) 12.0 kt"
+    assert wind.as_dict() == {
+        "code": "34012KT",
+        "direction": {
+            "cardinal": "NNW",
+            "direction": 340.0,
+            "units": "degrees",
+            "variable": False,
+        },
+        "gust": {"speed": None, "units": "knot"},
+        "speed": {"speed": 12.0, "units": "knot"},
+    }
 
 
 def test_variable_wind():
@@ -59,6 +81,17 @@ def test_variable_wind():
     assert wind.gust_in_mps == None
     assert wind.gust_in_miph == None
     assert str(wind) == "variable wind 2.0 kt"
+    assert wind.as_dict() == {
+        "code": "VRB02KT",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": True,
+        },
+        "gust": {"speed": None, "units": "knot"},
+        "speed": {"speed": 2.0, "units": "knot"},
+    }
 
 
 def test_no_wind():
@@ -79,6 +112,17 @@ def test_no_wind():
     assert wind.gust_in_mps == None
     assert wind.gust_in_miph == None
     assert str(wind) == ""
+    assert wind.as_dict() == {
+        "code": "/////KT",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "gust": {"speed": None, "units": "knot"},
+        "speed": {"speed": None, "units": "knot"},
+    }
 
 
 def test_wind_variation():
@@ -94,6 +138,21 @@ def test_wind_variation():
     assert wind_variation.to_in_degrees == 20.0
     assert wind_variation.to_in_radians == 0.3490658503988659
     assert str(wind_variation) == "from NW (310.0°) to NNE (20.0°)"
+    assert wind_variation.as_dict() == {
+        "code": "310V020",
+        "from_": {
+            "cardinal": "NW",
+            "direction": 310.0,
+            "units": "degrees",
+            "variable": False,
+        },
+        "to": {
+            "cardinal": "NNE",
+            "direction": 20.0,
+            "units": "degrees",
+            "variable": False,
+        },
+    }
 
 
 def test_no_wind_variation():
@@ -109,3 +168,18 @@ def test_no_wind_variation():
     assert wind_variation.to_in_degrees == None
     assert wind_variation.to_in_radians == None
     assert str(wind_variation) == ""
+    assert wind_variation.as_dict() == {
+        "code": None,
+        "from_": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "to": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+    }

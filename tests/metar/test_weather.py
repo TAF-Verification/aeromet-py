@@ -17,6 +17,14 @@ def test_one_weather():
     assert weathers[0].precipitation == "snow"
     assert weathers[0].obscuration == None
     assert weathers[0].other == None
+    assert weathers[0].as_dict() == {
+        "code": "-SN",
+        "description": None,
+        "intensity": "light",
+        "obscuration": None,
+        "other": None,
+        "precipitation": "snow",
+    }
 
     with pytest.raises(IndexError):
         weathers[1].code = None
@@ -36,12 +44,28 @@ def test_two_weathers():
     assert weathers[0].precipitation == "drizzle"
     assert weathers[0].obscuration == None
     assert weathers[0].other == None
+    assert weathers[0].as_dict() == {
+        "code": "+DZ",
+        "description": None,
+        "intensity": "heavy",
+        "obscuration": None,
+        "other": None,
+        "precipitation": "drizzle",
+    }
 
     assert weathers[1].intensity == "nearby"
     assert weathers[1].description == "showers"
     assert weathers[1].precipitation == None
     assert weathers[1].obscuration == None
     assert weathers[1].other == None
+    assert weathers[1].as_dict() == {
+        "code": "VCSH",
+        "description": "showers",
+        "intensity": "nearby",
+        "obscuration": None,
+        "other": None,
+        "precipitation": None,
+    }
 
     with pytest.raises(IndexError):
         weathers[2].code = None
@@ -61,18 +85,42 @@ def test_three_weathers():
     assert weathers[0].precipitation == "rain"
     assert weathers[0].obscuration == None
     assert weathers[0].other == None
+    assert weathers[0].as_dict() == {
+        "code": "-RA",
+        "description": None,
+        "intensity": "light",
+        "obscuration": None,
+        "other": None,
+        "precipitation": "rain",
+    }
 
     assert weathers[1].intensity == None
     assert weathers[1].description == None
     assert weathers[1].precipitation == None
     assert weathers[1].obscuration == "mist"
     assert weathers[1].other == None
+    assert weathers[1].as_dict() == {
+        "code": "BR",
+        "description": None,
+        "intensity": None,
+        "obscuration": "mist",
+        "other": None,
+        "precipitation": None,
+    }
 
     assert weathers[2].intensity == "nearby"
     assert weathers[2].description == "thunderstorm"
     assert weathers[2].precipitation == None
     assert weathers[2].obscuration == None
     assert weathers[2].other == None
+    assert weathers[2].as_dict() == {
+        "code": "VCTS",
+        "description": "thunderstorm",
+        "intensity": "nearby",
+        "obscuration": None,
+        "other": None,
+        "precipitation": None,
+    }
 
 
 def test_no_weathers():
@@ -83,6 +131,7 @@ def test_no_weathers():
 
     assert weathers.codes == []
     assert str(weathers) == ""
+    assert weathers.as_dict() == {}
 
     for i in range(3):
         with pytest.raises(IndexError):
@@ -97,6 +146,32 @@ def test_try_to_get_item_4():
 
     assert weathers.codes == ["RA", "BR", "VCTS"]
     assert str(weathers) == "rain | mist | nearby thunderstorm"
+    assert weathers.as_dict() == {
+        "first": {
+            "code": "RA",
+            "description": None,
+            "intensity": None,
+            "obscuration": None,
+            "other": None,
+            "precipitation": "rain",
+        },
+        "second": {
+            "code": "BR",
+            "description": None,
+            "intensity": None,
+            "obscuration": "mist",
+            "other": None,
+            "precipitation": None,
+        },
+        "third": {
+            "code": "VCTS",
+            "description": "thunderstorm",
+            "intensity": "nearby",
+            "obscuration": None,
+            "other": None,
+            "precipitation": None,
+        },
+    }
 
     with pytest.raises(RangeError):
         assert weathers[3].code == None

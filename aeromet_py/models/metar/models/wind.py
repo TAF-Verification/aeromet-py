@@ -1,5 +1,5 @@
 import re
-from typing import Optional
+from typing import Optional, Dict, Any
 
 from ...group import Group
 from ...string_attribute import HasConcatenateStringProntocol
@@ -25,6 +25,11 @@ class MetarWind(Wind, Group):
 
             super().__init__(direction=_dir, speed=_spd, gust=_gst)
             Group.__init__(self, match.string)
+
+    def as_dict(self) -> Dict[str, Any]:
+        d = super().as_dict()
+        d.update(Group.as_dict(self))
+        return d
 
 
 class MetarWindMixin(HasConcatenateStringProntocol):

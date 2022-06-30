@@ -90,7 +90,7 @@ class MetarTrendIndicator(ChangeIndicator):
             },
             "from_": self.period_from.as_dict(),
             "until": self.period_until.as_dict(),
-            "at": self.period_at.as_dict if self.period_at else None,
+            "at": self.period_at.as_dict() if self.period_at else None,
         }
         d.update(super().as_dict())
         return d

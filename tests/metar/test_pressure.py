@@ -13,6 +13,7 @@ def test_from_hpa():
     assert pressure.in_bar == approx(1.013)
     assert pressure.in_atm == approx(0.999753269183321)
     assert str(pressure) == "1013.0 hPa"
+    assert pressure.as_dict() == {"pressure": 1013.0, "units": "hectopascals"}
 
 
 def test_from_inhg():
@@ -26,6 +27,7 @@ def test_from_inhg():
     assert pressure.in_bar == approx(1.02438, rel=2.0e-06)
     assert pressure.in_atm == approx(1.0109864144314047)
     assert str(pressure) == "1024.4 hPa"
+    assert pressure.as_dict() == {"pressure": 1024.3819844226, "units": "hectopascals"}
 
 
 def test_no_pressure():
@@ -41,3 +43,4 @@ def test_no_pressure():
     assert pressure.in_bar == None
     assert pressure.in_atm == None
     assert str(pressure) == ""
+    assert pressure.as_dict() == {"pressure": None, "units": "hectopascals"}

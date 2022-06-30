@@ -16,6 +16,16 @@ def test_snoclo():
     assert state.snoclo == True
     assert state.clrd == None
     assert str(state) == "aerodrome is closed due to extreme deposit of snow"
+    assert state.as_dict() == {
+        "clrd": None,
+        "code": "R09L/SNOCLO",
+        "contamination": None,
+        "deposits": None,
+        "deposits_depth": None,
+        "name": "09 left",
+        "snoclo": True,
+        "surface_friction": None,
+    }
 
 
 def test_clrd():
@@ -33,6 +43,16 @@ def test_clrd():
     assert state.snoclo == False
     assert state.clrd == "contaminations have ceased to exists on runway 25 center"
     assert str(state) == "contaminations have ceased to exists on runway 25 center"
+    assert state.as_dict() == {
+        "clrd": "contaminations have ceased to exists on runway 25 center",
+        "code": "R25C/CLRD//",
+        "contamination": None,
+        "deposits": None,
+        "deposits_depth": None,
+        "name": "25 center",
+        "snoclo": False,
+        "surface_friction": None,
+    }
 
 
 def test_runway_state():
@@ -53,6 +73,16 @@ def test_runway_state():
         str(state)
         == "10 right, deposits of 76 mm of wet snow, contamination 11%-25% of runway, estimated surface friction 0.50"
     )
+    assert state.as_dict() == {
+        "clrd": None,
+        "code": "R10R/527650",
+        "contamination": "11%-25% of runway",
+        "deposits": "wet snow",
+        "deposits_depth": "76 mm",
+        "name": "10 right",
+        "snoclo": False,
+        "surface_friction": "0.50",
+    }
 
 
 def test_no_runway_state():
@@ -68,3 +98,13 @@ def test_no_runway_state():
     assert state.snoclo == False
     assert state.clrd == None
     assert str(state) == ""
+    assert state.as_dict() == {
+        "clrd": None,
+        "code": None,
+        "contamination": None,
+        "deposits": None,
+        "deposits_depth": None,
+        "name": None,
+        "snoclo": False,
+        "surface_friction": None,
+    }

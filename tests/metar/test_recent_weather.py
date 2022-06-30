@@ -11,6 +11,13 @@ def test_recent_weather_first():
     assert recent_weather.obscuration == None
     assert recent_weather.other == None
     assert str(recent_weather) == "rain"
+    assert recent_weather.as_dict() == {
+        "code": "RERA",
+        "description": None,
+        "obscuration": None,
+        "other": None,
+        "precipitation": "rain",
+    }
 
 
 def test_recent_weather_second():
@@ -25,6 +32,13 @@ def test_recent_weather_second():
     assert recent_weather.obscuration == None
     assert recent_weather.other == None
     assert str(recent_weather) == "thunderstorm hail"
+    assert recent_weather.as_dict() == {
+        "code": "RETSGR",
+        "description": "thunderstorm",
+        "obscuration": None,
+        "other": None,
+        "precipitation": "hail",
+    }
 
 
 def test_no_recent_weather():
@@ -37,3 +51,10 @@ def test_no_recent_weather():
     assert recent_weather.obscuration == None
     assert recent_weather.other == None
     assert str(recent_weather) == ""
+    assert recent_weather.as_dict() == {
+        "code": None,
+        "description": None,
+        "obscuration": None,
+        "other": None,
+        "precipitation": None,
+    }

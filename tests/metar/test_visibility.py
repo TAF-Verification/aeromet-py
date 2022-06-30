@@ -15,6 +15,17 @@ def test_visibility_from_meters():
     assert visibility.direction_in_degrees == None
     assert visibility.direction_in_radians == None
     assert str(visibility) == "10.0 km"
+    assert visibility.as_dict() == {
+        "cavok": False,
+        "code": "9999",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": 10000.0, "units": "meters"},
+    }
 
 
 def test_visibility_from_seamiles():
@@ -33,6 +44,17 @@ def test_visibility_from_seamiles():
     assert visibility.direction_in_degrees == None
     assert visibility.direction_in_radians == None
     assert str(visibility) == "2.3 km"
+    assert visibility.as_dict() == {
+        "cavok": False,
+        "code": "1 1/4SM",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": 2315.0, "units": "meters"},
+    }
 
 
 def test_visibility_from_seamiles_only_fraction():
@@ -51,6 +73,17 @@ def test_visibility_from_seamiles_only_fraction():
     assert visibility.direction_in_degrees == None
     assert visibility.direction_in_radians == None
     assert str(visibility) == "0.9 km"
+    assert visibility.as_dict() == {
+        "cavok": False,
+        "code": "1/2SM",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": 926.0, "units": "meters"},
+    }
 
 
 def test_visibility_from_kilometers():
@@ -67,6 +100,17 @@ def test_visibility_from_kilometers():
     assert visibility.direction_in_degrees == None
     assert visibility.direction_in_radians == None
     assert str(visibility) == "5.0 km"
+    assert visibility.as_dict() == {
+        "cavok": False,
+        "code": "5KM",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": 5000.0, "units": "meters"},
+    }
 
 
 def test_visibility_from_cavok():
@@ -83,6 +127,17 @@ def test_visibility_from_cavok():
     assert visibility.direction_in_degrees == None
     assert visibility.direction_in_radians == None
     assert str(visibility) == "Ceiling and Visibility OK"
+    assert visibility.as_dict() == {
+        "cavok": True,
+        "code": "CAVOK",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": 10000.0, "units": "meters"},
+    }
 
 
 def test_no_visibility():
@@ -101,6 +156,17 @@ def test_no_visibility():
     assert visibility.direction_in_degrees == None
     assert visibility.direction_in_radians == None
     assert str(visibility) == ""
+    assert visibility.as_dict() == {
+        "cavok": False,
+        "code": None,
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": None, "units": "meters"},
+    }
 
 
 def test_minimum_visibility():
@@ -118,6 +184,16 @@ def test_minimum_visibility():
     assert min_vis.direction_in_degrees == 315.0
     assert min_vis.direction_in_radians == 5.497787143782138
     assert str(min_vis) == "2.1 km to NW (315.0°)"
+    assert min_vis.as_dict() == {
+        "code": "2100NW",
+        "direction": {
+            "cardinal": "NW",
+            "direction": 315.0,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": 2100.0, "units": "meters"},
+    }
 
 
 def test_no_minimum_visibility():
@@ -135,3 +211,13 @@ def test_no_minimum_visibility():
     assert min_vis.direction_in_degrees == None
     assert min_vis.direction_in_radians == None
     assert str(min_vis) == ""
+    assert min_vis.as_dict() == {
+        "code": None,
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": None, "units": "meters"},
+    }

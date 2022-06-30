@@ -28,6 +28,19 @@ def test_one_weather_trend_weather():
 
     weathers = first.weathers
 
+    assert weathers.codes == ["+SN"]
+    assert str(weathers) == "heavy snow"
+    assert weathers.as_dict() == {
+        "first": {
+            "code": "+SN",
+            "description": None,
+            "intensity": "heavy",
+            "obscuration": None,
+            "other": None,
+            "precipitation": "snow",
+        }
+    }
+
     assert weathers[0].intensity == "heavy"
     assert weathers[0].description == None
     assert weathers[0].precipitation == "snow"
@@ -63,6 +76,24 @@ def test_two_weather_trend_weathers():
 
     assert weathers.codes == ["TSRA", "BR"]
     assert str(weathers) == "thunderstorm rain | mist"
+    assert weathers.as_dict() == {
+        "first": {
+            "code": "TSRA",
+            "description": "thunderstorm",
+            "intensity": None,
+            "obscuration": None,
+            "other": None,
+            "precipitation": "rain",
+        },
+        "second": {
+            "code": "BR",
+            "description": None,
+            "intensity": None,
+            "obscuration": "mist",
+            "other": None,
+            "precipitation": None,
+        },
+    }
 
     assert weathers[0].intensity == None
     assert weathers[0].description == "thunderstorm"
@@ -101,8 +132,35 @@ def test_three_weather_trend_weathers():
     assert first.code == "TEMPO 5000 -RA BR VCTS"
 
     weathers = first.weathers
+
     assert weathers.codes == ["-RA", "BR", "VCTS"]
     assert str(weathers) == "light rain | mist | nearby thunderstorm"
+    assert weathers.as_dict() == {
+        "first": {
+            "code": "-RA",
+            "description": None,
+            "intensity": "light",
+            "obscuration": None,
+            "other": None,
+            "precipitation": "rain",
+        },
+        "second": {
+            "code": "BR",
+            "description": None,
+            "intensity": None,
+            "obscuration": "mist",
+            "other": None,
+            "precipitation": None,
+        },
+        "third": {
+            "code": "VCTS",
+            "description": "thunderstorm",
+            "intensity": "nearby",
+            "obscuration": None,
+            "other": None,
+            "precipitation": None,
+        },
+    }
 
     assert weathers[0].intensity == "light"
     assert weathers[0].description == None
@@ -143,6 +201,7 @@ def test_no_weather_trend_weathers():
     weathers = first.weathers
     assert weathers.codes == []
     assert str(weathers) == ""
+    assert weathers.as_dict() == {}
 
     for i in range(3):
         with pytest.raises(IndexError):
@@ -161,6 +220,32 @@ def test_try_to_get_item_4_in_weather_trend_weathers():
     weathers = first.weathers
     assert weathers.codes == ["TSRA", "BR", "VCFG"]
     assert str(weathers) == "thunderstorm rain | mist | nearby fog"
+    assert weathers.as_dict() == {
+        "first": {
+            "code": "TSRA",
+            "description": "thunderstorm",
+            "intensity": None,
+            "obscuration": None,
+            "other": None,
+            "precipitation": "rain",
+        },
+        "second": {
+            "code": "BR",
+            "description": None,
+            "intensity": None,
+            "obscuration": "mist",
+            "other": None,
+            "precipitation": None,
+        },
+        "third": {
+            "code": "VCFG",
+            "description": None,
+            "intensity": "nearby",
+            "obscuration": "fog",
+            "other": None,
+            "precipitation": None,
+        },
+    }
 
     with pytest.raises(RangeError):
         assert weathers[3].code == None

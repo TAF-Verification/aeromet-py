@@ -15,6 +15,11 @@ def test_one_windshear():
     assert windshear[0].code == "WS R07"
     assert windshear[0].name == "07"
     assert windshear[0].all == False
+    assert windshear[0].as_dict() == {
+        "all": False,
+        "code": "WS R07",
+        "name": "07",
+    }
 
     with pytest.raises(IndexError):
         assert windshear[1].code == None
@@ -32,9 +37,20 @@ def test_two_windshears():
     assert windshear[0].code == "WS R07L"
     assert windshear[0].name == "07 left"
     assert windshear[0].all == False
+    assert windshear[0].as_dict() == {
+        "all": False,
+        "code": "WS R07L",
+        "name": "07 left",
+    }
+
     assert windshear[1].code == "WS R25C"
     assert windshear[1].name == "25 center"
     assert windshear[1].all == False
+    assert windshear[1].as_dict() == {
+        "all": False,
+        "code": "WS R25C",
+        "name": "25 center",
+    }
 
     with pytest.raises(IndexError):
         assert windshear[2].code == None
@@ -52,6 +68,7 @@ def test_all_windshears():
     assert windshear[0].code == "WS ALL RWY"
     assert windshear[0].name == None
     assert windshear[0].all == True
+    assert windshear[0].as_dict() == {"all": True, "code": "WS ALL RWY", "name": None}
 
     with pytest.raises(IndexError):
         assert windshear[1].code == None
@@ -66,6 +83,7 @@ def test_no_windshears():
     assert windshear.codes == []
     assert str(windshear) == ""
     assert windshear.all_runways == False
+    assert windshear.as_dict() == {}
 
     for i in range(3):
         with pytest.raises(IndexError):

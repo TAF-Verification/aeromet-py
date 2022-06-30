@@ -36,6 +36,17 @@ def test_weather_trend_code_nosig():
     assert first.change_indicator.period_until.hour == 6
     assert first.change_indicator.period_until.minute == 0
     assert first.change_indicator.period_at == None
+    assert first.change_indicator.as_dict() == {
+        "at": None,
+        "code": "NOSIG",
+        "forecast_period": {
+            "end": {"code": None, "datetime": "2022-02-05 06:00:00"},
+            "init": {"code": None, "datetime": "2022-02-05 04:00:00"},
+        },
+        "from_": {"code": None, "datetime": "2022-02-05 04:00:00"},
+        "translation": "no significant changes",
+        "until": {"code": None, "datetime": "2022-02-05 06:00:00"},
+    }
 
     with pytest.raises(IndexError):
         assert trends[1].code == None
@@ -71,6 +82,17 @@ def test_weather_trend_code_tempo():
     assert first.change_indicator.period_until.hour == 15
     assert first.change_indicator.period_until.minute == 47
     assert first.change_indicator.period_at == None
+    assert first.change_indicator.as_dict() == {
+        "at": None,
+        "code": "TEMPO",
+        "forecast_period": {
+            "end": {"code": None, "datetime": "2022-02-05 15:47:00"},
+            "init": {"code": None, "datetime": "2022-02-05 13:47:00"},
+        },
+        "from_": {"code": None, "datetime": "2022-02-05 13:47:00"},
+        "translation": "temporary",
+        "until": {"code": None, "datetime": "2022-02-05 15:47:00"},
+    }
 
     with pytest.raises(IndexError):
         assert trends[1].code == None
@@ -105,6 +127,17 @@ def test_weather_trend_code_becmg():
     assert first.change_indicator.period_until.hour == 11
     assert first.change_indicator.period_until.minute == 30
     assert first.change_indicator.period_at == None
+    assert first.change_indicator.as_dict() == {
+        "at": None,
+        "code": "BECMG",
+        "forecast_period": {
+            "end": {"code": None, "datetime": "2022-02-04 11:30:00"},
+            "init": {"code": None, "datetime": "2022-02-04 09:30:00"},
+        },
+        "from_": {"code": None, "datetime": "2022-02-04 09:30:00"},
+        "translation": "becoming",
+        "until": {"code": None, "datetime": "2022-02-04 11:30:00"},
+    }
 
     with pytest.raises(IndexError):
         assert trends[1].code == None
@@ -139,6 +172,17 @@ def test_weather_trend_code_becmg_with_from_period():
     assert first.change_indicator.period_until.hour == 15
     assert first.change_indicator.period_until.minute == 50
     assert first.change_indicator.period_at == None
+    assert first.change_indicator.as_dict() == {
+        "at": None,
+        "code": "BECMG FM1410",
+        "forecast_period": {
+            "end": {"code": None, "datetime": "2022-02-06 15:50:00"},
+            "init": {"code": None, "datetime": "2022-02-06 13:50:00"},
+        },
+        "from_": {"code": "FM1410", "datetime": "2022-02-06 14:10:00"},
+        "translation": "becoming",
+        "until": {"code": None, "datetime": "2022-02-06 15:50:00"},
+    }
 
     with pytest.raises(IndexError):
         assert trends[1].code == None
@@ -173,6 +217,17 @@ def test_weather_trend_code_tempo_with_from_and_until_periods():
     assert first.change_indicator.period_until.hour == 1
     assert first.change_indicator.period_until.minute == 0
     assert first.change_indicator.period_at == None
+    assert first.change_indicator.as_dict() == {
+        "at": None,
+        "code": "TEMPO FM0000 TL0100",
+        "forecast_period": {
+            "end": {"code": None, "datetime": "2022-02-07 01:35:00"},
+            "init": {"code": None, "datetime": "2022-02-06 23:35:00"},
+        },
+        "from_": {"code": "FM0000", "datetime": "2022-02-07 00:00:00"},
+        "translation": "temporary",
+        "until": {"code": "TL0100", "datetime": "2022-02-07 01:00:00"},
+    }
 
     with pytest.raises(IndexError):
         assert trends[1].code == None
@@ -211,6 +266,17 @@ def test_weather_trend_code_becmg_with_at_period():
     assert first.change_indicator.period_at.day == 7
     assert first.change_indicator.period_at.hour == 0
     assert first.change_indicator.period_at.minute == 30
+    assert first.change_indicator.as_dict() == {
+        "at": {"code": "AT0030", "datetime": "2022-02-07 00:30:00"},
+        "code": "BECMG AT0030",
+        "forecast_period": {
+            "end": {"code": None, "datetime": "2022-02-07 02:00:00"},
+            "init": {"code": None, "datetime": "2022-02-07 00:00:00"},
+        },
+        "from_": {"code": None, "datetime": "2022-02-07 00:00:00"},
+        "translation": "becoming",
+        "until": {"code": None, "datetime": "2022-02-07 02:00:00"},
+    }
 
     with pytest.raises(IndexError):
         assert trends[1].code == None
@@ -247,6 +313,17 @@ def test_weather_trend_with_two_changes():
     assert first.change_indicator.period_until.hour == 3
     assert first.change_indicator.period_until.minute == 0
     assert first.change_indicator.period_at == None
+    assert first.change_indicator.as_dict() == {
+        "at": None,
+        "code": "BECMG FM0130",
+        "forecast_period": {
+            "end": {"code": None, "datetime": "2022-02-15 03:00:00"},
+            "init": {"code": None, "datetime": "2022-02-15 01:00:00"},
+        },
+        "from_": {"code": "FM0130", "datetime": "2022-02-15 01:30:00"},
+        "translation": "becoming",
+        "until": {"code": None, "datetime": "2022-02-15 03:00:00"},
+    }
 
     second = trends[1]
     assert second.code == "TEMPO FM0215 TL0245 BKN010"
@@ -263,6 +340,17 @@ def test_weather_trend_with_two_changes():
     assert second.change_indicator.period_until.hour == 2
     assert second.change_indicator.period_until.minute == 45
     assert second.change_indicator.period_at == None
+    assert second.change_indicator.as_dict() == {
+        "at": None,
+        "code": "TEMPO FM0215 TL0245",
+        "forecast_period": {
+            "end": {"code": None, "datetime": "2022-02-15 03:00:00"},
+            "init": {"code": None, "datetime": "2022-02-15 01:00:00"},
+        },
+        "from_": {"code": "FM0215", "datetime": "2022-02-15 02:15:00"},
+        "translation": "temporary",
+        "until": {"code": "TL0245", "datetime": "2022-02-15 02:45:00"},
+    }
 
     with pytest.raises(RangeError):
         assert trends[2].code == None
@@ -278,6 +366,7 @@ def test_no_weather_trend():
 
     assert trends.codes == []
     assert str(trends) == ""
+    assert trends.as_dict() == {}
 
     with pytest.raises(IndexError):
         assert trends[0].code == None

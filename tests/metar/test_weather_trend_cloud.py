@@ -31,6 +31,24 @@ def test_two_trend_cloud_layers():
     assert clouds.codes == ["SCT010", "BKN015"]
     assert str(clouds) == "scattered at 1000.0 feet | broken at 1500.0 feet"
     assert clouds.ceiling == True
+    assert clouds.as_dict() == {
+        "first": {
+            "code": "SCT010",
+            "cover": "scattered",
+            "height": 304.8,
+            "height_units": "meters",
+            "oktas": "3-4",
+            "type": None,
+        },
+        "second": {
+            "code": "BKN015",
+            "cover": "broken",
+            "height": 457.2,
+            "height_units": "meters",
+            "oktas": "5-7",
+            "type": None,
+        },
+    }
 
     assert clouds[0].code == "SCT010"
     assert clouds[0].cover == "scattered"
@@ -83,6 +101,32 @@ def test_three_layers():
         == "a few at 1300.0 feet | broken at 2100.0 feet of cumulonimbus | overcast at 4000.0 feet"
     )
     assert clouds.ceiling == False
+    assert clouds.as_dict() == {
+        "first": {
+            "code": "FEW013",
+            "cover": "a few",
+            "height": 396.24,
+            "height_units": "meters",
+            "oktas": "1-2",
+            "type": None,
+        },
+        "second": {
+            "code": "BKN021CB",
+            "cover": "broken",
+            "height": 640.08,
+            "height_units": "meters",
+            "oktas": "5-7",
+            "type": "cumulonimbus",
+        },
+        "third": {
+            "code": "OVC040",
+            "cover": "overcast",
+            "height": 1219.2,
+            "height_units": "meters",
+            "oktas": "8",
+            "type": None,
+        },
+    }
 
     assert clouds[0].code == "FEW013"
     assert clouds[0].cover == "a few"
@@ -136,6 +180,7 @@ def test_no_trend_clouds():
     clouds = first.clouds
     assert clouds.codes == []
     assert str(clouds) == ""
+    assert clouds.as_dict() == {}
 
     for i in range(4):
         with pytest.raises(IndexError):

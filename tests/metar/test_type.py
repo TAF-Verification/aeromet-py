@@ -6,6 +6,10 @@ def test_metar_type():
     assert metar.type_.code == "METAR"
     assert metar.type_.type == "Meteorological Aerodrome Report"
     assert str(metar.type_) == "Meteorological Aerodrome Report (METAR)"
+    assert metar.type_.as_dict() == {
+        "code": "METAR",
+        "type": "Meteorological Aerodrome Report",
+    }
 
 
 def test_special_type():
@@ -13,6 +17,10 @@ def test_special_type():
     assert metar.type_.code == "SPECI"
     assert metar.type_.type == "Special Aerodrome Report"
     assert str(metar.type_) == "Special Aerodrome Report (SPECI)"
+    assert metar.type_.as_dict() == {
+        "code": "SPECI",
+        "type": "Special Aerodrome Report",
+    }
 
 
 def test_no_type():
@@ -20,3 +28,7 @@ def test_no_type():
     assert metar.type_.code == "METAR"
     assert metar.type_.type == "Meteorological Aerodrome Report"
     assert str(metar.type_) == "Meteorological Aerodrome Report (METAR)"
+    assert metar.type_.as_dict() == {
+        "code": "METAR",
+        "type": "Meteorological Aerodrome Report",
+    }
