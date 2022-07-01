@@ -18,6 +18,24 @@ def test_two_taf_weathers():
 
     assert weathers.codes == ["+RA", "BR"]
     assert str(weathers) == "heavy rain | mist"
+    assert weathers.as_dict() == {
+        "first": {
+            "code": "+RA",
+            "description": None,
+            "intensity": "heavy",
+            "obscuration": None,
+            "other": None,
+            "precipitation": "rain",
+        },
+        "second": {
+            "code": "BR",
+            "description": None,
+            "intensity": None,
+            "obscuration": "mist",
+            "other": None,
+            "precipitation": None,
+        },
+    }
 
     assert weathers[0].intensity == "heavy"
     assert weathers[0].description == None

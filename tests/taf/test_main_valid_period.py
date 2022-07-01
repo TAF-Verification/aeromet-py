@@ -28,6 +28,11 @@ def test_0606_valid_period():
     assert valid.period_until.day == 26
     assert valid.period_until.hour == 6
     assert valid.period_until.minute == 0
+    assert valid.as_dict() == {
+        "code": "2506/2606",
+        "from_": {"code": None, "datetime": "2019-03-25 06:00:00"},
+        "until": {"code": None, "datetime": "2019-03-26 06:00:00"},
+    }
 
 
 def test_0024_valid_period():
@@ -50,6 +55,11 @@ def test_0024_valid_period():
     assert valid.period_until.day == 1
     assert valid.period_until.hour == 0
     assert valid.period_until.minute == 0
+    assert valid.as_dict() == {
+        "code": "3100/3124",
+        "from_": {"code": None, "datetime": "2019-03-31 00:00:00"},
+        "until": {"code": None, "datetime": "2019-04-01 00:00:00"},
+    }
 
 
 def test_0306_valid_period():
@@ -77,6 +87,11 @@ def test_0306_valid_period():
     assert valid.period_until.day == 26
     assert valid.period_until.hour == 6
     assert valid.period_until.minute == 0
+    assert valid.as_dict() == {
+        "code": "2503/2606",
+        "from_": {"code": None, "datetime": "2019-03-25 03:00:00"},
+        "until": {"code": None, "datetime": "2019-03-26 06:00:00"},
+    }
 
 
 def test_1806_valid_period():
@@ -99,6 +114,11 @@ def test_1806_valid_period():
     assert valid.period_until.day == 3
     assert valid.period_until.hour == 6
     assert valid.period_until.minute == 0
+    assert valid.as_dict() == {
+        "code": "0218/0306",
+        "from_": {"code": None, "datetime": "2019-03-02 18:00:00"},
+        "until": {"code": None, "datetime": "2019-03-03 06:00:00"},
+    }
 
 
 def test_0012_valid_period():
@@ -121,6 +141,11 @@ def test_0012_valid_period():
     assert valid.period_until.day == 6
     assert valid.period_until.hour == 12
     assert valid.period_until.minute == 0
+    assert valid.as_dict() == {
+        "code": "0600/0612",
+        "from_": {"code": None, "datetime": "2019-03-06 00:00:00"},
+        "until": {"code": None, "datetime": "2019-03-06 12:00:00"},
+    }
 
 
 def test_0024_with_year_change_valid_period():
@@ -144,3 +169,8 @@ def test_0024_with_year_change_valid_period():
     assert valid.period_until.day == 1
     assert valid.period_until.hour == 0
     assert valid.period_until.minute == 0
+    assert valid.as_dict() == {
+        "code": "3100/3124",
+        "from_": {"code": None, "datetime": "2019-12-31 00:00:00"},
+        "until": {"code": None, "datetime": "2020-01-01 00:00:00"},
+    }

@@ -8,6 +8,7 @@ def test_cancelled_taf():
     assert taf.cancelled.code == "CNL"
     assert taf.cancelled.is_cancelled == True
     assert str(taf.cancelled) == "cancelled"
+    assert taf.cancelled.as_dict() == {"code": "CNL", "is_cancelled": True}
 
 
 def test_no_cancelled_taf():
@@ -22,3 +23,4 @@ def test_no_cancelled_taf():
     assert taf.cancelled.code == None
     assert taf.cancelled.is_cancelled == False
     assert str(taf.cancelled) == ""
+    assert taf.cancelled.as_dict() == {"code": None, "is_cancelled": False}

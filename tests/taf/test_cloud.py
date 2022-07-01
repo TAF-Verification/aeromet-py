@@ -18,6 +18,32 @@ def test_cloud_layers():
         == "a few at 1600.0 feet of towering cumulus | scattered at 9000.0 feet | broken at 26000.0 feet"
     )
     assert clouds.ceiling == False
+    assert clouds.as_dict() == {
+        "first": {
+            "code": "FEW016TCU",
+            "cover": "a few",
+            "height": 487.68,
+            "height_units": "meters",
+            "oktas": "1-2",
+            "type": "towering cumulus",
+        },
+        "second": {
+            "code": "SCT090",
+            "cover": "scattered",
+            "height": 2743.2,
+            "height_units": "meters",
+            "oktas": "3-4",
+            "type": None,
+        },
+        "third": {
+            "code": "BKN260",
+            "cover": "broken",
+            "height": 7924.8,
+            "height_units": "meters",
+            "oktas": "5-7",
+            "type": None,
+        },
+    }
 
     assert clouds[0].code == "FEW016TCU"
     assert clouds[0].cover == "a few"

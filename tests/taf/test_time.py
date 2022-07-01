@@ -18,3 +18,4 @@ def test_code():
     assert time.hour == 20
     assert time.minute == 0
     assert str(time) == "2022-01-23 20:00:00"
+    assert time.as_dict() == {"code": "232000Z", "datetime": "2022-01-23 20:00:00"}

@@ -24,6 +24,17 @@ def test_changes_visibility_from_sea_miles():
     assert visibility0.direction_in_degrees == None
     assert visibility0.direction_in_radians == None
     assert str(visibility0) == "11.1 km"
+    assert visibility0.as_dict() == {
+        "cavok": False,
+        "code": "P6SM",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": 11112.0, "units": "meters"},
+    }
 
     visibility1 = changes[1].prevailing_visibility
     assert visibility1.code == "1 1/4SM"
@@ -36,6 +47,17 @@ def test_changes_visibility_from_sea_miles():
     assert visibility1.direction_in_degrees == None
     assert visibility1.direction_in_radians == None
     assert str(visibility1) == "2.3 km"
+    assert visibility1.as_dict() == {
+        "cavok": False,
+        "code": "1 1/4SM",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": 2315.0, "units": "meters"},
+    }
 
     visibility2 = changes[2].prevailing_visibility
     assert visibility2.code == "1/2SM"
@@ -48,3 +70,14 @@ def test_changes_visibility_from_sea_miles():
     assert visibility2.direction_in_degrees == None
     assert visibility2.direction_in_radians == None
     assert str(visibility2) == "0.9 km"
+    assert visibility2.as_dict() == {
+        "cavok": False,
+        "code": "1/2SM",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": 926.0, "units": "meters"},
+    }

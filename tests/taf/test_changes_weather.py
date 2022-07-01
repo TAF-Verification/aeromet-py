@@ -17,6 +17,16 @@ def test_changes_weather():
 
     assert weathers0.codes == ["DS"]
     assert str(weathers0) == "dust storm"
+    assert weathers0.as_dict() == {
+        "first": {
+            "code": "DS",
+            "description": None,
+            "intensity": None,
+            "obscuration": None,
+            "other": "dust storm",
+            "precipitation": None,
+        }
+    }
 
     assert weathers0[0].intensity == None
     assert weathers0[0].description == None
@@ -31,6 +41,7 @@ def test_changes_weather():
 
     assert weathers1.codes == []
     assert str(weathers1) == ""
+    assert weathers1.as_dict() == {}
 
     with raises(IndexError):
         weathers1[0].code == None

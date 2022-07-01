@@ -25,3 +25,14 @@ def test_taf_station():
         str(station)
         == "Name: QUITO/NEW INTL | Coordinates: 00.07S 078.21W | Elevation: 2400 m MSL | Country: Ecuador"
     )
+    assert station.as_dict() == {
+        "code": "SEQM",
+        "country": "Ecuador",
+        "elevation": "2400",
+        "iata": "None",
+        "icao": "SEQM",
+        "latitude": "00.07S",
+        "longitude": "078.21W",
+        "name": "QUITO/NEW INTL",
+        "synop": "None",
+    }

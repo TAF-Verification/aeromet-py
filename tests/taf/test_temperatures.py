@@ -18,6 +18,14 @@ def test_one_max_one_min_temperature_in_taf():
 
     assert max_temps.codes == ["TX07/0305Z"]
     assert str(max_temps) == "7.0°C at 2020-05-03 05:00:00"
+    assert max_temps.as_dict() == {
+        "first": {
+            "code": None,
+            "datetime": "2020-05-03 05:00:00",
+            "temperature": 7.0,
+            "units": "celsius",
+        }
+    }
 
     first_max = max_temps[0]
     assert first_max.code == "TX07/0305Z"
@@ -36,6 +44,14 @@ def test_one_max_one_min_temperature_in_taf():
 
     assert min_temps.codes == ["TNM03/0321Z"]
     assert str(min_temps) == "-3.0°C at 2020-05-03 21:00:00"
+    assert min_temps.as_dict() == {
+        "first": {
+            "code": None,
+            "datetime": "2020-05-03 21:00:00",
+            "temperature": -3.0,
+            "units": "celsius",
+        }
+    }
 
     first_min = min_temps[0]
     assert first_min.code == "TNM03/0321Z"
@@ -61,6 +77,20 @@ def test_two_max_temperatures_in_taf():
         str(max_temps)
         == "30.0°C at 2020-05-30 19:00:00 | 28.0°C at 2020-05-31 17:00:00"
     )
+    assert max_temps.as_dict() == {
+        "first": {
+            "code": None,
+            "datetime": "2020-05-30 19:00:00",
+            "temperature": 30.0,
+            "units": "celsius",
+        },
+        "second": {
+            "code": None,
+            "datetime": "2020-05-31 17:00:00",
+            "temperature": 28.0,
+            "units": "celsius",
+        },
+    }
 
     first_max = max_temps[0]
     assert first_max.code == "TX30/3019Z"
@@ -85,8 +115,12 @@ def test_no_temperatures_in_taf():
         TEMPO 0306/0312 13008KT -SHRA FEW014CB SCT015 BKN090
     """
     taf = Taf(code, year=_year, month=_month)
+
     max_temps = taf.max_temperatures
+    assert max_temps.as_dict() == {}
+
     min_temps = taf.min_temperatures
+    assert min_temps.as_dict() == {}
 
     with raises(IndexError):
         assert max_temps[0].time.year == 2020

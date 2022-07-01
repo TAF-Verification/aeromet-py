@@ -25,3 +25,14 @@ def test_wind_in_mps():
     assert wind.gust_in_mps == approx(9.0)
     assert wind.gust_in_miph == 20.13243645902753
     assert str(wind) == "WSW (240.0°) 7.8 kt gust of 17.5 kt"
+    assert wind.as_dict() == {
+        "code": "24004G09MPS",
+        "direction": {
+            "cardinal": "WSW",
+            "direction": 240.0,
+            "units": "degrees",
+            "variable": False,
+        },
+        "gust": {"speed": 17.494600583106703, "units": "knot"},
+        "speed": {"speed": 7.775378036936312, "units": "knot"},
+    }

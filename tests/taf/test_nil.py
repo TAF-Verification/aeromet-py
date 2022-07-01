@@ -10,6 +10,11 @@ def test_nil_taf():
     assert missing.is_missing == True
     assert missing.modifier == "Missing report"
     assert str(missing) == "missing report"
+    assert missing.as_dict() == {
+        "code": "NIL",
+        "is_missing": True,
+        "modifier": "Missing report",
+    }
 
 
 def test_no_nil_taf():
@@ -28,3 +33,4 @@ def test_no_nil_taf():
     assert missing.is_missing == False
     assert missing.modifier == None
     assert str(missing) == ""
+    assert missing.as_dict() == {"code": None, "is_missing": False, "modifier": None}

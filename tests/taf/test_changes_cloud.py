@@ -20,6 +20,24 @@ def test_changes_clouds():
         == "scattered at 2000.0 feet of towering cumulus | broken at 3000.0 feet"
     )
     assert clouds0.ceiling == False
+    assert clouds0.as_dict() == {
+        "first": {
+            "code": "SCT020TCU",
+            "cover": "scattered",
+            "height": 609.6,
+            "height_units": "meters",
+            "oktas": "3-4",
+            "type": "towering cumulus",
+        },
+        "second": {
+            "code": "BKN030",
+            "cover": "broken",
+            "height": 914.4,
+            "height_units": "meters",
+            "oktas": "5-7",
+            "type": None,
+        },
+    }
 
     assert clouds0[0].code == "SCT020TCU"
     assert clouds0[0].cover == "scattered"
@@ -47,6 +65,16 @@ def test_changes_clouds():
     assert clouds1.codes == ["BKN010"]
     assert str(clouds1) == "broken at 1000.0 feet"
     assert clouds1.ceiling == True
+    assert clouds1.as_dict() == {
+        "first": {
+            "code": "BKN010",
+            "cover": "broken",
+            "height": 304.8,
+            "height_units": "meters",
+            "oktas": "5-7",
+            "type": None,
+        }
+    }
 
     assert clouds1[0].code == "BKN010"
     assert clouds1[0].cover == "broken"

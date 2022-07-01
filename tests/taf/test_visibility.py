@@ -23,3 +23,14 @@ def test_visibility_from_sea_miles():
     assert visibility.direction_in_degrees == None
     assert visibility.direction_in_radians == None
     assert str(visibility) == "11.1 km"
+    assert visibility.as_dict() == {
+        "cavok": False,
+        "code": "P6SM",
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "visibility": {"distance": 11112.0, "units": "meters"},
+    }

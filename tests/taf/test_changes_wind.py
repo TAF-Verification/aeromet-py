@@ -26,6 +26,17 @@ def test_three_wind_changes():
     assert wind0.gust_in_mps == None
     assert wind0.gust_in_miph == None
     assert str(wind0) == "SW (230.0°) 10.0 kt"
+    assert wind0.as_dict() == {
+        "code": "23010KT",
+        "direction": {
+            "cardinal": "SW",
+            "direction": 230.0,
+            "units": "degrees",
+            "variable": False,
+        },
+        "gust": {"speed": None, "units": "knot"},
+        "speed": {"speed": 10.0, "units": "knot"},
+    }
 
     wind1 = changes[1].wind
     assert wind1.code == "11005KT"
@@ -40,6 +51,17 @@ def test_three_wind_changes():
     assert wind1.gust_in_mps == None
     assert wind1.gust_in_miph == None
     assert str(wind1) == "ESE (110.0°) 5.0 kt"
+    assert wind1.as_dict() == {
+        "code": "11005KT",
+        "direction": {
+            "cardinal": "ESE",
+            "direction": 110.0,
+            "units": "degrees",
+            "variable": False,
+        },
+        "gust": {"speed": None, "units": "knot"},
+        "speed": {"speed": 5.0, "units": "knot"},
+    }
 
     wind2 = changes[2].wind
     assert wind2.code == None
@@ -54,3 +76,14 @@ def test_three_wind_changes():
     assert wind2.gust_in_mps == None
     assert wind2.gust_in_miph == None
     assert str(wind2) == ""
+    assert wind2.as_dict() == {
+        "code": None,
+        "direction": {
+            "cardinal": None,
+            "direction": None,
+            "units": "degrees",
+            "variable": False,
+        },
+        "gust": {"speed": None, "units": "knot"},
+        "speed": {"speed": None, "units": "knot"},
+    }
