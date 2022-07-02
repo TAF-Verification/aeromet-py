@@ -140,6 +140,7 @@ def test_no_runway_range():
 
     assert ranges.codes == []
     assert str(ranges) == ""
+    assert ranges.as_dict() == {}
 
     for i in range(3):
         with pytest.raises(IndexError):
@@ -153,6 +154,40 @@ def test_try_to_get_item_4():
     ranges = metar.runway_ranges
 
     assert ranges.codes == ["R07L/M0150V0600U", "R25C/P0150D", "R25L/P0500N"]
+    assert (
+        str(ranges) == "runway 07 left below of 150.0 m varying to 600.0 m, increasing "
+        "| runway 25 center above of 150.0 m, decreasing "
+        "| runway 25 left above of 500.0 m, no change"
+    )
+    assert ranges.as_dict() == {
+        "first": {
+            "code": "R07L/M0150V0600U",
+            "high_range": {"distance": 600.0, "units": "meters"},
+            "low_range": {"distance": 150.0, "units": "meters"},
+            "name": "07 left",
+            "rvr_high": None,
+            "rvr_low": "below of",
+            "trend": "increasing",
+        },
+        "second": {
+            "code": "R25C/P0150D",
+            "high_range": {"distance": None, "units": "meters"},
+            "low_range": {"distance": 150.0, "units": "meters"},
+            "name": "25 center",
+            "rvr_high": None,
+            "rvr_low": "above of",
+            "trend": "decreasing",
+        },
+        "third": {
+            "code": "R25L/P0500N",
+            "high_range": {"distance": None, "units": "meters"},
+            "low_range": {"distance": 500.0, "units": "meters"},
+            "name": "25 left",
+            "rvr_high": None,
+            "rvr_low": "above of",
+            "trend": "no change",
+        },
+    }
 
     with pytest.raises(RangeError):
         assert ranges[3].code == None
