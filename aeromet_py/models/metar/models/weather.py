@@ -1,8 +1,10 @@
 import re
+
 from typing import Dict, Optional
 
 from ...group import Group, GroupList
 from ...string_attribute import HasConcatenateStringProntocol
+
 
 INTENSITY: Dict[str, str] = {
     "-": "light",

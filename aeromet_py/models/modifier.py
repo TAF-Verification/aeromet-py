@@ -1,8 +1,10 @@
 import re
+
 from typing import Dict, Optional
 
 from .group import Group
 from .string_attribute import HasConcatenateStringProntocol
+
 
 MODIFIERS: Dict[str, str] = {
     "COR": "Correction",

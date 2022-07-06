@@ -1,6 +1,7 @@
+import re
+
 from datetime import datetime
 from typing import Dict, Optional
-import re
 
 from .group import Group
 

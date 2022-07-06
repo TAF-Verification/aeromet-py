@@ -1,11 +1,13 @@
 import json
 import re
+
 from typing import Any, Dict, List, Optional
 
 from aeromet_py.utils import Conversions
 
 from .group import Group
 from .numeric import Numeric
+
 
 COMPASS_DIRS: Dict[str, List[float]] = {
     "NNE": [11.25, 33.75],

@@ -2,6 +2,7 @@ from typing import Dict, Optional
 
 from .group import Group
 
+
 TYPES: Dict[str, str] = {
     "METAR": "Meteorological Aerodrome Report",
     "SPECI": "Special Aerodrome Report",

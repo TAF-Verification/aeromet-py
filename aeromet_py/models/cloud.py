@@ -1,10 +1,12 @@
 import re
+
 from typing import Any, Dict, Optional, Type, TypeVar
 
 from ..utils import Conversions
 from .distance import Distance
 from .group import Group, GroupList
 from .string_attribute import HasConcatenateStringProntocol
+
 
 SKY_COVER: Dict[str, str] = {
     "SKC": "clear",

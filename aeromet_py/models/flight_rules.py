@@ -4,6 +4,7 @@ from typing_extensions import Protocol
 
 from .cloud import CloudList
 
+
 FLIGHT_RULES: Dict[str, List[float]] = {
     "VLIFR": [60.0, 800.0],
     "LIFR": [150.0, 1600.0],

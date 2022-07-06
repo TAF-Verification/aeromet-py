@@ -1,9 +1,11 @@
 import json
+
 from abc import ABCMeta, abstractmethod
 from collections import namedtuple
 from typing import Any, Dict, Generic, List, Optional, TypeVar
 
 from .errors import RangeError
+
 
 GroupHandler = namedtuple("GroupHandler", "regexp handler")
 

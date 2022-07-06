@@ -1,8 +1,9 @@
-import json
 import re
+
 from typing import Dict, List, Optional
 
 from .group import Group
+
 
 CHANGE_TRANSLATIONS: Dict[str, str] = {
     "NOSIG": "no significant changes",

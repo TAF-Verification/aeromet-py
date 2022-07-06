@@ -3,6 +3,7 @@ from typing import Dict, List, Optional
 from ..database import get_country, get_stations
 from .group import Group
 
+
 CODE_TYPES: Dict[str, int] = {
     "ICAO": 1,
     "IATA": 2,

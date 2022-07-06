@@ -1,4 +1,5 @@
 import re
+
 from typing import Any, Dict, List, Optional
 
 from ...utils import (
@@ -13,11 +14,7 @@ from ..cloud import MetarCloudMixin
 from ..errors import ParserError
 from ..flight_rules import FlightRulesMixin
 from ..group import GroupHandler
-from ..metar.models import (
-    MetarPrevailingMixin,
-    MetarWeatherMixin,
-    MetarWindMixin,
-)
+from ..metar.models import MetarPrevailingMixin, MetarWeatherMixin, MetarWindMixin
 from ..modifier import ModifierMixin
 from ..report import Report
 from ..time import Time
