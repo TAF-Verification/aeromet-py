@@ -1,7 +1,7 @@
 import pytest
 
 from aeromet_py import Metar
-from aeromet_py.models.errors import RangeError
+from aeromet_py.reports.models import RangeError
 
 
 def test_two_cloud_layers():

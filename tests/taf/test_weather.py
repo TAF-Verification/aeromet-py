@@ -1,7 +1,7 @@
 import pytest
 
 from aeromet_py import Taf
-from aeromet_py.models import RangeError
+from aeromet_py.reports.models import RangeError
 
 
 def test_two_taf_weathers():

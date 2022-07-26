@@ -1,1 +1,1 @@
-from .models import Metar, Taf
+from .reports import Metar, Taf

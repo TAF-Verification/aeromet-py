@@ -1,7 +1,7 @@
 import pytest
 
 from aeromet_py import Metar
-from aeromet_py.models import RangeError
+from aeromet_py.reports.models import RangeError
 
 _year: int = 2022
 _month: int = 2
