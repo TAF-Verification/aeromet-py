@@ -55,12 +55,12 @@ class Time(Group):
     @classmethod
     def from_metar(
         cls,
-        match: Optional[re.Match],
+        match: Optional[re.Match] = None,
         year: Optional[int] = None,
         month: Optional[int] = None,
     ) -> "Time":
         if match is None:
-            return cls()
+            return cls(year=year, month=month)
         else:
             minute = match.group("min")
             day = match.group("day")

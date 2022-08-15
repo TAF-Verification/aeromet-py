@@ -28,10 +28,10 @@ class Report(StringAttributeMixin, TimeMixin, metaclass=ABCMeta):
         StringAttributeMixin.__init__(self)
         TimeMixin.__init__(self)
 
-        # ReportType group
+        # Initialize ReportType group
         self._type: ReportType = ReportType(type.upper())
 
-        # Station group
+        # Initialize Station group
         self._station: Station = Station(None, None)
 
     @abstractmethod

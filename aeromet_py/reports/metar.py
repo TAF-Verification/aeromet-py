@@ -54,6 +54,7 @@ class Metar(
         FlightRulesMixin.__init__(self)
 
         # Body groups
+        self._time = Time.from_metar(year=year, month=month)
         self._wind_variation = MetarWindVariation(None)
         self._minimum_visibility = MetarMinimumVisibility(None)
         self._runway_ranges = GroupList[MetarRunwayRange](3)
