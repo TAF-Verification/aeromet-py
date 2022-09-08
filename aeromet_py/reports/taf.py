@@ -10,10 +10,10 @@ from ..utils import (
     split_sentence,
 )
 from .models import (
-    ParserError,
     FlightRulesMixin,
     GroupHandler,
     ModifierMixin,
+    ParserError,
     Report,
     Time,
     parse_section,

@@ -1,6 +1,6 @@
 import re
 
-from ..base import HasConcatenateStringProntocol, Cloud, CloudList
+from ..base import Cloud, CloudList, HasConcatenateStringProntocol
 
 
 class MetarCloudMixin(HasConcatenateStringProntocol):

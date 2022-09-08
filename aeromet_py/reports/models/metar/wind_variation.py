@@ -3,7 +3,7 @@ import re
 from typing import Any, Dict, Optional
 
 from ....utils import Conversions
-from ..base import Group, Direction
+from ..base import Direction, Group
 
 
 class MetarWindVariation(Group):

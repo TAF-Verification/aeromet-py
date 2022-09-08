@@ -2,18 +2,13 @@ import re
 
 from typing import Any, Dict, List, Optional
 
-from ..utils import (
-    MetarRegExp,
-    sanitize_visibility,
-    sanitize_windshear,
-    split_sentence,
-)
+from ..utils import MetarRegExp, sanitize_visibility, sanitize_windshear, split_sentence
 from .models import (
-    ParserError,
     FlightRulesMixin,
     GroupHandler,
     GroupList,
     ModifierMixin,
+    ParserError,
     Report,
     Time,
     parse_section,
@@ -206,7 +201,9 @@ class Metar(
             GroupHandler(MetarRegExp.WIND, self._handle_wind),
             GroupHandler(MetarRegExp.WIND_VARIATION, self._handle_wind_variation),
             GroupHandler(MetarRegExp.VISIBILITY, self._handle_prevailing),
-            GroupHandler(MetarRegExp.VISIBILITY, self._handle_minimum_visibility),
+            GroupHandler(
+                MetarRegExp.MINIMUM_VISIBILITY, self._handle_minimum_visibility
+            ),
             GroupHandler(MetarRegExp.RUNWAY_RANGE, self._handle_runway_range),
             GroupHandler(MetarRegExp.RUNWAY_RANGE, self._handle_runway_range),
             GroupHandler(MetarRegExp.RUNWAY_RANGE, self._handle_runway_range),

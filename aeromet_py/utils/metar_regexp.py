@@ -32,6 +32,8 @@ class MetarRegExp:
         r"(?P<cavok>CAVOK)$"
     )
 
+    MINIMUM_VISIBILITY = r"^(?P<vis>\d{4}|////)" r"(?P<dir>[NSEW]([EW])?)?$"
+
     RUNWAY_RANGE = (
         r"^R(?P<name>\d{2}[RLC]?)/"
         r"(?P<rvrlow>[MP])?"

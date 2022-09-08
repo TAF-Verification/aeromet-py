@@ -1,4 +1,4 @@
-from .models.metar import Metar
+from .reports.metar import Metar
 
 
 metar = Metar(

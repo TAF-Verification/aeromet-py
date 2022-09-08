@@ -1,4 +1,5 @@
 import re
+
 from typing import List
 
 from .change_indicator import ChangeIndicator
@@ -12,7 +13,7 @@ from .numeric import Numeric
 from .pressure import Pressure
 from .report import Report
 from .station import Station
-from .string_attribute import StringAttributeMixin, HasConcatenateStringProntocol
+from .string_attribute import HasConcatenateStringProntocol, StringAttributeMixin
 from .temperature import Temperature
 from .time import Time, TimeMixin
 from .type import ReportType
