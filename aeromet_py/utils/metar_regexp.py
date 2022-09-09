@@ -24,12 +24,12 @@ class MetarRegExp:
     )
 
     VISIBILITY = (
-        r"^(?P<vis>\d{4}|////)"
+        r"^((?P<vis>\d{4}|////)"
         r"(?P<dir>[NSEW]([EW])?)?|"
         r"(M|P)?(?P<integer>\d{1,2})?_?"
         r"(?P<fraction>\d/\d)?"
         r"(?P<units>SM|KM|M|U)|"
-        r"(?P<cavok>CAVOK)$"
+        r"(?P<cavok>CAVOK))$"
     )
 
     MINIMUM_VISIBILITY = r"^(?P<vis>\d{4}|////)" r"(?P<dir>[NSEW]([EW])?)?$"
