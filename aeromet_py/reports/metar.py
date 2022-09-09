@@ -216,6 +216,7 @@ class Metar(
             GroupHandler(MetarRegExp.CLOUD, self._handle_cloud),
             GroupHandler(MetarRegExp.TEMPERATURES, self._handle_temperatures),
             GroupHandler(MetarRegExp.PRESSURE, self._handle_pressure),
+            GroupHandler(MetarRegExp.PRESSURE, self._handle_pressure),
             GroupHandler(MetarRegExp.RECENT_WEATHER, self._handle_recent_weather),
             GroupHandler(MetarRegExp.WINDSHEAR, self._handle_windshear),
             GroupHandler(MetarRegExp.WINDSHEAR, self._handle_windshear),

@@ -30,6 +30,20 @@ def test_from_inhg():
     assert pressure.as_dict() == {"pressure": 1024.3819844226, "units": "hectopascals"}
 
 
+def test_two_pressures_from_hPa_and_inHg():
+    metar = Metar("METAR MSSS 091250Z 00000KT 5000 BR FEW040CB 22/21 Q1013 A2993")
+    pressure = metar.pressure
+
+    assert pressure.code == "A2993"
+    assert pressure.in_hPa == approx(1013.54, rel=5.0e-2)
+    assert pressure.in_inHg == approx(29.91, rel=9.0e-04)
+    assert pressure.in_mbar == approx(1013.54, rel=5.0e-2)
+    assert pressure.in_bar == approx(1.013, rel=5.0e-3)
+    assert pressure.in_atm == approx(1.00029, rel=1.0e-5)
+    assert str(pressure) == "1013.5 hPa"
+    assert pressure.as_dict() == {"pressure": 1013.5455469015, "units": "hectopascals"}
+
+
 def test_no_pressure():
     metar = Metar(
         "SPECI KMIA 152353Z 00000KT 10SM FEW024 BKN150 BKN250 27/23 A//// RMK AO2 RAB2254E04 SLP127 P0000 60029 T02670233 10317 20256 50004 $"
