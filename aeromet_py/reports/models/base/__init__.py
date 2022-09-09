@@ -37,10 +37,14 @@ def parse_section(handlers: List[GroupHandler], section: str) -> List[str]:
 
     for group in section.split(" "):
         unparsed_groups.append(group)
+        counter = 0
+
         for group_handler in handlers[index:]:
             match = re.match(group_handler.regexp, group)
-            index += 1
+            counter += 1
+
             if match:
+                index += counter
                 group_handler.handler(match)
                 unparsed_groups.remove(group)
                 break
