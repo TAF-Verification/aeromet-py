@@ -18,21 +18,19 @@ jobs:
       - name: Setup environment
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
-          source $HOME/.poetry/env
           poetry --version
       
       - name: Install dependencies
         run: |
-          source $HOME/.poetry/env
           poetry --version
           poetry install
       
       - name: Lint
         run: |
-          source $HOME/.poetry/env
+          poetry --version
           make lint
       
       - name: Test
         run: |
-          source $HOME/.poetry/env
+          poetry --version
           make tests
