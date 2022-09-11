@@ -1,14 +1,14 @@
 # Aeromet-Py
 
-[![codecov][coverage-shield]][coverage-url]
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
+[![codecov][coverage-shield]][coverage-url]
 [![MIT License][license-shield]][license-url]
 
-[coverage-shield]: https://app.codecov.io/gh/TAF-Verification/aeromet-py/branch/main/graph/badge.svg
-[coverage-url]: https://app.codecov.io/gh/TAF-Verification/aeromet-py
+[coverage-shield]: https://codecov.io/gh/TAF-Verification/aeromet-py/branch/main/graph/badge.svg?token=1MUT17FQZY
+[coverage-url]: https://codecov.io/gh/TAF-Verification/aeromet-py
 [contributors-shield]: https://img.shields.io/github/contributors/TAF-Verification/aeromet-py.svg
 [contributors-url]: https://github.com/TAF-Verification/aeromet-py/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/TAF-Verification/aeromet-py.svg
