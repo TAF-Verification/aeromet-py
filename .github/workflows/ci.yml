@@ -33,4 +33,14 @@ jobs:
       - name: Test
         run: |
           poetry --version
-          make tests
+          make test
+      
+      - name: Generate Report
+        run: |
+          poetry --version
+          make coverage
+      
+      - name: Run CodeCov
+        run: |
+          poetry --version
+          make codecov
