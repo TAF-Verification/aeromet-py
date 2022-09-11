@@ -60,14 +60,14 @@ metar = Metar(code)
 print(f"{metar.type}")  # Meteorological Aerodrome Report
 
 # Get the wind speed in knots and direction in degrees
-print(f"{metar.wind.speedInKnot} kt")       # 18.0 kt 
-print(f"{metar.wind.directionInDegrees}°")  # 100.0°
+print(f"{metar.wind.speed_in_knot} kt")       # 18.0 kt 
+print(f"{metar.wind.direction_in_degrees}°")  # 100.0°
 
 # Get the pressure in hecto pascals
-print(f"{metar.pressure.inHPa} hPa")  # 1014.0 hPa
+print(f"{metar.pressure.in_hPa} hPa")  # 1014.0 hPa
 
 # Get the temperature in Celsius
-print(f"{metar.temperatures.temperatureInCelsius}°C")  # 17.0°C
+print(f"{metar.temperatures.temperature_in_celsius}°C")  # 17.0°C
 ```
 
 ## Contributing
