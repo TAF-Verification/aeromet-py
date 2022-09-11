@@ -1,6 +1,9 @@
 POETRY=poetry
 POETRY_RUN=$(POETRY) run
 
+COVERAGE=coverage
+COVERAGE_RUN=$(COVERAGE) run -m
+
 SOURCE_FILES=$(shell find . -path "./aeromet_py/*.py")
 TEST_FILES=$(shell find . -path "./tests/**/*.py")
 SOURCES_FOLDER=aeromet_py
@@ -42,6 +45,13 @@ test:
 
 test-verbose:
 	$(POETRY_RUN) pytest tests -vv
+
+coverage:
+	$(POETRY_RUN) $(COVERAGE_RUN) pytest tests
+	$(POETRY_RUN) $(COVERAGE) html --skip-covered --skip-empty
+
+codecov:
+	$(POETRY_RUN) codecov
 
 run:
 	$(POETRY_RUN) python -m $(SOURCES_FOLDER)
