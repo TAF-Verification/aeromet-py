@@ -36,6 +36,9 @@ pip install --upgrade aeromet-py
 <tr><td width=33% valign=top>
 
 * [Metar](#metar)
+  * [Raw Code](#raw-code)
+  * [Sections](#sections)
+  * [Unparsed Groups](#unparsed-groups)
 
 </td>
 <td width=33% valign=top>
@@ -61,7 +64,7 @@ metar = Metar(code)
 ```
 
 Because of the codification of the reports doesn't have the month and year, you can give it to the instance
-as shown in the following example
+as shown in the following example:
 
 ```python
 metar = Metar(code, year=2022, month=3)
@@ -71,7 +74,7 @@ If you do not give this arguments, `Metar` object is instantiated with the curre
 
 By default the parser do not raise any error when find a group that can't be parsed. For anulate this
 behavior provide the argument `truncate`, so it can raise a `ParserError` showing the unparsed groups
-as follows
+as follows:
 
 ```python
 code_with_bad_group = "KMIA 130053Z 00000KT 10SM FEWT030 FEW045 BKN250 29/23 A2994 RMK AO2 SLP140 T02940233"
@@ -83,3 +86,45 @@ metar = Metar(code_with_bad_group, truncate=True)
 ```
 
 Now that you have a `Metar` object, you can extract all the relevant information.
+
+### Raw Code
+
+Get the raw code as its received in the instance. Type `str`.
+
+```python
+print(metar.raw_code)
+
+# prints...
+# KMIA 130053Z 00000KT 10SM FEWT030 FEW045 BKN250 29/23 A2994 RMK AO2 SLP140 T02940233
+```
+
+### Sections
+
+Get the `Metar` separated in its sections. Type `List[str]`.
+
+```python
+print(metar.sections)
+
+# prints...
+# ['KMIA 130053Z 00000KT 10SM FEW030 FEW045 BKN250 29/23 A2994', '', 'RMK AO2 SLP140 T02940233']
+```
+
+Where the first element is the body, the second is the trend and the last one is the remark.
+
+### Unparsed Groups
+
+Get the unparsed groups of the report. Type `List[str]`.
+
+```python
+code_with_bad_group = "KMIA 130053Z 00000KT 10SM FEWT030 FEW045 BKN250 29/23 A2994 RMK AO2 SLP140 T02940233"
+metar = Metar(code_with_bad_group)
+print(metar.unparsed_groups)
+
+# prints...
+# ['FEWT030']
+```
+
+As you can see, the parser is very strict. This is because we can't take in count every case of bad 
+digitation, this in case of land station where the work is completely manual. Human errors are inevitable.
+Try to parse bad groups may incur us to have bad data to make calculations, we don't want this in our
+climatology.
