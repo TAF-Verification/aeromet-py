@@ -10,7 +10,7 @@ def test_taf_type_first_sample():
     """
     taf = Taf(code)
     assert taf.type_.code == "TAF"
-    assert taf.type_.type == "Terminal Aerodrome Forecast"
+    assert taf.type_.type_ == "Terminal Aerodrome Forecast"
     assert str(taf.type_) == "Terminal Aerodrome Forecast (TAF)"
     assert taf.type_.as_dict() == {"code": "TAF", "type": "Terminal Aerodrome Forecast"}
 
@@ -24,7 +24,7 @@ def test_taf_type_second_sample():
     """
     taf = Taf(code)
     assert taf.type_.code == "TAF"
-    assert taf.type_.type == "Terminal Aerodrome Forecast"
+    assert taf.type_.type_ == "Terminal Aerodrome Forecast"
     assert str(taf.type_) == "Terminal Aerodrome Forecast (TAF)"
     assert taf.type_.as_dict() == {"code": "TAF", "type": "Terminal Aerodrome Forecast"}
 
@@ -37,6 +37,6 @@ def test_no_taf_type():
     """
     taf = Taf(code)
     assert taf.type_.code == "TAF"
-    assert taf.type_.type == "Terminal Aerodrome Forecast"
+    assert taf.type_.type_ == "Terminal Aerodrome Forecast"
     assert str(taf.type_) == "Terminal Aerodrome Forecast (TAF)"
     assert taf.type_.as_dict() == {"code": "TAF", "type": "Terminal Aerodrome Forecast"}

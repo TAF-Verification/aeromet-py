@@ -21,13 +21,13 @@ class ReportType(Group):
         return f"{self._type} ({self._code})"
 
     @property
-    def type(self) -> str:
+    def type_(self) -> str:
         """Get the type of the report."""
         return self._type
 
     def as_dict(self) -> Dict[str, Optional[str]]:
         d = {
-            "type": self.type,
+            "type": self.type_,
         }
         d.update(super().as_dict())
         return d
