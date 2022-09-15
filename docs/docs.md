@@ -35,10 +35,16 @@ pip install --upgrade aeromet-py
 <table>
 <tr><td width=33% valign=top>
 
-* [Metar](#metar)
-  * [Raw Code](#raw-code)
-  * [Sections](#sections)
-  * [Unparsed Groups](#unparsed-groups)
+- [Aeromet-Py Documentation](#aeromet-py-documentation)
+  - [Introduction](#introduction)
+  - [Installing](#installing)
+  - [Upgrade to the latest version](#upgrade-to-the-latest-version)
+- [Table of contents](#table-of-contents)
+  - [Metar](#metar)
+    - [Raw Code](#raw-code)
+    - [Sections](#sections)
+    - [Unparsed Groups](#unparsed-groups)
+    - [Type](#type)
 
 </td>
 <td width=33% valign=top>
@@ -73,7 +79,7 @@ metar = Metar(code, year=2022, month=3)
 If you do not give this arguments, `Metar` object is instantiated with the current year and month.
 
 By default the parser do not raise any error when find a group that can't be parsed. For anulate this
-behavior provide the argument `truncate`, so it can raise a `ParserError` showing the unparsed groups
+behavior provide the argument `truncate`, so it can raises a `ParserError` showing the unparsed groups
 as follows:
 
 ```python
@@ -125,6 +131,31 @@ print(metar.unparsed_groups)
 ```
 
 As you can see, the parser is very strict. This is because we can't take in count every case of bad 
-digitation, this in case of land station where the work is completely manual. Human errors are inevitable.
-Try to parse bad groups may incur us to have bad data to make calculations, we don't want this in our
+digitation in land station where the work is completely manual. Human errors are inevitable. Try to
+parse bad groups may incur us to have bad data to make calculations, we don't want this in our
 climatology.
+
+Starting from here, all the properties contains this list of methods:
+
+* to_dict() -> `Dict[str, Any]`: Returns the object data as a dictionary like `Dict[str, Any]`. In some
+  cases the `Any` type is replaced by a especific type.
+* to_json() -> `str`: Returns the object data as a string in JSON format.
+
+Of course, the `Metar` object also containes this same methods.
+
+### Type
+
+Get the type of the Metar. Type `Type`.
+
+Fields:
+* code `str`: The code present in the `Metar`. Defaults to `METAR`.
+* type_ `str`: The report type name, e.g. `Meteorological Aerodrome Report`.
+
+```python
+print(metar.type_.code)
+print(metar.type_.type_)
+
+# prints...
+# METAR
+# Meteorological Aerodrome Report
+```
