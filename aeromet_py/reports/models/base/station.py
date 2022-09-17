@@ -79,7 +79,7 @@ class Station(Group):
 
     @property
     def country(self) -> Optional[str]:
-        """Get the country of the station."""
+        """The country to which the land station belongs."""
         return get_country(self._station[7])
 
     def as_dict(self) -> Dict[str, Optional[str]]:

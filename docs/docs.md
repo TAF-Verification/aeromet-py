@@ -45,12 +45,13 @@ pip install --upgrade aeromet-py
     - [Sections](#sections)
     - [Unparsed Groups](#unparsed-groups)
     - [Type](#type)
+    - [Station](#station)
 
 </td>
-<td width=33% valign=top>
+<!-- <td width=33% valign=top>
 </td>
 <td valign=top>
-</td>
+</td> -->
 </tr>
 </table>
 
@@ -95,7 +96,7 @@ Now that you have a `Metar` object, you can extract all the relevant information
 
 ### Raw Code
 
-Get the raw code as its received in the instance. Type `str`.
+Get the raw code as its received in the instance. TypeStation`str`station
 
 ```python
 print(metar.raw_code)
@@ -137,7 +138,7 @@ climatology.
 
 Starting from here, all the properties contains this list of methods:
 
-* to_dict() -> `Dict[str, Any]`: Returns the object data as a dictionary like `Dict[str, Any]`. In some
+* as_dict() -> `Dict[str, Any]`: Returns the object data as a dictionary like `Dict[str, Any]`. In some
   cases the `Any` type is replaced by a especific type.
 * to_json() -> `str`: Returns the object data as a string in JSON format.
 
@@ -145,7 +146,7 @@ Of course, the `Metar` object also containes this same methods.
 
 ### Type
 
-Get the type of the Metar. Type `Type`.
+Get the type of the Metar. Type `ReportType`.
 
 Fields:
 * code `str`: The code present in the `Metar`. Defaults to `METAR`.
@@ -158,4 +159,42 @@ print(metar.type_.type_)
 # prints...
 # METAR
 # Meteorological Aerodrome Report
+```
+
+### Station
+
+Get the station information of the report. Type `Station`.
+
+Fields:
+* code `str`: The code present in the `Metar`, e.g. `KJFK`.
+* name `str`: The name of the land station.
+* country `str`: The country to which the land station belongs.
+* elevation `str`: The elevation in meters above sea level of the station.
+* longitude `str`: The longitude of the station.
+* latitude `str`: The latitude of the station.
+* icao `str`: The ICAO code of the station.
+* iata `str`: The IATA code of the station.
+* synop `str`: The SYNOP code of the station.
+
+```python
+print("Code:", metar.station.code)
+print("Name:", metar.station.name)
+print("Country:", metar.station.country)
+print("Elevation:", metar.station.elevation)
+print("Longitude:", metar.station.longitude)
+print("Latitude:", metar.station.latitude)
+print("ICAO:", metar.station.icao)
+print("IATA:", metar.station.iata)
+print("SYNOP:", metar.station.synop)
+
+# prints...
+# Code: KJFK
+# Name: NY NYC/JFK ARPT
+# Country: United States of America (the)
+# Elevation: 9
+# Longitude: 073.46W
+# Latitude: 40.38N
+# ICAO: KJFK
+# IATA: JFK
+# SYNOP: 74486
 ```
