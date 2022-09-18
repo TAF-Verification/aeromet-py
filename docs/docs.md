@@ -46,6 +46,7 @@ pip install --upgrade aeromet-py
     - [Unparsed Groups](#unparsed-groups)
     - [Type](#type)
     - [Station](#station)
+    - [Time](#time)
 
 </td>
 <!-- <td width=33% valign=top>
@@ -166,15 +167,15 @@ print(metar.type_.type_)
 Get the station information of the report. Type `Station`.
 
 Fields:
-* code `str`: The code present in the `Metar`, e.g. `KJFK`.
-* name `str`: The name of the land station.
-* country `str`: The country to which the land station belongs.
-* elevation `str`: The elevation in meters above sea level of the station.
-* longitude `str`: The longitude of the station.
-* latitude `str`: The latitude of the station.
-* icao `str`: The ICAO code of the station.
-* iata `str`: The IATA code of the station.
-* synop `str`: The SYNOP code of the station.
+* code `str | None`: The code present in the `Metar`, e.g. `KJFK`.
+* name `str | None`: The name of the land station.
+* country `str | None`: The country to which the land station belongs.
+* elevation `str | None`: The elevation in meters above sea level of the station.
+* longitude `str | None`: The longitude of the station.
+* latitude `str | None`: The latitude of the station.
+* icao `str | None`: The ICAO code of the station.
+* iata `str | None`: The IATA code of the station.
+* synop `str | None`: The SYNOP code of the station.
 
 ```python
 print("Code:", metar.station.code)
@@ -197,4 +198,29 @@ print("SYNOP:", metar.station.synop)
 # ICAO: KJFK
 # IATA: JFK
 # SYNOP: 74486
+```
+
+### Time
+
+Get the date and time of the report. Type `Time`.
+
+Fields:
+* time `datetime`: The time of the report as a `datetime` object.
+* year `int`: The year of the report. Defaults to current year if not provided in the
+  `Metar` instance.
+* month `int`: The month of the report. Defaults to current month if not provided in the
+  `Metar` instance.
+* day `int`: The day of the report.
+* hour `int`: The hour of the report.
+* minute `int`: The minute of the report.
+
+```python
+print(metar.time.day)
+print(metar.time.hour)
+print(metar.time.minute)
+
+# prints...
+# 13
+# 0
+# 53
 ```
