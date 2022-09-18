@@ -22,22 +22,22 @@ class Modifier(Group):
 
     def __init__(self, code: Optional[str]) -> None:
         super().__init__(code)
-        self._modifier = MODIFIERS.get(code, None)
+        self._description = MODIFIERS.get(code, None)
 
     def __str__(self) -> str:
-        if self._modifier is None:
+        if self._description is None:
             return ""
 
-        return self._modifier.lower()
+        return self._description.lower()
 
     @property
-    def modifier(self) -> Optional[str]:
+    def description(self) -> Optional[str]:
         """Get the modifier description of the report."""
-        return self._modifier
+        return self._description
 
     def as_dict(self) -> Dict[str, Optional[str]]:
         d = {
-            "modifier": self.modifier,
+            "modifier": self.description,
         }
         d.update(super().as_dict())
         return d

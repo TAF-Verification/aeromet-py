@@ -12,7 +12,7 @@ def test_AMD_modifier():
     taf = Taf(code)
 
     assert taf.modifier.code == "AMD"
-    assert taf.modifier.modifier == "Amendment"
+    assert taf.modifier.description == "Amendment"
     assert str(taf.modifier) == "amendment"
     assert taf.modifier.as_dict() == {"code": "AMD", "modifier": "Amendment"}
 
@@ -28,7 +28,7 @@ def test_COR_modifier():
     taf = Taf(code)
 
     assert taf.modifier.code == "COR"
-    assert taf.modifier.modifier == "Correction"
+    assert taf.modifier.description == "Correction"
     assert str(taf.modifier) == "correction"
     assert taf.modifier.as_dict() == {"code": "COR", "modifier": "Correction"}
 
@@ -42,6 +42,6 @@ def test_no_modifier():
     taf = Taf(code)
 
     assert taf.modifier.code == None
-    assert taf.modifier.modifier == None
+    assert taf.modifier.description == None
     assert str(taf.modifier) == ""
     assert taf.modifier.as_dict() == {"code": None, "modifier": None}

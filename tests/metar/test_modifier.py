@@ -7,7 +7,7 @@ def test_auto_modifier():
     )
 
     assert metar.modifier.code == "AUTO"
-    assert metar.modifier.modifier == "Automatic report"
+    assert metar.modifier.description == "Automatic report"
     assert str(metar.modifier) == "automatic report"
     assert metar.modifier.as_dict() == {"code": "AUTO", "modifier": "Automatic report"}
 
@@ -16,7 +16,7 @@ def test_nil_modifier():
     metar = Metar("METAR KJST 060100Z NIL")
 
     assert metar.modifier.code == "NIL"
-    assert metar.modifier.modifier == "Missing report"
+    assert metar.modifier.description == "Missing report"
     assert str(metar.modifier) == "missing report"
     assert metar.modifier.as_dict() == {"code": "NIL", "modifier": "Missing report"}
 
@@ -25,7 +25,7 @@ def test_cor_modifier():
     metar = Metar("METAR MROC 202200Z COR 08011KT 9999 FEW045 SCT200 29/17 A2989 NOSIG")
 
     assert metar.modifier.code == "COR"
-    assert metar.modifier.modifier == "Correction"
+    assert metar.modifier.description == "Correction"
     assert str(metar.modifier) == "correction"
     assert metar.modifier.as_dict() == {"code": "COR", "modifier": "Correction"}
 
@@ -36,6 +36,6 @@ def test_no_modifier():
     )
 
     assert metar.modifier.code == None
-    assert metar.modifier.modifier == None
+    assert metar.modifier.description == None
     assert str(metar.modifier) == ""
     assert metar.modifier.as_dict() == {"code": None, "modifier": None}

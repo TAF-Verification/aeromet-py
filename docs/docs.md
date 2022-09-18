@@ -47,6 +47,7 @@ pip install --upgrade aeromet-py
     - [Type](#type)
     - [Station](#station)
     - [Time](#time)
+    - [Modifier](#modifier)
 
 </td>
 <!-- <td width=33% valign=top>
@@ -124,7 +125,7 @@ Where the first element is the body, the second is the trend and the last one is
 Get the unparsed groups of the report. Type `List[str]`.
 
 ```python
-code_with_bad_group = "KMIA 130053Z 00000KT 10SM FEWT030 FEW045 BKN250 29/23 A2994 RMK AO2 SLP140 T02940233"
+code_with_bad_group = "KMIA 130053Z COR 00000KT 10SM FEWT030 FEW045 BKN250 29/23 A2994 RMK AO2 SLP140 T02940233"
 metar = Metar(code_with_bad_group)
 print(metar.unparsed_groups)
 
@@ -205,6 +206,7 @@ print("SYNOP:", metar.station.synop)
 Get the date and time of the report. Type `Time`.
 
 Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `130053Z`.
 * time `datetime`: The time of the report as a `datetime` object.
 * year `int`: The year of the report. Defaults to current year if not provided in the
   `Metar` instance.
@@ -215,12 +217,40 @@ Fields:
 * minute `int`: The minute of the report.
 
 ```python
+print(metar.time.code)
 print(metar.time.day)
 print(metar.time.hour)
 print(metar.time.minute)
 
 # prints...
+# 130053Z
 # 13
 # 0
 # 53
+```
+
+### Modifier
+
+Get the modifier description of the report. Type `Modifier`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `AUTO`.
+* description `str | None`: The description of the modifier code.
+
+Supported codes are:
+* COR: Correction
+* CORR: Correction
+* AMD: Amendment
+* NIL: Missing report
+* AUTO: Automatic report
+* TEST: Testing report
+* FINO: Missing report
+
+```python
+print(metar.modifier.code)
+print(metar.modifier.description)
+
+# prints...
+# COR
+# Correction
 ```
