@@ -2,7 +2,7 @@ import re
 
 from typing import Any, Dict, Optional
 
-from ..base import Group, HasConcatenateStringProntocol, Wind, Speed
+from ..base import Group, HasConcatenateStringProntocol, Speed, Wind
 
 
 class MetarWind(Wind, Group):

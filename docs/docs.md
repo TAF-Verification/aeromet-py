@@ -12,7 +12,7 @@ But, this package is designed to go further in parsing more than METAR reports.
 [tom-pollard]: https://github.com/tomp
 
 Going through this documentation will take you about an hour, and by the end of it you will have pretty much 
-learned the entire API provided to interact with the objects ands its methods and properties.
+learned the entire API provided to interact with the objects and its methods and properties.
 
 ## Installing
 
@@ -49,6 +49,7 @@ pip install --upgrade aeromet-py
     - [Time](#time)
     - [Modifier](#modifier)
     - [Wind](#wind)
+    - [Wind Variation](#wind-variation)
 
 </td>
 <!-- <td width=33% valign=top>
@@ -69,7 +70,7 @@ Import the `Metar` object and instantiate it with the following syntax:
 ```python
 from aeromet_py import Metar
 
-code = "KMIA 130053Z 25005KT 10SM FEW030 FEW045 BKN250 29/23 A2994 RMK AO2 SLP140 T02940233"
+code = "KMIA 130053Z 25005KT 250V140 10SM FEW030 FEW045 BKN250 29/23 A2994 RMK AO2 SLP140 T02940233"
 metar = Metar(code)
 ```
 
@@ -149,7 +150,7 @@ Of course, the `Metar` object also containes this same methods.
 
 ### Type
 
-Get the type of the Metar. Type `ReportType`.
+Get the type of the report. Type `ReportType`.
 
 Fields:
 * code `str`: The code present in the `Metar`. Defaults to `METAR`.
@@ -281,6 +282,7 @@ Fields:
 print(metar.wind.code)
 print(metar.wind.cardinal_direction)
 print(metar.wind.variable)
+print(metar.wind.direction_in_degrees)
 print(metar.wind.speed_in_miph)
 print(metar.wind.gust_in_kph)
 
@@ -288,6 +290,37 @@ print(metar.wind.gust_in_kph)
 # 25005KT
 # WSW
 # False
+# 250.0
 # 5.7539
 # None
+```
+
+### Wind Variation
+
+Get the wind variation directions from the report. Type `MetarWindVariation`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `250V140`.
+* from_cardinal_direction `str | None`: The `from` cardinal direction, e.g. "NW" (north west).
+* from_in_degrees `float | None`: The `from` direction in degrees.
+* from_in_radians `float | None`: The `from` direction in radians.
+* from_in_gradians `float | None`: The `from` direction in gradians.
+* to_cardinal_direction `str | None`: The `to` cardinal direction, e.g. "SE" (south est).
+* to_in_degrees `float | None`: The `to` direction in degrees.
+* to_in_radians `float | None`: The `to` direction in radians.
+* to_in_gradians `float | None`: The `to` direction in gradians.
+
+```python
+print(metar.wind_variation.code)
+print(metar.wind_variation.from_cardinal_direction)
+print(metar.wind_variation.from_in_degrees)
+print(metar.wind_variation.to_cardinal_direction)
+print(metar.wind_variation.to_in_degrees)
+
+# prints...
+# 250V140
+# WSW
+# 250.0
+# SE
+# 140.0
 ```
