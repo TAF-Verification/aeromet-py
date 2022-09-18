@@ -48,6 +48,7 @@ pip install --upgrade aeromet-py
     - [Station](#station)
     - [Time](#time)
     - [Modifier](#modifier)
+    - [Wind](#wind)
 
 </td>
 <!-- <td width=33% valign=top>
@@ -68,7 +69,7 @@ Import the `Metar` object and instantiate it with the following syntax:
 ```python
 from aeromet_py import Metar
 
-code = "KMIA 130053Z 00000KT 10SM FEW030 FEW045 BKN250 29/23 A2994 RMK AO2 SLP140 T02940233"
+code = "KMIA 130053Z 25005KT 10SM FEW030 FEW045 BKN250 29/23 A2994 RMK AO2 SLP140 T02940233"
 metar = Metar(code)
 ```
 
@@ -238,13 +239,13 @@ Fields:
 * description `str | None`: The description of the modifier code.
 
 Supported codes are:
-* COR: Correction
-* CORR: Correction
-* AMD: Amendment
-* NIL: Missing report
-* AUTO: Automatic report
-* TEST: Testing report
-* FINO: Missing report
+* `COR`: Correction
+* `CORR`: Correction
+* `AMD`: Amendment
+* `NIL`: Missing report
+* `AUTO`: Automatic report
+* `TEST`: Testing report
+* `FINO`: Missing report
 
 ```python
 print(metar.modifier.code)
@@ -253,4 +254,40 @@ print(metar.modifier.description)
 # prints...
 # COR
 # Correction
+```
+
+### Wind
+
+Get the wind data of the report. Type `MetarWind`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `25005KT`.
+* cardinal_direction `str | None`: The cardinal direction associated to the wind direction,
+  e.g. "NW" (north west).
+* variable `bool`: Represents if the wind direction is variable (VRB).
+* direction_in_degrees `float | None`: The wind direction in degrees.
+* direction_in_radians `float | None`: The wind direction in radians.
+* direction_in_gradians `float | None`: The wind direction in gradians.
+* speed_in_knot `float | None`: The wind speed in knot.
+* speed_in_mps `float | None`: The wind speed in meters per second.
+* speed_in_kph `float | None`: The wind speed in kilometers per hour.
+* speed_in_miph `float | None`: The wind speed in miles per hour.
+* gust_in_knot `float | None`: The wind gust in knot.
+* gust_in_mps `float | None`: The wind gust in meters per second.
+* gust_in_kph `float | None`: The wind gust in kilometers per hour.
+* gust_in_miph `float | None`: The wind gust in miles per hour.
+
+```python
+print(metar.wind.code)
+print(metar.wind.cardinal_direction)
+print(metar.wind.variable)
+print(metar.wind.speed_in_miph)
+print(metar.wind.gust_in_kph)
+
+# prints...
+# 25005KT
+# WSW
+# False
+# 5.7539
+# None
 ```

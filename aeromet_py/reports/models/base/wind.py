@@ -191,11 +191,9 @@ class Wind:
         self,
         direction: Optional[str] = None,
         speed: Optional[str] = None,
-        gust: Optional[str] = None,
     ) -> None:
         self._direction = Direction(direction)
         self._speed = Speed(speed)
-        self._gust = Speed(gust)
 
     def __str__(self) -> str:
         cardinal: str = self.cardinal_direction if self.cardinal_direction else ""
@@ -203,13 +201,10 @@ class Wind:
         direction: str = str(self._direction)
         direction = f"({self._direction})" if self._direction.value else direction
 
-        gust: str = "gust of " + str(self._gust) if self._gust.value else ""
-
-        s: str = "{} {} {} {}".format(
+        s: str = "{} {} {}".format(
             cardinal,
             direction,
             self._speed,
-            gust,
         )
         s = re.sub(r"\s{2,}", " ", s)
         s = s.strip()
@@ -273,31 +268,10 @@ class Wind:
         """Get the wind speed in miles per hour."""
         return self._speed.in_miph
 
-    @property
-    def gust_in_knot(self) -> Optional[float]:
-        """Get the wind gust in knot."""
-        return self._gust.in_knot
-
-    @property
-    def gust_in_mps(self) -> Optional[float]:
-        """Get the wind gust in meters per second"""
-        return self._gust.in_mps
-
-    @property
-    def gust_in_kph(self) -> Optional[float]:
-        """Get the wind gust in kilometers per hour."""
-        return self._gust.in_kph
-
-    @property
-    def gust_in_miph(self) -> Optional[float]:
-        """Get the wind gust in miles per hour."""
-        return self._gust.in_miph
-
     def as_dict(self) -> Dict[str, Dict[str, Any]]:
         return {
             "direction": self._direction.as_dict(),
             "speed": self._speed.as_dict(),
-            "gust": self._gust.as_dict(),
         }
 
     def to_json(self) -> str:
