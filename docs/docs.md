@@ -51,6 +51,7 @@ pip install --upgrade aeromet-py
     - [Wind](#wind)
     - [Wind Variation](#wind-variation)
     - [Prevailing Visibility](#prevailing-visibility)
+    - [Minimum Visibility](#minimum-visibility)
 
 </td>
 <!-- <td width=33% valign=top>
@@ -338,9 +339,9 @@ Fields:
 * in_sea_miles `float | None`: The prevailing visibility in sea miles.
 * cardinal_direction `str | None`: The cardinal direction associated to the visibility,
   e.g. "NW" (north west).
-* direction_in_degrees `float | None`: The wind direction in degrees.
-* direction_in_radians `float | None`: The wind direction in radians.
-* direction_in_gradians `float | None`: The wind direction in gradians.
+* direction_in_degrees `float | None`: The direction of the prevailing visibility in degrees.
+* direction_in_radians `float | None`: The direction of the prevailing visibility in radians.
+* direction_in_gradians `float | None`: The direction of the prevailing visibility in gradians.
 * cavok `bool`: True if CAVOK, False if not.
 
 ```python
@@ -352,4 +353,37 @@ print(metar.prevailing_visibility.cavok)
 # 10SM
 # 18520.0
 # False
+```
+
+### Minimum Visibility
+
+Get the minimum visibility of the report. Type `MetarMinimumVisibility`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `3000W`.
+* in_meters `float | None`: The minimum visibility in meters.
+* in_kilometers `float | None`: The minimum visibility in kilometers.
+* in_feet `float | None`: The minimum visibility in feet.
+* in_sea_miles `float | None`: The minimum visibility in sea miles.
+* cardinal_direction `str | None`: The cardinal direction associated to the minimum visibility,
+  e.g. "NW" (north west).
+* direction_in_degrees `float | None`: The direction of the minimum visibility in degrees.
+* direction_in_radians `float | None`: The direction of the minimum visibility in radians.
+* direction_in_gradians `float | None`: The direction of the minimum visibility in gradians.
+
+```python
+# New METAR code for this example
+code = "MROC 160700Z 09003KT 3000 1000SW BR SCT005 BKN015 19/19 A3007 NOSIG"
+metar = Metar(code)
+
+print(metar.minimum_visibility.code)
+print(metar.minimum_visibility.in_meters)
+print(metar.minimum_visibility.cardinal_direction)
+print(metar.minimum_visibility.direction_in_degrees)
+
+# prints...
+# 1000SW
+# 1000.0
+# SW
+# 225.0
 ```
