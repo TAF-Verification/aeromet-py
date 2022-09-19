@@ -44,6 +44,7 @@ pip install --upgrade aeromet-py
     - [Raw Code](#raw-code)
     - [Sections](#sections)
     - [Unparsed Groups](#unparsed-groups)
+    - [The `GroupList` object](#the-grouplist-object)
     - [Type](#type)
     - [Station](#station)
     - [Time](#time)
@@ -52,6 +53,8 @@ pip install --upgrade aeromet-py
     - [Wind Variation](#wind-variation)
     - [Prevailing Visibility](#prevailing-visibility)
     - [Minimum Visibility](#minimum-visibility)
+    - [Runway Ranges](#runway-ranges)
+      - [Runway Range](#runway-range)
 
 </td>
 <!-- <td width=33% valign=top>
@@ -149,6 +152,27 @@ Starting from here, all the properties contains this list of methods:
 * to_json() -> `str`: Returns the object data as a string in JSON format.
 
 Of course, the `Metar` object also containes this same methods.
+
+### The `GroupList` object
+
+Some groups may appear several times in the `METAR` report, but representing different data.
+For example, the weather or the cloud layers. So, we can group these in one object to manipulate
+them more easily.
+
+The `GroupList` object is a class that contains other objects of the same type like a list.
+This is iterable, so, you can use it in a `for` loop:
+
+```python
+for group in group_list_instance:
+  print(group.some_property)
+```
+
+We will use the `GroupList` object for the first time in [Runway Ranges](#runway-ranges)
+section.
+
+Fields:
+* codes `List[str]`: The codes of every group found in report as a List[str].
+* items `List[T]`: The groups found in report.
 
 ### Type
 
@@ -386,4 +410,46 @@ print(metar.minimum_visibility.direction_in_degrees)
 # 1000.0
 # SW
 # 225.0
+```
+
+### Runway Ranges
+
+Get the runway ranges data of the METAR if provided. Type `GroupList[MetarRunwayRange]`.
+
+#### Runway Range
+
+The individual runway range data by group provided in the METAR. Type `MetarRunwayRange`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `R07L/M0150V0600U`.
+* name `str | None`: The runway name.
+* low_range `str | None`: The runway low range as a string.
+* low_in_meters `float | None`: The runway low range in meters.
+* low_in_kilometers `float | None`: The runway low range in kilometers.
+* low_in_feet `float | None`: The runway low range in feet.
+* low_in_sea_miles `float | None`: The runway low range in sea miles.
+* high_range `str | None`: The runway high range as a string.
+* high_in_meters `float | None`: The runway high range in meters.
+* high_in_kilometers `float | None`: The runway high range in kilometers.
+* high_in_feet `float | None`: The runway high range in feet.
+* high_in_sea_miles `float | None`: The runway high range in sea miles.
+* trend `str | None`: The trend of the runway range.
+
+```python
+# New METAR code for this example
+code = "METAR SCFA 121300Z 21008KT 9999 3000W R07L/M0150V0600U TSRA FEW020 20/13 Q1014 NOSIG"
+metar = Metar(code)
+
+print(metar.runway_ranges.codes)
+
+for runway_range in metar.runway_ranges:
+    print(runway_range.name)
+    print(runway_range.low_range)
+    print(runway_range.high_in_sea_miles)
+
+# prints...
+# ['R07L/M0150V0600U']
+# 07 left
+# below of 150.0 m
+# 0.3239740820734341
 ```
