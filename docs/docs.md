@@ -50,6 +50,7 @@ pip install --upgrade aeromet-py
     - [Modifier](#modifier)
     - [Wind](#wind)
     - [Wind Variation](#wind-variation)
+    - [Prevailing Visibility](#prevailing-visibility)
 
 </td>
 <!-- <td width=33% valign=top>
@@ -323,4 +324,32 @@ print(metar.wind_variation.to_in_degrees)
 # 250.0
 # SE
 # 140.0
+```
+
+### Prevailing Visibility
+
+Get the prevailing visibility of the report. Type `MetarPrevailingVisibility`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `9999`.
+* in_meters `float | None`: The prevailing visibility in meters.
+* in_kilometers `float | None`: The prevailing visibility in kilometers.
+* in_feet `float | None`: The prevailing visibility in feet.
+* in_sea_miles `float | None`: The prevailing visibility in sea miles.
+* cardinal_direction `str | None`: The cardinal direction associated to the visibility,
+  e.g. "NW" (north west).
+* direction_in_degrees `float | None`: The wind direction in degrees.
+* direction_in_radians `float | None`: The wind direction in radians.
+* direction_in_gradians `float | None`: The wind direction in gradians.
+* cavok `bool`: True if CAVOK, False if not.
+
+```python
+print(metar.prevailing_visibility.code)
+print(metar.prevailing_visibility.in_meters)
+print(metar.prevailing_visibility.cavok)
+
+# prints...
+# 10SM
+# 18520.0
+# False
 ```
