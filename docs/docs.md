@@ -477,20 +477,20 @@ Fields:
 metar_code = "METAR BIBD 191100Z 03002KT 5000 +RA BR VCTS SCT008CB OVC020 04/03 Q1013"
 metar = Metar(code)
 
-code = f"{'code':13}"
-intensity = f"{'intensity':13}"
-description = f"{'description':13}"
-precipitation = f"{'precipitation':13}"
-obscuration = f"{'obscuration':13}"
-other = f"{'other':13}"
+code = f"{'code':>13}"
+intensity = f"{'intensity':>13}"
+description = f"{'description':>13}"
+precipitation = f"{'precipitation':>13}"
+obscuration = f"{'obscuration':>13}"
+other = f"{'other':>13}"
 
 for weather in metar.weathers:
-    code += f" {weather.code:>13}"
-    intensity += f" {str(weather.intensity):>13}"
-    description += f" {str(weather.description):>13}"
-    precipitation += f" {str(weather.precipitation):>13}"
-    obscuration += f" {str(weather.obscuration):>13}"
-    other += f" {str(weather.other):>13}"
+    code += f"{weather.code:>14}"
+    intensity += f"{str(weather.intensity):>14}"
+    description += f"{str(weather.description):>14}"
+    precipitation += f"{str(weather.precipitation):>14}"
+    obscuration += f"{str(weather.obscuration):>14}"
+    other += f"{str(weather.other):>14}"
 
 print(code)
 print(intensity)
