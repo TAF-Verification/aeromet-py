@@ -55,6 +55,8 @@ pip install --upgrade aeromet-py
     - [Minimum Visibility](#minimum-visibility)
     - [Runway Ranges](#runway-ranges)
       - [Runway Range](#runway-range)
+    - [Weathers](#weathers)
+      - [Weather](#weather)
 
 </td>
 <!-- <td width=33% valign=top>
@@ -452,4 +454,56 @@ for runway_range in metar.runway_ranges:
 # 07 left
 # below of 150.0 m
 # 0.3239740820734341
+```
+
+### Weathers
+
+Get the weathers data of the METAR if provided. Type `GroupList[MetarWeather]`.
+
+#### Weather
+
+The individual weather data by group provided in the METAR. Type `MetarWeather`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `+TSRA`.
+* intensity `str | None`: The intensity translation of the weather, e.g. `+ -> heavy`.
+* description `str | None`: The description translation of the weather, e.g. `TS -> thunder storm`.
+* precipitation `str | None`: The precipitation translation of the weather, e.g. `RA -> rain`.
+* obscuration `str | None`: The obscuration translation of the weather, e.g. `BR -> mist`.
+* other `str | None`: The other translation of the weather, e.g. `FC -> funnel cloud`.
+
+```python
+# New METAR code for this example
+metar_code = "METAR BIBD 191100Z 03002KT 5000 +RA BR VCTS SCT008CB OVC020 04/03 Q1013"
+metar = Metar(code)
+
+code = f"{'code':13}"
+intensity = f"{'intensity':13}"
+description = f"{'description':13}"
+precipitation = f"{'precipitation':13}"
+obscuration = f"{'obscuration':13}"
+other = f"{'other':13}"
+
+for weather in metar.weathers:
+    code += f" {weather.code:>13}"
+    intensity += f" {str(weather.intensity):>13}"
+    description += f" {str(weather.description):>13}"
+    precipitation += f" {str(weather.precipitation):>13}"
+    obscuration += f" {str(weather.obscuration):>13}"
+    other += f" {str(weather.other):>13}"
+
+print(code)
+print(intensity)
+print(description)
+print(precipitation)
+print(obscuration)
+print(other)
+
+# prints...
+#          code           +RA            BR          VCTS
+#     intensity         heavy          None        nearby
+#   description          None          None  thunderstorm
+# precipitation          rain          None          None
+#   obscuration          None          mist          None
+#         other          None          None          None
 ```
