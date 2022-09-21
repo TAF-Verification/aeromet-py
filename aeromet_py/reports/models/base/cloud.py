@@ -199,7 +199,7 @@ class CloudList(GroupList[Cloud]):
     def ceiling(self) -> bool:
         """Returns True if there is ceiling, False if not.
         If the cover of someone of the cloud layers is broken (BKN) or
-        overcast (OVC) and its height is less or equal than 1500.0 feet,
+        overcast (OVC) and its height is less than or equal to 1500.0 feet,
         there is ceiling; there isn't otherwise."""
         for group in self._list:
             _oktas: str = group.oktas
