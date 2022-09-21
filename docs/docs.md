@@ -57,6 +57,8 @@ pip install --upgrade aeromet-py
       - [Runway Range](#runway-range)
     - [Weathers](#weathers)
       - [Weather](#weather)
+    - [Clouds](#clouds)
+      - [Cloud](#cloud)
 
 </td>
 <!-- <td width=33% valign=top>
@@ -167,6 +169,10 @@ This is iterable, so, you can use it in a `for` loop:
 ```python
 for group in group_list_instance:
   print(group.some_property)
+
+# Can be indexed too
+group = group_list_instance[0]
+print(group.some_property)
 ```
 
 We will use the `GroupList` object for the first time in [Runway Ranges](#runway-ranges)
@@ -416,11 +422,11 @@ print(metar.minimum_visibility.direction_in_degrees)
 
 ### Runway Ranges
 
-Get the runway ranges data of the METAR if provided. Type `GroupList[MetarRunwayRange]`.
+Get the runway ranges data of the report. Type `GroupList[MetarRunwayRange]`.
 
 #### Runway Range
 
-The individual runway range data by group provided in the METAR. Type `MetarRunwayRange`.
+The individual runway range data by group provided in the report. Type `MetarRunwayRange`.
 
 Fields:
 * code `str | None`: The code present in the `Metar`, e.g. `R07L/M0150V0600U`.
@@ -458,11 +464,11 @@ for runway_range in metar.runway_ranges:
 
 ### Weathers
 
-Get the weathers data of the METAR if provided. Type `GroupList[MetarWeather]`.
+Get the weathers data of the report. Type `GroupList[MetarWeather]`.
 
 #### Weather
 
-The individual weather data by group provided in the METAR. Type `MetarWeather`.
+The individual weather data by group provided in the report. Type `MetarWeather`.
 
 Fields:
 * code `str | None`: The code present in the `Metar`, e.g. `+TSRA`.
@@ -506,4 +512,68 @@ print(other)
 # precipitation          rain          None          None
 #   obscuration          None          mist          None
 #         other          None          None          None
+```
+
+### Clouds
+
+Get the clouds data of the report. Type `CloudList` which extends `GroupList[Cloud]`.
+
+Fields:
+* ceiling `bool`: True if there is ceiling, False if not. If the cover of someone of the
+  cloud layers is broken (BKN) or overcast (OVC) and its height is less or equal than 1500.0
+  feet, there is ceiling; there isn't otherwise.
+
+#### Cloud
+
+The individual cloud data by group provided in the report. Type `Cloud`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `SCT015CB`.
+* cover `str | None`: The cover translation of the cloud layer, e.g. `SCT -> scattered`.
+* cloud_type `str | None`: The type of cloud translation of the cloud layer, e.g. `CB -> cumulonimbus`.
+* oktas `str`: The oktas amount of the cloud layer, e.g. `SCT -> 3-4`.
+* height_in_meters `float | None`: The height of the cloud base in meters.
+* height_in_kilometers `float | None`: The height of the cloud base in kilometers.
+* height_in_sea_miles `float | None`: The height of the cloud base in sea miles.
+* height_in_feet `float | None`: The height of the cloud base in feet.
+
+```python
+# New METAR code for this example
+metar_code = (
+    "METAR BIBD 191100Z 03002KT 5000 +RA BR VCTS FEW010CB SCT020 BKN120 04/03 Q1013"
+)
+metar = Metar(metar_code)
+
+print(metar.clouds.codes)
+print(metar.clouds.ceiling)
+
+# prints...
+# ['FEW010CB', 'SCT020', 'BKN120']
+# False
+
+code = f"{'code':>13}"
+cover = f"{'cover':>13}"
+oktas = f"{'oktas':>13}"
+cloud_type = f"{'cloud_type':>13}"
+height = f"{'height (ft)':>13}"
+
+for cloud in metar.clouds:
+    code += f"{cloud.code:>14}"
+    cover += f"{str(cloud.cover):>14}"
+    oktas += f"{str(cloud.oktas):>14}"
+    cloud_type += f"{str(cloud.cloud_type):>14}"
+    height += f"{f'{cloud.height_in_feet:.1f}':>14}"
+
+print(code)
+print(cover)
+print(oktas)
+print(cloud_type)
+print(height)
+
+# prints...
+#         code      FEW010CB        SCT020        BKN120
+#        cover         a few     scattered        broken
+#        oktas           1-2           3-4           5-7
+#   cloud_type  cumulonimbus          None          None
+#  height (ft)        1000.0        2000.0       12000.0
 ```

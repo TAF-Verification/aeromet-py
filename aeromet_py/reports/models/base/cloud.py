@@ -151,7 +151,7 @@ class Cloud(Group):
 
     @property
     def cloud_type(self) -> Optional[str]:
-        """Returns the cloud type of the layer."""
+        """Returns the type of cloud translation of the cloud layer."""
         return self._type
 
     @property
@@ -198,9 +198,9 @@ class CloudList(GroupList[Cloud]):
     @property
     def ceiling(self) -> bool:
         """Returns True if there is ceiling, False if not.
-        If the cover of someone of the cloud layers is broken or overcast
-        and its height is less or equal than 1500.0 feet, there is ceiling;
-        there isn't otherwise."""
+        If the cover of someone of the cloud layers is broken (BKN) or
+        overcast (OVC) and its height is less or equal than 1500.0 feet,
+        there is ceiling; there isn't otherwise."""
         for group in self._list:
             _oktas: str = group.oktas
             _height: float = group.height_in_feet
