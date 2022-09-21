@@ -3,6 +3,8 @@ name = "aeromet-py"
 version = "0.1.0"
 description = "Python library to parse meteorological information of aeronautical stations."
 authors = ["diego-garro <diego.garromolina@yahoo.com>"]
+license = "MIT"
+documentation = "https://github.com/TAF-Verification/aeromet-py/blob/docs/docs/docs.md"
 
 [tool.poetry.dependencies]
 python = "^3.7"
