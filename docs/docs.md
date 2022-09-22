@@ -59,6 +59,7 @@ pip install --upgrade aeromet-py
       - [Weather](#weather)
     - [Clouds](#clouds)
       - [Cloud](#cloud)
+    - [Temperatures](#temperatures)
 
 </td>
 <!-- <td width=33% valign=top>
@@ -576,4 +577,32 @@ print(height)
 #        oktas           1-2           3-4           5-7
 #   cloud_type  cumulonimbus          None          None
 #  height (ft)        1000.0        2000.0       12000.0
+```
+
+### Temperatures
+
+Get the temperatures of the report. Type `MetarTemperatures`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `29/23`.
+* temperature_in_celsius `float | None`: The temperature in °Celsius.
+* temperature_in_kelvin `float | None`: The temperature in °Kelvin.
+* temperature_in_fahrenheit `float | None`: The temperature in °Fahrenheit.
+* temperature_in_rankine `float | None`: The temperature in Rankine.
+* dewpoint_in_celsius `float | None`: The dewpoint in °Celsius.
+* dewpoint_in_kelvin `float | None`: The dewpoint in °Kelvin.
+* dewpoint_in_fahrenheit `float | None`: The dewpoint in °Fahrenheit.
+* dewpoint_in_rankine `float | None`: The dewpoint in Rankine.
+
+```python
+print(metar.temperatures.temperature_in_celsius)
+print(metar.temperatures.temperature_in_fahrenheit)
+print(metar.temperatures.dewpoint_in_celsius)
+print(metar.temperatures.dewpoint_in_fahrenheit)
+
+# prints...
+# 29.0
+# 84.2
+# 23.0
+# 73.4
 ```
