@@ -61,6 +61,7 @@ pip install --upgrade aeromet-py
       - [Cloud](#cloud)
     - [Temperatures](#temperatures)
     - [Pressure](#pressure)
+    - [Recent Weather](#recent-weather)
 
 </td>
 <!-- <td width=33% valign=top>
@@ -632,4 +633,36 @@ print(f"{metar.pressure.in_inHg:.6f}")
 # 1.000626
 # 1013.884186
 # 29.940000
+```
+
+### Recent Weather
+
+Get the recent weather data of the report. Type `MetarRecentWeather`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `RERA`.
+* description `str | None`: The description translation of the recent weather, e.g. `TS -> thunder storm`.
+* precipitation `str | None`: The precipitation translation of the recent weather, e.g. `RA -> rain`.
+* obscuration `str | None`: The obscuration translation of the recent weather, e.g. `FG -> fog`.
+* other `str | None`: The other translation of the recent weather, e.g. `FC -> funnel cloud`.
+
+```python
+# New METAR code for this example
+metar_code = (
+    "METAR BIBD 191100Z 03002KT 9999 VCTS FEW010CB SCT020 BKN120 04/03 Q1013 RETSRA NOSIG"
+)
+metar = Metar(metar_code)
+
+print(metar.recent_weather.code)
+print(metar.recent_weather.description)
+print(metar.recent_weather.precipitation)
+print(metar.recent_weather.obscuration)
+print(metar.recent_weather.other)
+
+# prints...
+# RETSRA
+# thunderstorm
+# rain
+# None
+# None
 ```
