@@ -60,6 +60,7 @@ pip install --upgrade aeromet-py
     - [Clouds](#clouds)
       - [Cloud](#cloud)
     - [Temperatures](#temperatures)
+    - [Pressure](#pressure)
 
 </td>
 <!-- <td width=33% valign=top>
@@ -605,4 +606,30 @@ print(metar.temperatures.dewpoint_in_fahrenheit)
 # 84.2
 # 23.0
 # 73.4
+```
+
+### Pressure
+
+Get the pressure of the report. Type `MetarPressure`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `A2994`.
+* in_atm `float | None`: The pressure in atmospheres.
+* in_bar `float | None`: The pressure in bars.
+* in_mbar `float | None`: The pressure in millibars.
+* in_hPa `float | None`: The pressure in hecto pascals.
+* in_inHg `float | None`: The pressure in mercury inches.
+* value `float | None`: The default stored value of the pressure in hecto pascals.
+
+```python
+print(metar.pressure.code)
+print(f"{metar.pressure.in_atm:.6f}")
+print(f"{metar.pressure.in_hPa:.6f}")
+print(f"{metar.pressure.in_inHg:.6f}")
+
+# prints...
+# A2994
+# 1.000626
+# 1013.884186
+# 29.940000
 ```
