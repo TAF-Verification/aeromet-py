@@ -56,7 +56,7 @@ class Metar(
         self._temperatures = MetarTemperatures(None)
         self._pressure = MetarPressure(None)
         self._recent_weather = MetarRecentWeather(None)
-        self._windshear = MetarWindshearList()
+        self._windshears = MetarWindshearList()
         self._sea_state = MetarSeaState(None)
         self._runway_state = MetarRunwayState(None)
 
@@ -150,14 +150,14 @@ class Metar(
 
     def _handle_windshear(self, match: re.Match) -> None:
         windshear: MetarWindshearRunway = MetarWindshearRunway(match)
-        self._windshear.add(windshear)
+        self._windshears.add(windshear)
 
         self._concatenate_string(windshear)
 
     @property
-    def windshear(self) -> MetarWindshearList:
+    def windshears(self) -> MetarWindshearList:
         """Get the windshear data of the METAR."""
-        return self._windshear
+        return self._windshears
 
     def _handle_sea_state(self, match: re.Match) -> None:
         self._sea_state = MetarSeaState(match)
@@ -297,7 +297,7 @@ class Metar(
                 "temperatures": self.temperatures.as_dict(),
                 "pressure": self.pressure.as_dict(),
                 "recent_weather": self.recent_weather.as_dict(),
-                "windshear": self.windshear.as_dict(),
+                "windshears": self.windshears.as_dict(),
                 "sea_state": self.sea_state.as_dict(),
                 "runway_state": self.runway_state.as_dict(),
                 "flight_rules": self.flight_rules,

@@ -37,7 +37,7 @@ class MetarWindshearRunway(Group):
         return ""
 
     @property
-    def all(self) -> bool:
+    def all_(self) -> bool:
         """Get if `ALL` is found in the group."""
         if self._all:
             return True
@@ -51,7 +51,7 @@ class MetarWindshearRunway(Group):
 
     def as_dict(self) -> Dict[str, Any]:
         d = {
-            "all": self.all,
+            "all": self.all_,
             "name": self.name,
         }
         d.update(super().as_dict())
@@ -72,7 +72,7 @@ class MetarWindshearList(GroupList[MetarWindshearRunway]):
 
     @property
     def names(self) -> List[str]:
-        """Get the names of the windshear runway list in METAR."""
+        """Get the names of runways with windshear reported."""
         if self.all_runways:
             return []
 
@@ -81,7 +81,7 @@ class MetarWindshearList(GroupList[MetarWindshearRunway]):
     @property
     def all_runways(self) -> bool:
         """Get if all runways have windshear."""
-        if len(self._list) == 1 and self._list[0].all:
+        if len(self._list) == 1 and self._list[0].all_:
             return True
 
         return False

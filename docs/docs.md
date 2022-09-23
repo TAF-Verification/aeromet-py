@@ -62,6 +62,8 @@ pip install --upgrade aeromet-py
     - [Temperatures](#temperatures)
     - [Pressure](#pressure)
     - [Recent Weather](#recent-weather)
+    - [Windshears](#windshears)
+      - [Windshear](#windshear)
 
 </td>
 <!-- <td width=33% valign=top>
@@ -665,4 +667,57 @@ print(metar.recent_weather.other)
 # rain
 # None
 # None
+```
+
+### Windshears
+
+Get the windshear data of the report. Type `MetarWindshearList` which
+extends `GroupList[MetarWindshearRunway]`.
+
+Fields:
+* names `List[str]`: The names of runways with windshear reported.
+* all_runways `bool`: True if all runways have windshear, False if not.
+
+#### Windshear
+
+The individual windshear data by group provided in the report. Type `MetarWindshearRunway`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `WS R07`.
+* all_ `bool`: True if `ALL` is found in the group, False if not, e.g. `WS ALL RWY`.
+* name `str | None`: The name of the runway that has being reported with windshear.
+
+```python
+# New METAR code for this example
+metar_code = (
+    "METAR MROC 202000Z 12013G23KT 9999 FEW040 SCT100 27/16 A2997 WS R07L WS R25C NOSIG"
+)
+metar = Metar(metar_code)
+
+print(metar.windshears.codes)
+print(metar.windshears.names)
+print(metar.windshears.all_runways)
+
+# prints...
+# ['WS R07L', 'WS R25C']
+# ['07 left', '25 center']
+# False
+
+code = f"{'code':>5}"
+all_ = f"{'all_':>5}"
+name = f"{'name':>5}"
+
+for ws in metar.windshears:
+    code += f"{ws.code:>11}"
+    all_ += f"{str(ws.all_):>11}"
+    name += f"{ws.name:>11}"
+
+print(code)
+print(all_)
+print(name)
+
+# prints...
+# code    WS R07L    WS R25C
+# all_      False      False
+# name    07 left  25 center
 ```
