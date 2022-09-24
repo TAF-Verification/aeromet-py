@@ -64,6 +64,7 @@ pip install --upgrade aeromet-py
     - [Recent Weather](#recent-weather)
     - [Windshears](#windshears)
       - [Windshear](#windshear)
+    - [Sea State](#sea-state)
 
 </td>
 <!-- <td width=33% valign=top>
@@ -720,4 +721,42 @@ print(name)
 # code    WS R07L    WS R25C
 # all_      False      False
 # name    07 left  25 center
+```
+
+### Sea State
+
+Get the sea state data of the report. Type `MetarSeaState`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `W20/S5`.
+* state `str | None`: The sea state if provided.
+* temperature_in_celsius `float | None`: The temperature of the sea in Celsius.
+* temperature_in_kelvin `float | None`: The temperature of the sea in Kelvin.
+* temperature_in_fahrenheit `float | None`: The temperature of the sea in Fahrenheit.
+* temperature_in_rankine `float | None`: The temperature of the sea in Rankine.
+* height_in_meters `float | None`: The height of the significant wave in meters.
+* height_in_centimeters `float | None`: The height of the significant wave in centimeters.
+* height_in_decimeters `float | None`: The height of the significant wave in decimeters.
+* height_in_feet `float | None`: The height of the significant wave in feet.
+* height_in_inches `float | None`: The height of the significant wave in inches.
+
+```python
+# New METAR code for this example
+metar_code = "METAR LXGB 201950Z AUTO 09012KT 9999 BKN080/// 14/07 Q1016 RERA W20/S5"
+metar = Metar(metar_code)
+
+print(metar.sea_state.code)
+print(metar.sea_state.state)
+print(metar.sea_state.temperature_in_celsius)
+print(metar.sea_state.temperature_in_kelvin)
+print(metar.sea_state.temperature_in_fahrenheit)
+print(metar.sea_state.height_in_inches)
+
+# prints...
+# W20/S5
+# rough
+# 20.0
+# 293.15
+# 68.0
+# None
 ```
