@@ -65,6 +65,7 @@ pip install --upgrade aeromet-py
     - [Windshears](#windshears)
       - [Windshear](#windshear)
     - [Sea State](#sea-state)
+    - [Runway State](#runway-state)
 
 </td>
 <!-- <td width=33% valign=top>
@@ -759,4 +760,46 @@ print(metar.sea_state.height_in_inches)
 # 293.15
 # 68.0
 # None
+```
+
+### Runway State
+
+Get the runway state data of the report. Type `MetarRunwayState`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `R10R/527650`.
+* name `str | None`: The name of the runway that has being reported.
+* deposits `str | None`: The deposits type on the runway.
+* contamination `str | None`: The contamination quantity of the deposits.
+* deposits_depth `str | None`: The deposits depth.
+* surface_friction `str | None`: The surface friction index of the runway.
+* snoclo `bool`: True: aerodrome is closed due to extreme deposit of snow.
+  False: aerodrome is open.
+* clrd `str | None`: Get if contamination have ceased to exists in some runway.
+
+```python
+# New METAR code for this example
+metar_code = (
+    "METAR PANC 210353Z 01006KT 10SM FEW045 BKN070 OVC100 M05/M17 A2965 R10R/527650"
+)
+metar = Metar(metar_code)
+
+print(f"{f'Code:':>18} {metar.runway_state.code}")
+print(f"{f'Name:':>18} {metar.runway_state.name}")
+print(f"{f'Deposits:':>18} {metar.runway_state.deposits}")
+print(f"{f'Deposits depth:':>18} {metar.runway_state.deposits_depth}")
+print(f"{f'Contamination:':>18} {metar.runway_state.contamination}")
+print(f"{f'Surface friction:':>18} {metar.runway_state.surface_friction}")
+print(f"{f'SNOCLO:':>18} {str(metar.runway_state.snoclo)}")
+print(f"{f'CLRD:':>18} {str(metar.runway_state.clrd)}")
+
+# prints...
+#             Code: R10R/527650
+#             Name: 10 right
+#         Deposits: wet snow
+#   Deposits depth: 76 mm
+#    Contamination: 11%-25% of runway
+# Surface friction: 0.50
+#           SNOCLO: False
+#             CLRD: None
 ```
