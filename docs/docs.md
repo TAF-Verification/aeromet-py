@@ -33,49 +33,51 @@ pip install --upgrade aeromet-py
 # Table of contents
 
 <table>
-<tr><td width=33% valign=top>
+<tr><td width=50% valign=top>
 
 - [Aeromet-Py Documentation](#aeromet-py-documentation)
   - [Introduction](#introduction)
   - [Installing](#installing)
   - [Upgrade to the latest version](#upgrade-to-the-latest-version)
 - [Table of contents](#table-of-contents)
-  - [Metar](#metar)
-    - [Raw Code](#raw-code)
-    - [Sections](#sections)
-    - [Unparsed Groups](#unparsed-groups)
-    - [The `GroupList` object](#the-grouplist-object)
-    - [Type](#type)
-    - [Station](#station)
-    - [Time](#time)
-    - [Modifier](#modifier)
-    - [Wind](#wind)
-    - [Wind Variation](#wind-variation)
-    - [Prevailing Visibility](#prevailing-visibility)
-    - [Minimum Visibility](#minimum-visibility)
-    - [Runway Ranges](#runway-ranges)
-      - [Runway Range](#runway-range)
-    - [Weathers](#weathers)
-      - [Weather](#weather)
-    - [Clouds](#clouds)
-      - [Cloud](#cloud)
-    - [Temperatures](#temperatures)
-    - [Pressure](#pressure)
-    - [Recent Weather](#recent-weather)
-    - [Windshears](#windshears)
-      - [Windshear](#windshear)
-    - [Sea State](#sea-state)
-    - [Runway State](#runway-state)
+- [Metar](#metar)
+  - [Raw Code](#raw-code)
+  - [Sections](#sections)
+  - [Unparsed Groups](#unparsed-groups)
+  - [The `GroupList` object](#the-grouplist-object)
+  - [Type](#type)
+  - [Station](#station)
+  - [Time](#time)
+  - [Modifier](#modifier)
+  - [Wind](#wind)
+  - [Wind Variation](#wind-variation)
+  - [Prevailing Visibility](#prevailing-visibility)
+  - [Minimum Visibility](#minimum-visibility)
+  - [Runway Ranges](#runway-ranges)
+    - [Runway Range](#runway-range)
+  - [Weathers](#weathers)
+    - [Weather](#weather)
+  - [Clouds](#clouds)
+    - [Cloud](#cloud)
+  - [Temperatures](#temperatures)
+  - [Pressure](#pressure)
+  - [Recent Weather](#recent-weather)
+  - [Windshears](#windshears)
+    - [Windshear](#windshear)
+  - [Sea State](#sea-state)
+  - [Runway State](#runway-state)
+  - [Weather Trend](#weather-trend)
+    - [Change Period](#change-period)
 
 </td>
-<!-- <td width=33% valign=top>
+<!-- <td valign=top>
 </td>
 <td valign=top>
 </td> -->
 </tr>
 </table>
 
-## Metar
+# Metar
 
 All features of the `Metar` report are represented as objects in the package. So, these objects have inside
 of them another objects as fields, properties and methods. In the next sections you have a tour across all of 
@@ -114,7 +116,7 @@ metar = Metar(code_with_bad_group, truncate=True)
 
 Now that you have a `Metar` object, you can extract all the relevant information.
 
-### Raw Code
+## Raw Code
 
 Get the raw code as its received in the instance. TypeStation`str`station
 
@@ -125,7 +127,7 @@ print(metar.raw_code)
 # KMIA 130053Z 00000KT 10SM FEWT030 FEW045 BKN250 29/23 A2994 RMK AO2 SLP140 T02940233
 ```
 
-### Sections
+## Sections
 
 Get the `Metar` separated in its sections. Type `List[str]`.
 
@@ -138,7 +140,7 @@ print(metar.sections)
 
 Where the first element is the body, the second is the trend and the last one is the remark.
 
-### Unparsed Groups
+## Unparsed Groups
 
 Get the unparsed groups of the report. Type `List[str]`.
 
@@ -164,7 +166,7 @@ Starting from here, all the properties contains this list of methods:
 
 Of course, the `Metar` object also containes this same methods.
 
-### The `GroupList` object
+## The `GroupList` object
 
 Some groups may appear several times in the `METAR` report, but representing different data.
 For example, the weather or the cloud layers. So, we can group these in one object to manipulate
@@ -189,7 +191,7 @@ Fields:
 * codes `List[str]`: The codes of every group found in report as a List[str].
 * items `List[T]`: The groups found in report.
 
-### Type
+## Type
 
 Get the type of the report. Type `ReportType`.
 
@@ -206,7 +208,7 @@ print(metar.type_.type_)
 # Meteorological Aerodrome Report
 ```
 
-### Station
+## Station
 
 Get the station information of the report. Type `Station`.
 
@@ -244,7 +246,7 @@ print("SYNOP:", metar.station.synop)
 # SYNOP: 74486
 ```
 
-### Time
+## Time
 
 Get the date and time of the report. Type `Time`.
 
@@ -272,7 +274,7 @@ print(metar.time.minute)
 # 53
 ```
 
-### Modifier
+## Modifier
 
 Get the modifier description of the report. Type `Modifier`.
 
@@ -298,7 +300,7 @@ print(metar.modifier.description)
 # Correction
 ```
 
-### Wind
+## Wind
 
 Get the wind data of the report. Type `MetarWind`.
 
@@ -336,7 +338,7 @@ print(metar.wind.gust_in_kph)
 # None
 ```
 
-### Wind Variation
+## Wind Variation
 
 Get the wind variation directions from the report. Type `MetarWindVariation`.
 
@@ -366,7 +368,7 @@ print(metar.wind_variation.to_in_degrees)
 # 140.0
 ```
 
-### Prevailing Visibility
+## Prevailing Visibility
 
 Get the prevailing visibility of the report. Type `MetarPrevailingVisibility`.
 
@@ -394,7 +396,7 @@ print(metar.prevailing_visibility.cavok)
 # False
 ```
 
-### Minimum Visibility
+## Minimum Visibility
 
 Get the minimum visibility of the report. Type `MetarMinimumVisibility`.
 
@@ -427,11 +429,11 @@ print(metar.minimum_visibility.direction_in_degrees)
 # 225.0
 ```
 
-### Runway Ranges
+## Runway Ranges
 
 Get the runway ranges data of the report. Type `GroupList[MetarRunwayRange]`.
 
-#### Runway Range
+### Runway Range
 
 The individual runway range data by group provided in the report. Type `MetarRunwayRange`.
 
@@ -469,11 +471,11 @@ for runway_range in metar.runway_ranges:
 # 0.3239740820734341
 ```
 
-### Weathers
+## Weathers
 
 Get the weathers data of the report. Type `GroupList[MetarWeather]`.
 
-#### Weather
+### Weather
 
 The individual weather data by group provided in the report. Type `MetarWeather`.
 
@@ -521,7 +523,7 @@ print(other)
 #         other          None          None          None
 ```
 
-### Clouds
+## Clouds
 
 Get the clouds data of the report. Type `CloudList` which extends `GroupList[Cloud]`.
 
@@ -530,7 +532,7 @@ Fields:
   cloud layers is broken (BKN) or overcast (OVC) and its height is less than or equal to
   1500.0 feet, there is ceiling; there isn't otherwise.
 
-#### Cloud
+### Cloud
 
 The individual cloud data by group provided in the report. Type `Cloud`.
 
@@ -585,7 +587,7 @@ print(height)
 #  height (ft)        1000.0        2000.0       12000.0
 ```
 
-### Temperatures
+## Temperatures
 
 Get the temperatures of the report. Type `MetarTemperatures`.
 
@@ -613,7 +615,7 @@ print(metar.temperatures.dewpoint_in_fahrenheit)
 # 73.4
 ```
 
-### Pressure
+## Pressure
 
 Get the pressure of the report. Type `MetarPressure`.
 
@@ -639,7 +641,7 @@ print(f"{metar.pressure.in_inHg:.6f}")
 # 29.940000
 ```
 
-### Recent Weather
+## Recent Weather
 
 Get the recent weather data of the report. Type `MetarRecentWeather`.
 
@@ -671,7 +673,7 @@ print(metar.recent_weather.other)
 # None
 ```
 
-### Windshears
+## Windshears
 
 Get the windshear data of the report. Type `MetarWindshearList` which
 extends `GroupList[MetarWindshearRunway]`.
@@ -680,7 +682,7 @@ Fields:
 * names `List[str]`: The names of runways with windshear reported.
 * all_runways `bool`: True if all runways have windshear, False if not.
 
-#### Windshear
+### Windshear
 
 The individual windshear data by group provided in the report. Type `MetarWindshearRunway`.
 
@@ -724,7 +726,7 @@ print(name)
 # name    07 left  25 center
 ```
 
-### Sea State
+## Sea State
 
 Get the sea state data of the report. Type `MetarSeaState`.
 
@@ -762,7 +764,7 @@ print(metar.sea_state.height_in_inches)
 # None
 ```
 
-### Runway State
+## Runway State
 
 Get the runway state data of the report. Type `MetarRunwayState`.
 
@@ -802,4 +804,52 @@ print(f"{f'CLRD:':>18} {str(metar.runway_state.clrd)}")
 # Surface friction: 0.50
 #           SNOCLO: False
 #             CLRD: None
+```
+
+## Weather Trend
+
+Get the weather trends of the report if provided. Type `MetarWeatherTrends`
+which extends `GroupList[ChangePeriods]`.
+
+The weather trends are change periods forecasted for the next two hours from the
+report. May be one or two, and they can have wind, prevailing visibility, weather and
+clouds, but not all are strictly required. All of this fields are the same
+as in the [Metar](#metar) object, so, you can access them as in the previous examples
+for every change period.
+
+### Change Period
+
+The change period forecasted for the next two hours. Type `ChangePeriod`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `BECMG 25005KT 5000 RA`.
+* wind `MetarWind`: The wind forecasted, see [Wind](#wind) for more details.
+* prevailing_visibility `MetarPrevailingVisibility`: The prevailing visibility
+  forecasted, see [Prevailing Visibility](#prevailing-visibility) for more details.
+* weathers `GroupList[MetarWeather]`: the weather forecasted, see [Weathers](#weathers)
+  for more details.
+* clouds `CloudList`: the clouds forecasted, see [Clouds](#clouds) for more details.
+
+```python
+# New METAR code for this example
+metar_code = "METAR BIAR 190800Z 20015KT 9999 FEW049 BKN056 10/03 Q1016 BECMG 5000 RA SCT010 BKN015"
+metar = Metar(metar_code)
+weather_trends = metar.weather_trends
+
+print(weather_trends.codes")
+
+# prints...
+# ['BECMG 5000 RA SCT010 BKN015']
+
+for change_period in weather_trends:
+    print(f"Wind's code: {change_period.wind.code}")
+    print(f"Prevailing visibility's code: {change_period.prevailing_visibility.code}")
+    print(f"Weather's codes: {change_period.weathers.codes}")
+    print(f"Clouds' codes: {change_period.clouds.codes}")
+
+# prints...
+# Wind's code: None
+# Prevailing visibility's code: 5000
+# Weather's codes: ['RA']
+# Clouds' codes: ['SCT010', 'BKN015']
 ```
