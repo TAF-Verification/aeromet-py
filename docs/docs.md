@@ -75,6 +75,7 @@ pip install --upgrade aeromet-py
 <td valign=top>
 
 - [Taf](#taf)
+  - [Missing](#missing)
 
 </td>
 <!-- <td valign=top>
@@ -934,3 +935,27 @@ Fields:
   [Prevailing Visibility](#prevailing-visibility) for more details.
 * weathers `GroupList[MetarWeather]`: See [Weathers](#weathers) for more details.
 * clouds `CloudList`: See [Clouds](#clouds) for more details.
+
+## Missing
+
+Get the missing information of the report if provided. Type `Missing`.
+
+Fields:
+* code `str | None`: The code present in the `Taf`, which is `NIL`.
+* description `str | None`: The description of the missing code.
+* is_missing `bool`: True if `NIL` group is found, False if not.
+
+```python
+# New TAF code for this example
+code = "TAF SKBO 261630Z NIL"
+taf = Taf(code)
+
+print(taf.missing.code)
+print(taf.missing.description)
+print(taf.missing.is_missing)
+
+# prints...
+# NIL
+# Missing report
+# True
+```

@@ -100,7 +100,7 @@ class Taf(
 
     @property
     def missing(self) -> Missing:
-        """Get the missing data of the TAF."""
+        """Get the missing information of the TAF if provided."""
         return self._missing
 
     def _handle_cancelled(self, match: re.Match) -> None:
