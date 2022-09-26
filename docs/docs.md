@@ -44,6 +44,7 @@ pip install --upgrade aeromet-py
   - [Raw Code](#raw-code)
   - [Sections](#sections)
   - [Unparsed Groups](#unparsed-groups)
+  - [Methods as_dict() and to_json()](#methods-as_dict()-and-to_json())
   - [The `GroupList` object](#the-grouplist-object)
   - [Type](#type)
   - [Station](#station)
@@ -71,9 +72,12 @@ pip install --upgrade aeromet-py
   - [Remark](#remark)
 
 </td>
-<!-- <td valign=top>
-</td>
 <td valign=top>
+
+- [Taf](#taf)
+
+</td>
+<!-- <td valign=top>
 </td> -->
 </tr>
 </table>
@@ -158,6 +162,8 @@ As you can see, the parser is very strict. This is because we can't take in coun
 digitation in land station where the work is completely manual. Human errors are inevitable. Try to
 parse bad groups may incur us to have bad data to make calculations, we don't want this in our
 climatology.
+
+## Methods as_dict() and to_json()
 
 Starting from here, all the properties contains this list of methods:
 
@@ -858,3 +864,73 @@ for change_period in weather_trends:
 ## Remark
 
 There is no support for remark at this time, but we hope add it soon. Sorry.
+
+# Taf
+
+All features of the `Taf` report are represented as objects in the package as like the `Metar`.
+So, in the same way as the `Metar`, the `Taf` object can be intantiated as follows: 
+
+```python
+from aeromet_py import Taf
+
+code = (
+  """KATL 251958Z 2520/2624 27009KT P6SM VCSH FEW040 BKN120
+  FM260100 28005KT P6SM SCT060 SCT120
+  FM260800 32004KT P6SM FEW150
+  FM261500 32011G18KT P6SM SKC"""
+)
+taf = Taf(code)
+```
+
+Because of the codification of the reports doesn't have the month and year, you can give it to the instance
+as shown in the following example:
+
+```python
+taf = Taf(code, year=2022, month=3)
+```
+
+If you do not give this arguments, `Taf` object is instantiated with the current year and month.
+
+By default the parser do not raise any error when find a group that can't be parsed. For anulate this
+behavior provide the argument `truncate`, so it can raises a `ParserError` showing the unparsed groups
+as follows:
+
+```python
+code_with_bad_groups = (
+  """KATL 251958Z 2520/2624 27009KT P6SM VCHS FEW040 BKN120
+  FM260100 28005KT P6SM SCT060 SCT120
+  FM260800 32004KT P6SM FEW150
+  FM261500 32011G18KT P6SM SKC"""
+)
+taf = Taf(code_with_bad_groups, truncate=True)
+
+# Raises the following error
+# ParserError: failed while processing VCHS, SKC from: KATL 251958Z 2520/2624 27009KT P6SM VCHS FEW040 BKN120 
+# FM260100 28005KT P6SM SCT060 SCT120 FM260800 32004KT P6SM FEW150 FM261500 32011G18KT P6SM SKC
+```
+
+As you can see, the parser is very strict. This is because we can't take in count every case of bad 
+digitation in land station where the work is completely manual. Human errors are inevitable. Try to
+parse bad groups may incur us to have bad data to make TAF verification, we don't want this in our
+analysis.
+
+The `Taf` and `Metar` objects share some of its properties and methods. So, the use of these fields
+is the same.
+
+Fields:
+* raw_code `str`: See [Raw Code](#raw-code) for more details.
+* sections `List[str]`: See [Sections](#sections) for more details. In the case of `Taf`, the
+  `sections` field returns a list of two elements, the first one is the body and the second one
+  the change periods if provided.
+* unparsed_groups `List[str]`: See [Unparsed Groups](#unparsed-groups) for more details.
+* as_dict() and to_json(): See [Methods as_dict() and to_json()](#methods-as_dict-and-to_json) for
+  more details.
+* type_ `ReportType`: See [Type](#type) for more details.
+* station `Station`: See [Station](#station) for more details.
+* time `Time`: See [Time](#time) for more details.
+* modifier `Modifier`: See [Modifier](#modifier) for more details.
+* wind `MetarWind`: See [Wind](#wind) for more details.
+* prevailing_visibility `MetarPrevailingVisibility`: See
+  [Prevailing Visibility](#prevailing-visibility) for more details.
+* weathers `GroupList[MetarWeather]`: See [Weathers](#weathers) for more details.
+* clouds `CloudList`: See [Clouds](#clouds) for more details.
