@@ -76,6 +76,7 @@ pip install --upgrade aeromet-py
 
 - [Taf](#taf)
   - [Missing](#missing)
+  - [Valid](#valid)
 
 </td>
 <!-- <td valign=top>
@@ -958,4 +959,30 @@ print(taf.missing.is_missing)
 # NIL
 # Missing report
 # True
+```
+
+## Valid
+
+Get the dates of valid period of the report. Type `Valid`.
+
+Fields:
+* code `str | None`: The code present in the `Taf`, e.g. `2518/2618`.
+* period_from `Time`: The time period `from` of the forecast. If group is not found, defaults to
+  current machine date at 00:00Z. See [Time](#time) for more details.
+* period_until `Time`: The time period `until` of the forecast. If group is not found, defaults to
+  current machine date at 00:00Z + 24 hours. See [Time](#time) for more details.
+* duration `timedelta`: The validity of the forecast.
+
+```python
+# Use this Taf instance for this example
+taf = Taf(code, year=2022, month=3)
+
+print(taf.valid.period_from)
+print(taf.valid.period_until)
+print(f"Hours of validity: {taf.valid.duration.total_seconds() / 60 / 60}")
+
+# prints...
+# 2022-03-25 20:00:00
+# 2022-03-27 00:00:00
+# Hours of validity: 28.0
 ```
