@@ -77,6 +77,7 @@ pip install --upgrade aeromet-py
 - [Taf](#taf)
   - [Missing](#missing)
   - [Valid](#valid)
+  - [Cancelled](#cancelled)
 
 </td>
 <!-- <td valign=top>
@@ -974,7 +975,7 @@ Fields:
 * duration `timedelta`: The validity of the forecast.
 
 ```python
-# Use this Taf instance for this example
+# Use this TAF instance for this example
 taf = Taf(code, year=2022, month=3)
 
 print(taf.valid.period_from)
@@ -985,4 +986,25 @@ print(f"Hours of validity: {taf.valid.duration.total_seconds() / 60 / 60}")
 # 2022-03-25 20:00:00
 # 2022-03-27 00:00:00
 # Hours of validity: 28.0
+```
+
+## Cancelled
+
+Get the cancelled group data of the report. Type `Cancelled`.
+
+Fields:
+* code `str | None`: The code present in the `Taf`, e.g. `CNL`.
+* is_cancelled `bool`: True if `TAF` is cancelled, False if not.
+
+```python
+# New TAF for this example
+code = "KATL 251958Z 2520/2624 CNL"
+taf = Taf(code)
+
+print(taf.cancelled.code)
+print(taf.cancelled.is_cancelled)
+
+# prints...
+# CNL
+# True
 ```
