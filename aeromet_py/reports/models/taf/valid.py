@@ -79,6 +79,11 @@ class Valid(Group):
         """Get the time period `until` of the forecast."""
         return self._until
 
+    @property
+    def duration(self) -> timedelta:
+        """Get the validity of the forecast."""
+        return self._until.time - self._from.time
+
     def as_dict(self) -> Dict[str, Any]:
         d = {
             "from_": self.period_from.as_dict(),

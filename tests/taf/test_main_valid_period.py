@@ -17,6 +17,7 @@ def test_0606_valid_period():
     valid = taf.valid
 
     assert valid.code == "2506/2606"
+    assert valid.duration.total_seconds() / 60 / 60 == 24.0
     assert str(valid) == "from 2019-03-25 06:00:00 until 2019-03-26 06:00:00"
     assert valid.period_from.year == 2019
     assert valid.period_from.month == 3
@@ -44,6 +45,7 @@ def test_0024_valid_period():
     valid = taf.valid
 
     assert valid.code == "3100/3124"
+    assert valid.duration.total_seconds() / 60 / 60 == 24.0
     assert str(valid) == "from 2019-03-31 00:00:00 until 2019-04-01 00:00:00"
     assert valid.period_from.year == 2019
     assert valid.period_from.month == 3
@@ -76,6 +78,7 @@ def test_0306_valid_period():
     valid = taf.valid
 
     assert valid.code == "2503/2606"
+    assert valid.duration.total_seconds() / 60 / 60 == 27.0
     assert str(valid) == "from 2019-03-25 03:00:00 until 2019-03-26 06:00:00"
     assert valid.period_from.year == 2019
     assert valid.period_from.month == 3
@@ -103,6 +106,7 @@ def test_1806_valid_period():
     valid = taf.valid
 
     assert valid.code == "0218/0306"
+    assert valid.duration.total_seconds() / 60 / 60 == 12.0
     assert str(valid) == "from 2019-03-02 18:00:00 until 2019-03-03 06:00:00"
     assert valid.period_from.year == 2019
     assert valid.period_from.month == 3
@@ -130,6 +134,7 @@ def test_0012_valid_period():
     valid = taf.valid
 
     assert valid.code == "0600/0612"
+    assert valid.duration.total_seconds() / 60 / 60 == 12.0
     assert str(valid) == "from 2019-03-06 00:00:00 until 2019-03-06 12:00:00"
     assert valid.period_from.year == 2019
     assert valid.period_from.month == 3
@@ -158,6 +163,7 @@ def test_0024_with_year_change_valid_period():
     valid = taf.valid
 
     assert valid.code == "3100/3124"
+    assert valid.duration.total_seconds() / 60 / 60 == 24.0
     assert str(valid) == "from 2019-12-31 00:00:00 until 2020-01-01 00:00:00"
     assert valid.period_from.year == 2019
     assert valid.period_from.month == 12
