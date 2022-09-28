@@ -64,7 +64,7 @@ class MetarTrendIndicator(ChangeIndicator):
 
     @property
     def forecast_period(self) -> Tuple[Time, Time]:
-        """Get the forcast period, i.e. initial forecast time and end forecast time."""
+        """Get the forcast period, i.e. the initial forecast time and the end forecast time."""
         return self._init_period, self._end_period
 
     @property

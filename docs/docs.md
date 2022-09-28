@@ -69,6 +69,7 @@ pip install --upgrade aeromet-py
   - [Runway State](#runway-state)
   - [Weather Trend](#weather-trend)
     - [Change Period](#change-period)
+      - [Trend Indicator](#trend-indicator)
   - [Remark](#remark)
 
 </td>
@@ -842,28 +843,44 @@ Fields:
   for more details.
 * clouds `CloudList`: the clouds forecasted, see [Clouds](#clouds) for more details.
 
+#### Trend Indicator
+
+Get the trend indicator features of the report. Type `MetarTrendIndicator`.
+
+Fields:
+* code `str | None`: The code present in the `Metar`, e.g. `BECMG FM0500 TL0700`.
+* forecast_period `Tuple[Time, Time]`: The forcast period, i.e. the initial forecast
+  time and the end forecast time.
+* period_from `Time`: The `from` forecast period.
+* period_until `Time`: The `until` forecast period.
+* period_at `Time | None`: The `at` forecast period.
+
 ```python
 # New METAR code for this example
-metar_code = "METAR BIAR 190800Z 20015KT 9999 FEW049 BKN056 10/03 Q1016 BECMG 5000 RA SCT010 BKN015"
+metar_code = (
+    "METAR BIAR 190800Z 20015KT 9999 FEW049 BKN056 10/03 Q1016 BECMG 25010G20KT 5000 RA SCT010 BKN015"
+)
 metar = Metar(metar_code)
 weather_trends = metar.weather_trends
 
-print(weather_trends.codes")
+print(weather_trends.codes)
 
 # prints...
-# ['BECMG 5000 RA SCT010 BKN015']
+# ['BECMG 25010G20KT 5000 RA SCT010 BKN015']
 
 for change_period in weather_trends:
-    print(f"Wind's code: {change_period.wind.code}")
-    print(f"Prevailing visibility's code: {change_period.prevailing_visibility.code}")
-    print(f"Weather's codes: {change_period.weathers.codes}")
-    print(f"Clouds' codes: {change_period.clouds.codes}")
+    print(f"Trend indicator: {change_period.trend_indicator}")
+    print(f"Wind: {change_period.wind}")
+    print(f"Prevailing visibility: {change_period.prevailing_visibility}")
+    print(f"Weather: {change_period.weathers}")
+    print(f"Clouds: {change_period.clouds}")
 
 # prints...
-# Wind's code: None
-# Prevailing visibility's code: 5000
-# Weather's codes: ['RA']
-# Clouds' codes: ['SCT010', 'BKN015']
+# Trend indicator: becoming from 2022-09-19 08:00:00 until 2022-09-19 10:00:00
+# Wind: WSW (250.0°) 10.0 kt gust of 20.0 kt
+# Prevailing visibility: 5.0 km
+# Weather: rain
+# Clouds: scattered at 1000.0 feet | broken at 1500.0 feet
 ```
 
 ## Remark

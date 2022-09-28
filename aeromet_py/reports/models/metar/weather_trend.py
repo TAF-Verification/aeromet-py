@@ -77,13 +77,13 @@ class ChangePeriod(Forecast):
         # Parse the groups
         self._parse()
 
-    def _handle_change_indicator(self, match: re.Match) -> None:
+    def _handle_trend_indicator(self, match: re.Match) -> None:
         self._change_indicator = MetarTrendIndicator(match, self._time.time)
 
         self._concatenate_string(self._change_indicator)
 
     @property
-    def change_indicator(self) -> MetarTrendIndicator:
+    def trend_indicator(self) -> MetarTrendIndicator:
         """Get the trend indicator data of the METAR."""
         return self._change_indicator
 
@@ -97,7 +97,7 @@ class ChangePeriod(Forecast):
 
     def _parse(self) -> None:
         handlers: List[GroupHandler] = [
-            GroupHandler(MetarRegExp.CHANGE_INDICATOR, self._handle_change_indicator),
+            GroupHandler(MetarRegExp.CHANGE_INDICATOR, self._handle_trend_indicator),
             GroupHandler(MetarRegExp.TREND_TIME_PERIOD, self._handle_time_period),
             GroupHandler(MetarRegExp.TREND_TIME_PERIOD, self._handle_time_period),
             GroupHandler(MetarRegExp.WIND, self._handle_wind),

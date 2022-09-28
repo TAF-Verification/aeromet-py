@@ -23,20 +23,20 @@ def test_weather_trend_code_nosig():
 
     first = trends[0]
     assert first.code == "NOSIG"
-    assert first.change_indicator.code == "NOSIG"
-    assert first.change_indicator.translation == "no significant changes"
-    assert first.change_indicator.period_from.year == 2022
-    assert first.change_indicator.period_from.month == 2
-    assert first.change_indicator.period_from.day == 5
-    assert first.change_indicator.period_from.hour == 4
-    assert first.change_indicator.period_from.minute == 0
-    assert first.change_indicator.period_until.year == 2022
-    assert first.change_indicator.period_until.month == 2
-    assert first.change_indicator.period_until.day == 5
-    assert first.change_indicator.period_until.hour == 6
-    assert first.change_indicator.period_until.minute == 0
-    assert first.change_indicator.period_at == None
-    assert first.change_indicator.as_dict() == {
+    assert first.trend_indicator.code == "NOSIG"
+    assert first.trend_indicator.translation == "no significant changes"
+    assert first.trend_indicator.period_from.year == 2022
+    assert first.trend_indicator.period_from.month == 2
+    assert first.trend_indicator.period_from.day == 5
+    assert first.trend_indicator.period_from.hour == 4
+    assert first.trend_indicator.period_from.minute == 0
+    assert first.trend_indicator.period_until.year == 2022
+    assert first.trend_indicator.period_until.month == 2
+    assert first.trend_indicator.period_until.day == 5
+    assert first.trend_indicator.period_until.hour == 6
+    assert first.trend_indicator.period_until.minute == 0
+    assert first.trend_indicator.period_at == None
+    assert first.trend_indicator.as_dict() == {
         "at": None,
         "code": "NOSIG",
         "forecast_period": {
@@ -69,20 +69,20 @@ def test_weather_trend_code_tempo():
 
     first = trends[0]
     assert first.code == "TEMPO 3SM HZ"
-    assert first.change_indicator.code == "TEMPO"
-    assert first.change_indicator.translation == "temporary"
-    assert first.change_indicator.period_from.year == 2022
-    assert first.change_indicator.period_from.month == 2
-    assert first.change_indicator.period_from.day == 5
-    assert first.change_indicator.period_from.hour == 13
-    assert first.change_indicator.period_from.minute == 47
-    assert first.change_indicator.period_until.year == 2022
-    assert first.change_indicator.period_until.month == 2
-    assert first.change_indicator.period_until.day == 5
-    assert first.change_indicator.period_until.hour == 15
-    assert first.change_indicator.period_until.minute == 47
-    assert first.change_indicator.period_at == None
-    assert first.change_indicator.as_dict() == {
+    assert first.trend_indicator.code == "TEMPO"
+    assert first.trend_indicator.translation == "temporary"
+    assert first.trend_indicator.period_from.year == 2022
+    assert first.trend_indicator.period_from.month == 2
+    assert first.trend_indicator.period_from.day == 5
+    assert first.trend_indicator.period_from.hour == 13
+    assert first.trend_indicator.period_from.minute == 47
+    assert first.trend_indicator.period_until.year == 2022
+    assert first.trend_indicator.period_until.month == 2
+    assert first.trend_indicator.period_until.day == 5
+    assert first.trend_indicator.period_until.hour == 15
+    assert first.trend_indicator.period_until.minute == 47
+    assert first.trend_indicator.period_at == None
+    assert first.trend_indicator.as_dict() == {
         "at": None,
         "code": "TEMPO",
         "forecast_period": {
@@ -114,20 +114,20 @@ def test_weather_trend_code_becmg():
 
     first = trends[0]
     assert first.code == "BECMG 14005KT"
-    assert first.change_indicator.code == "BECMG"
-    assert first.change_indicator.translation == "becoming"
-    assert first.change_indicator.period_from.year == 2022
-    assert first.change_indicator.period_from.month == 2
-    assert first.change_indicator.period_from.day == 4
-    assert first.change_indicator.period_from.hour == 9
-    assert first.change_indicator.period_from.minute == 30
-    assert first.change_indicator.period_until.year == 2022
-    assert first.change_indicator.period_until.month == 2
-    assert first.change_indicator.period_until.day == 4
-    assert first.change_indicator.period_until.hour == 11
-    assert first.change_indicator.period_until.minute == 30
-    assert first.change_indicator.period_at == None
-    assert first.change_indicator.as_dict() == {
+    assert first.trend_indicator.code == "BECMG"
+    assert first.trend_indicator.translation == "becoming"
+    assert first.trend_indicator.period_from.year == 2022
+    assert first.trend_indicator.period_from.month == 2
+    assert first.trend_indicator.period_from.day == 4
+    assert first.trend_indicator.period_from.hour == 9
+    assert first.trend_indicator.period_from.minute == 30
+    assert first.trend_indicator.period_until.year == 2022
+    assert first.trend_indicator.period_until.month == 2
+    assert first.trend_indicator.period_until.day == 4
+    assert first.trend_indicator.period_until.hour == 11
+    assert first.trend_indicator.period_until.minute == 30
+    assert first.trend_indicator.period_at == None
+    assert first.trend_indicator.as_dict() == {
         "at": None,
         "code": "BECMG",
         "forecast_period": {
@@ -159,20 +159,20 @@ def test_weather_trend_code_becmg_with_from_period():
 
     first = trends[0]
     assert first.code == "BECMG FM1410 22005KT"
-    assert first.change_indicator.code == "BECMG FM1410"
-    assert first.change_indicator.translation == "becoming"
-    assert first.change_indicator.period_from.year == 2022
-    assert first.change_indicator.period_from.month == 2
-    assert first.change_indicator.period_from.day == 6
-    assert first.change_indicator.period_from.hour == 14
-    assert first.change_indicator.period_from.minute == 10
-    assert first.change_indicator.period_until.year == 2022
-    assert first.change_indicator.period_until.month == 2
-    assert first.change_indicator.period_until.day == 6
-    assert first.change_indicator.period_until.hour == 15
-    assert first.change_indicator.period_until.minute == 50
-    assert first.change_indicator.period_at == None
-    assert first.change_indicator.as_dict() == {
+    assert first.trend_indicator.code == "BECMG FM1410"
+    assert first.trend_indicator.translation == "becoming"
+    assert first.trend_indicator.period_from.year == 2022
+    assert first.trend_indicator.period_from.month == 2
+    assert first.trend_indicator.period_from.day == 6
+    assert first.trend_indicator.period_from.hour == 14
+    assert first.trend_indicator.period_from.minute == 10
+    assert first.trend_indicator.period_until.year == 2022
+    assert first.trend_indicator.period_until.month == 2
+    assert first.trend_indicator.period_until.day == 6
+    assert first.trend_indicator.period_until.hour == 15
+    assert first.trend_indicator.period_until.minute == 50
+    assert first.trend_indicator.period_at == None
+    assert first.trend_indicator.as_dict() == {
         "at": None,
         "code": "BECMG FM1410",
         "forecast_period": {
@@ -204,20 +204,20 @@ def test_weather_trend_code_tempo_with_from_and_until_periods():
 
     first = trends[0]
     assert first.code == "TEMPO FM0000 TL0100 BKN015"
-    assert first.change_indicator.code == "TEMPO FM0000 TL0100"
-    assert first.change_indicator.translation == "temporary"
-    assert first.change_indicator.period_from.year == 2022
-    assert first.change_indicator.period_from.month == 2
-    assert first.change_indicator.period_from.day == 7
-    assert first.change_indicator.period_from.hour == 0
-    assert first.change_indicator.period_from.minute == 0
-    assert first.change_indicator.period_until.year == 2022
-    assert first.change_indicator.period_until.month == 2
-    assert first.change_indicator.period_until.day == 7
-    assert first.change_indicator.period_until.hour == 1
-    assert first.change_indicator.period_until.minute == 0
-    assert first.change_indicator.period_at == None
-    assert first.change_indicator.as_dict() == {
+    assert first.trend_indicator.code == "TEMPO FM0000 TL0100"
+    assert first.trend_indicator.translation == "temporary"
+    assert first.trend_indicator.period_from.year == 2022
+    assert first.trend_indicator.period_from.month == 2
+    assert first.trend_indicator.period_from.day == 7
+    assert first.trend_indicator.period_from.hour == 0
+    assert first.trend_indicator.period_from.minute == 0
+    assert first.trend_indicator.period_until.year == 2022
+    assert first.trend_indicator.period_until.month == 2
+    assert first.trend_indicator.period_until.day == 7
+    assert first.trend_indicator.period_until.hour == 1
+    assert first.trend_indicator.period_until.minute == 0
+    assert first.trend_indicator.period_at == None
+    assert first.trend_indicator.as_dict() == {
         "at": None,
         "code": "TEMPO FM0000 TL0100",
         "forecast_period": {
@@ -249,24 +249,24 @@ def test_weather_trend_code_becmg_with_at_period():
 
     first = trends[0]
     assert first.code == "BECMG AT0030 25020G30KT"
-    assert first.change_indicator.code == "BECMG AT0030"
-    assert first.change_indicator.translation == "becoming"
-    assert first.change_indicator.period_from.year == 2022
-    assert first.change_indicator.period_from.month == 2
-    assert first.change_indicator.period_from.day == 7
-    assert first.change_indicator.period_from.hour == 0
-    assert first.change_indicator.period_from.minute == 0
-    assert first.change_indicator.period_until.year == 2022
-    assert first.change_indicator.period_until.month == 2
-    assert first.change_indicator.period_until.day == 7
-    assert first.change_indicator.period_until.hour == 2
-    assert first.change_indicator.period_until.minute == 0
-    assert first.change_indicator.period_at.year == 2022
-    assert first.change_indicator.period_at.month == 2
-    assert first.change_indicator.period_at.day == 7
-    assert first.change_indicator.period_at.hour == 0
-    assert first.change_indicator.period_at.minute == 30
-    assert first.change_indicator.as_dict() == {
+    assert first.trend_indicator.code == "BECMG AT0030"
+    assert first.trend_indicator.translation == "becoming"
+    assert first.trend_indicator.period_from.year == 2022
+    assert first.trend_indicator.period_from.month == 2
+    assert first.trend_indicator.period_from.day == 7
+    assert first.trend_indicator.period_from.hour == 0
+    assert first.trend_indicator.period_from.minute == 0
+    assert first.trend_indicator.period_until.year == 2022
+    assert first.trend_indicator.period_until.month == 2
+    assert first.trend_indicator.period_until.day == 7
+    assert first.trend_indicator.period_until.hour == 2
+    assert first.trend_indicator.period_until.minute == 0
+    assert first.trend_indicator.period_at.year == 2022
+    assert first.trend_indicator.period_at.month == 2
+    assert first.trend_indicator.period_at.day == 7
+    assert first.trend_indicator.period_at.hour == 0
+    assert first.trend_indicator.period_at.minute == 30
+    assert first.trend_indicator.as_dict() == {
         "at": {"code": "AT0030", "datetime": "2022-02-07 00:30:00"},
         "code": "BECMG AT0030",
         "forecast_period": {
@@ -300,20 +300,20 @@ def test_weather_trend_with_two_changes():
 
     first = trends[0]
     assert first.code == "BECMG FM0130 5000"
-    assert first.change_indicator.code == "BECMG FM0130"
-    assert first.change_indicator.translation == "becoming"
-    assert first.change_indicator.period_from.year == 2022
-    assert first.change_indicator.period_from.month == 2
-    assert first.change_indicator.period_from.day == 15
-    assert first.change_indicator.period_from.hour == 1
-    assert first.change_indicator.period_from.minute == 30
-    assert first.change_indicator.period_until.year == 2022
-    assert first.change_indicator.period_until.month == 2
-    assert first.change_indicator.period_until.day == 15
-    assert first.change_indicator.period_until.hour == 3
-    assert first.change_indicator.period_until.minute == 0
-    assert first.change_indicator.period_at == None
-    assert first.change_indicator.as_dict() == {
+    assert first.trend_indicator.code == "BECMG FM0130"
+    assert first.trend_indicator.translation == "becoming"
+    assert first.trend_indicator.period_from.year == 2022
+    assert first.trend_indicator.period_from.month == 2
+    assert first.trend_indicator.period_from.day == 15
+    assert first.trend_indicator.period_from.hour == 1
+    assert first.trend_indicator.period_from.minute == 30
+    assert first.trend_indicator.period_until.year == 2022
+    assert first.trend_indicator.period_until.month == 2
+    assert first.trend_indicator.period_until.day == 15
+    assert first.trend_indicator.period_until.hour == 3
+    assert first.trend_indicator.period_until.minute == 0
+    assert first.trend_indicator.period_at == None
+    assert first.trend_indicator.as_dict() == {
         "at": None,
         "code": "BECMG FM0130",
         "forecast_period": {
@@ -327,20 +327,20 @@ def test_weather_trend_with_two_changes():
 
     second = trends[1]
     assert second.code == "TEMPO FM0215 TL0245 BKN010"
-    assert second.change_indicator.code == "TEMPO FM0215 TL0245"
-    assert second.change_indicator.translation == "temporary"
-    assert second.change_indicator.period_from.year == 2022
-    assert second.change_indicator.period_from.month == 2
-    assert second.change_indicator.period_from.day == 15
-    assert second.change_indicator.period_from.hour == 2
-    assert second.change_indicator.period_from.minute == 15
-    assert second.change_indicator.period_until.year == 2022
-    assert second.change_indicator.period_until.month == 2
-    assert second.change_indicator.period_until.day == 15
-    assert second.change_indicator.period_until.hour == 2
-    assert second.change_indicator.period_until.minute == 45
-    assert second.change_indicator.period_at == None
-    assert second.change_indicator.as_dict() == {
+    assert second.trend_indicator.code == "TEMPO FM0215 TL0245"
+    assert second.trend_indicator.translation == "temporary"
+    assert second.trend_indicator.period_from.year == 2022
+    assert second.trend_indicator.period_from.month == 2
+    assert second.trend_indicator.period_from.day == 15
+    assert second.trend_indicator.period_from.hour == 2
+    assert second.trend_indicator.period_from.minute == 15
+    assert second.trend_indicator.period_until.year == 2022
+    assert second.trend_indicator.period_until.month == 2
+    assert second.trend_indicator.period_until.day == 15
+    assert second.trend_indicator.period_until.hour == 2
+    assert second.trend_indicator.period_until.minute == 45
+    assert second.trend_indicator.period_at == None
+    assert second.trend_indicator.as_dict() == {
         "at": None,
         "code": "TEMPO FM0215 TL0245",
         "forecast_period": {
