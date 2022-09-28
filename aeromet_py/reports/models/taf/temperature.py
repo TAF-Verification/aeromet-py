@@ -46,7 +46,7 @@ class TafTemperature(Temperature, Group):
 
     @property
     def time(self) -> Optional[Time]:
-        """Get the date and time the temperature is expected to happen."""
+        """Get the datetime the temperature is expected to happen."""
         return self._time
 
     def as_dict(self) -> Dict[str, Any]:

@@ -78,6 +78,8 @@ pip install --upgrade aeromet-py
   - [Missing](#missing)
   - [Valid](#valid)
   - [Cancelled](#cancelled)
+  - [Max and Min Temperatures](#max-and-min-temperatures)
+    - [TAF Temperature](#taf-temperature)
 
 </td>
 <!-- <td valign=top>
@@ -1007,4 +1009,62 @@ print(taf.cancelled.is_cancelled)
 # prints...
 # CNL
 # True
+```
+
+## Max and Min Temperatures
+
+Get the maximum and minimum temperatures expected to happen if provided. Remember you can
+add two maximum and two minimum temperatures in the TAF body. Type `TafTemperatureList`
+which extends `GroupList[TafTemperature]`.
+
+### TAF Temperature
+
+The temperature data provided in the report. Type `TafTemperature`.
+
+Fields:
+* code `str | None`: The code present in the `Taf`, e.g. `TX07/0305Z`.
+* in_celsius `float | None`: The temperature in Celsius.
+* in_kelvin `float | None`: The temperature in Kelvin.
+* in_fahrenheit `float | None`: The temperature in Fahrenheit.
+* in_rankine `float | None`: The temperature in Rankine.
+* time `Time`: The datetime the temperature is expected to happen.
+
+```python
+# New TAF code for this example
+code = """TAF AMD RKNY 021725Z 0218/0324 26017G35KT CAVOK TX07/0305Z TNM03/0321Z
+        BECMG 0223/0224 27010KT
+        BECMG 0302/0303 03006KT
+        BECMG 0308/0309 23006KT"""
+taf = Taf(code, year=2022, month=9)
+
+print(taf.max_temperatures.codes)
+print(taf.min_temperatures.codes)
+
+# prints...
+# ['TX07/0305Z']
+# ['TNM03/0321Z']
+
+max_temp = taf.max_temperatures[0]
+print(max_temp.code)
+print(max_temp.in_celsius)
+print(max_temp.in_kelvin)
+print(max_temp.time)
+
+# prints...
+# TX07/0305Z
+# 7.0
+# 280.15
+# 2022-09-03 05:00:00
+
+min_temp = taf.min_temperatures[0]
+print(min_temp.code)
+print(min_temp.in_celsius)
+print(min_temp.in_kelvin)
+print(min_temp.time)
+
+# prints...
+# TNM03/0321Z
+# -3.0
+# 270.15
+# 2022-09-03 21:00:00
 ```
