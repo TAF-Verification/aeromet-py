@@ -11,7 +11,7 @@ def test_changes_clouds():
         BECMG 2922/2924 RA BKN010
     """
     taf = Taf(code)
-    changes = taf.change_periods
+    changes = taf.changes_forecasted
 
     clouds0 = changes[0].clouds
     assert clouds0.codes == ["SCT020TCU", "BKN030"]

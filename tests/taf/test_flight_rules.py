@@ -13,7 +13,7 @@ def test_taf_flight_rules():
 
     assert taf.flight_rules == "VFR"
 
-    changes = taf.change_periods
+    changes = taf.changes_forecasted
     assert changes[0].flight_rules == "MVFR"
     assert changes[1].flight_rules == "VLIFR"
     assert changes[2].flight_rules == "IFR"

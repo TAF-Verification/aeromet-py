@@ -11,7 +11,7 @@ def test_changes_visibility_from_sea_miles():
         BECMG 0117/0119 29005KT 1/2SM SN BKN010
     """
     taf = Taf(code)
-    changes = taf.change_periods
+    changes = taf.changes_forecasted
 
     visibility0 = changes[0].prevailing_visibility
     assert visibility0.code == "P6SM"

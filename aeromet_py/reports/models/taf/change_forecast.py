@@ -14,7 +14,7 @@ from .change_indicator import TafChangeIndicator
 from .valid import Valid
 
 
-class ChangeForecast(Forecast):
+class ChangeForecasted(Forecast):
     """Basic structure for significant change periods in TAF."""
 
     def __init__(self, code: str, valid: Valid) -> None:
@@ -67,7 +67,7 @@ class ChangeForecast(Forecast):
         self._unparsed_groups += unparsed
 
 
-class TafChangePeriods(GroupList[ChangeForecast]):
+class TafChangesForecasted(GroupList[ChangeForecasted]):
     """Basic structure for weather change periods in TAF."""
 
     def __init__(self) -> None:
@@ -76,13 +76,13 @@ class TafChangePeriods(GroupList[ChangeForecast]):
     def __str__(self) -> str:
         return "\n".join(str(change) for change in self._list)
 
-    def add(self, new_change: ChangeForecast) -> None:
+    def add(self, new_change: ChangeForecasted) -> None:
         """Adds weather changes to the list."""
         if len(self._list) > 0:
             if new_change.code.startswith("FM") or new_change.code.startswith("BECMG"):
-                temp_changes: List[ChangeForecast] = []
+                temp_changes: List[ChangeForecasted] = []
 
-                last_change: ChangeForecast = self._list.pop()
+                last_change: ChangeForecasted = self._list.pop()
                 while True:
                     if last_change.change_indicator.code.startswith(
                         "PROB"

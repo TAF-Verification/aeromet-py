@@ -12,7 +12,7 @@ def test_three_changes():
         BECMG 0708/0710 27007G13MPS
     """
     taf = Taf(code, year=2022, month=3)
-    changes = taf.change_periods
+    changes = taf.changes_forecasted
 
     assert len(changes) == 3
     assert changes.codes == [
@@ -63,7 +63,7 @@ def test_six_changes():
         PROB30 TEMPO 0722/0724 4SM TSRA BR OVC025CB
     """
     taf = Taf(code, year=2018, month=10)
-    changes = taf.change_periods
+    changes = taf.changes_forecasted
 
     assert len(changes) == 6
     assert changes.codes == [
@@ -133,7 +133,7 @@ def test_six_changes():
 def test_no_changes():
     code = "TAF KPHX 062100Z 0621/0724 27007KT P6SM FEW070"
     taf = Taf(code)
-    changes = taf.change_periods
+    changes = taf.changes_forecasted
 
     assert len(changes) == 0
     assert changes.codes == []

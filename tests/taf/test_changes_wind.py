@@ -11,7 +11,7 @@ def test_three_wind_changes():
         PROB30 RA
     """
     taf = Taf(code)
-    changes = taf.change_periods
+    changes = taf.changes_forecasted
 
     wind0 = changes[0].wind
     assert wind0.code == "23010KT"

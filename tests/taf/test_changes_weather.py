@@ -11,7 +11,7 @@ def test_changes_weather():
         BECMG 2916/2918 18005KT
     """
     taf = Taf(code)
-    changes = taf.change_periods
+    changes = taf.changes_forecasted
 
     weathers0 = changes[0].weathers
 

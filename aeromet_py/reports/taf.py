@@ -70,13 +70,13 @@ class Taf(
         self._min_temperatures = TafTemperatureList()
 
         # Change periods
-        self._change_periods = TafChangePeriods()
+        self._changes_forecasted = TafChangesForecasted()
 
         # Parse the body groups.
         self._parse_body()
 
         # Parse the change periods
-        self._parse_change_periods()
+        self._parse_changes_forecasted()
 
     @property
     def body(self) -> str:
@@ -133,16 +133,16 @@ class Taf(
         """Get the minimum temperatures expected to happen."""
         return self._min_temperatures
 
-    def _handle_change_period(self, code: str) -> None:
-        cf: ChangeForecast = ChangeForecast(code, self._valid)
-        self._change_periods.add(cf)
+    def _handle_change_forecasted(self, code: str) -> None:
+        cf: ChangeForecasted = ChangeForecasted(code, self._valid)
+        self._changes_forecasted.add(cf)
 
         self._concatenate_string(cf)
 
     @property
-    def change_periods(self) -> TafChangePeriods:
+    def changes_forecasted(self) -> TafChangesForecasted:
         """Get the weather change periods data of the TAF if provided."""
-        return self._change_periods
+        return self._changes_forecasted
 
     def _parse_body(self) -> None:
         """Parse the body groups."""
@@ -173,12 +173,12 @@ class Taf(
         unparsed: List[str] = parse_section(handlers, sanitized_body)
         self._unparsed_groups += unparsed
 
-    def _parse_change_periods(self) -> None:
+    def _parse_changes_forecasted(self) -> None:
         for change in self._changes_codes:
             if change != "":
-                self._handle_change_period(change)
+                self._handle_change_forecasted(change)
 
-        for cp in self._change_periods:
+        for cp in self._changes_forecasted:
             self._unparsed_groups += cp.unparsed_groups
 
         if self.unparsed_groups and self._truncate:
@@ -220,7 +220,7 @@ class Taf(
                 "clouds": self.clouds.as_dict(),
                 "max_temperatures": self.max_temperatures.as_dict(),
                 "min_temperatures": self.min_temperatures.as_dict(),
-                "change_periods": self.change_periods.as_dict(),
+                "changes_forecasted": self.changes_forecasted.as_dict(),
             }
         )
         return d
