@@ -1,4 +1,5 @@
 import pytest
+from pytest import approx
 
 from aeromet_py import Metar
 from aeromet_py.reports.models import RangeError
@@ -71,6 +72,41 @@ def test_runway_range_no_high():
         "rvr_high": None,
         "rvr_low": "above of",
         "trend": "decreasing",
+    }
+
+    with pytest.raises(IndexError):
+        ranges[1].code = None
+
+
+def test_runway_range_in_feet():
+    metar = Metar(
+        "SPECI KMIA 280558Z 16010G20KT 5SM R09/5000VP6000FT -RA BR SCT020 BKN035CB OVC060 26/24 A2973 RMK AO2 WSHFT 0544 LTG DSNT NW CB W-N MOV NW P0009 T02610244"
+    )
+    ranges = metar.runway_ranges
+
+    assert ranges.codes == ["R09/5000VP6000FT"]
+
+    assert ranges[0].code == "R09/5000VP6000FT"
+    assert ranges[0].low_in_meters == 1524.0
+    assert ranges[0].low_in_kilometers == 1.524
+    assert ranges[0].low_in_sea_miles == approx(0.822894)
+    assert ranges[0].low_in_feet == approx(5000.0)
+    assert ranges[0].high_in_meters == approx(1828.8)
+    assert ranges[0].high_in_kilometers == approx(1.8288)
+    assert ranges[0].high_in_sea_miles == approx(0.987473)
+    assert ranges[0].high_in_feet == approx(6000.0)
+    assert ranges[0].name == "09"
+    assert ranges[0].low_range == "1524.0 m"
+    assert ranges[0].high_range == "above of 1828.8 m"
+    assert str(ranges[0]) == "runway 09 1524.0 m varying to above of 1828.8 m"
+    assert ranges[0].as_dict() == {
+        "code": "R09/5000VP6000FT",
+        "high_range": {"distance": 1828.8000000000002, "units": "meters"},
+        "low_range": {"distance": 1524.0, "units": "meters"},
+        "name": "09",
+        "rvr_high": "above of",
+        "rvr_low": None,
+        "trend": None,
     }
 
     with pytest.raises(IndexError):
