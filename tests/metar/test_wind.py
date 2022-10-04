@@ -1,3 +1,5 @@
+from pytest import approx
+
 from aeromet_py import Metar
 
 
@@ -91,6 +93,37 @@ def test_variable_wind():
         },
         "gust": {"speed": None, "units": "knot"},
         "speed": {"speed": 2.0, "units": "knot"},
+    }
+
+
+def test_more_than_100mps_wind_speed():
+    metar = Metar(
+        "SPECI KMIA 281410Z 170P149GP159MPS 10SM BKN022 BKN039 BKN055 OVC250 29/25 A2970 RMK AO2 PK WND 17031/1409 T02940250"
+    )
+    wind = metar.wind
+
+    assert wind.code == "170P149GP159MPS"
+    assert wind.cardinal_direction == "S"
+    assert wind.direction_in_degrees == 170.0
+    assert wind.direction_in_radians == approx(2.96706)
+    assert wind.variable == False
+    assert wind.speed_in_knot == approx(289.63283)
+    assert wind.speed_in_mps == approx(149.0)
+    assert wind.speed_in_kph == approx(536.4)
+    assert wind.gust_in_knot == approx(309.07128)
+    assert wind.gust_in_mps == 159.0
+    assert wind.gust_in_miph == approx(355.67304)
+    assert str(wind) == "S (170.0°) 289.6 kt gust of 309.1 kt"
+    assert wind.as_dict() == {
+        "code": "170P149GP159MPS",
+        "direction": {
+            "cardinal": "S",
+            "direction": 170.0,
+            "units": "degrees",
+            "variable": False,
+        },
+        "gust": {"speed": 309.0712769682184, "units": "knot"},
+        "speed": {"speed": 289.6328318758776, "units": "knot"},
     }
 
 
