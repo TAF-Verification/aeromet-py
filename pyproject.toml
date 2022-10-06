@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aeromet-py"
-version = "0.1.0"
+version = "0.1.1"
 description = "Python library to parse meteorological information of aeronautical stations."
 readme = "README.md"
 authors = ["diego-garro <diego.garromolina@yahoo.com>"]
