@@ -1135,6 +1135,7 @@ for cf in taf.changes_forecasted:
     print(cf.prevailing_visibility)
     print(cf.weathers)
     print(cf.clouds)
+    print("-" * 50)
 
 # prints...
 # FM260100 28005KT P6SM SCT060 SCT120
@@ -1156,6 +1157,6 @@ for cf in taf.changes_forecasted:
 # NW (320.0°) 11.0 kt gust of 18.0 kt
 # 11.1 km
 # 
-# 
+# clear
 # --------------------------------------------------
 ```
