@@ -5,7 +5,7 @@ description = "Python library to parse meteorological information of aeronautica
 readme = "README.md"
 authors = ["diego-garro <diego.garromolina@yahoo.com>"]
 license = "MIT"
-documentation = "https://github.com/TAF-Verification/aeromet-py/blob/docs/docs/docs.md"
+documentation = "https://github.com/TAF-Verification/aeromet-py/blob/main/docs/docs.md"
 repository = "https://github.com/TAF-Verification/aeromet-py"
 
 [tool.poetry.dependencies]
