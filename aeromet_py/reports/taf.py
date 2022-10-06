@@ -23,6 +23,7 @@ from .models.metar import (
     MetarPrevailingMixin,
     MetarWeatherMixin,
     MetarWindMixin,
+    ShouldBeCavokMixin,
 )
 from .models.taf import *
 
@@ -36,6 +37,7 @@ class Taf(
     MetarCloudMixin,
     TafValidMixin,
     FlightRulesMixin,
+    ShouldBeCavokMixin,
 ):
     """Parser for TAF reports."""
 
@@ -62,6 +64,7 @@ class Taf(
         MetarCloudMixin.__init__(self)
         TafValidMixin.__init__(self)
         FlightRulesMixin.__init__(self)
+        ShouldBeCavokMixin.__init__(self)
 
         # Body groups
         self._missing = Missing(None)

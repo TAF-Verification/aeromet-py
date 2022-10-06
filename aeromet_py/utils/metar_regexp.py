@@ -53,7 +53,7 @@ class MetarRegExp:
     )
 
     CLOUD = (
-        r"^(?P<cover>VV|CLR|SCK|SCK|NSC|NCD|BKN|SCT|FEW|[O0]VC|///)"
+        r"^(?P<cover>VV|CLR|SKC|NSC|NCD|BKN|SCT|FEW|[O0]VC|///)"
         r"(?P<height>\d{3}|///)?"
         r"(?P<type>TCU|CB|///)?$"
     )

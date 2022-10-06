@@ -4,6 +4,7 @@ from .recent_weather import MetarRecentWeather
 from .runway_range import MetarRunwayRange
 from .runway_state import MetarRunwayState
 from .sea_state import MetarSeaState
+from .should_be_cavok import ShouldBeCavokMixin
 from .temperatures import MetarTemperatures
 from .trend_indicator import MetarTrendIndicator
 from .visibility import (

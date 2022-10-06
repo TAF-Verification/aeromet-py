@@ -24,6 +24,7 @@ class Metar(
     MetarWeatherMixin,
     MetarCloudMixin,
     FlightRulesMixin,
+    ShouldBeCavokMixin,
 ):
     """Parser for METAR reports."""
 
@@ -47,6 +48,7 @@ class Metar(
         MetarWeatherMixin.__init__(self)
         MetarCloudMixin.__init__(self)
         FlightRulesMixin.__init__(self)
+        ShouldBeCavokMixin.__init__(self)
 
         # Body groups
         self._time = Time.from_metar(year=year, month=month)

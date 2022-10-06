@@ -14,6 +14,7 @@ from ..base import (
     parse_section,
 )
 from .cloud import MetarCloudMixin
+from .should_be_cavok import ShouldBeCavokMixin
 from .trend_indicator import MetarTrendIndicator
 from .visibility import MetarPrevailingMixin
 from .weather import MetarWeatherMixin
@@ -28,6 +29,7 @@ class Forecast(
     MetarWeatherMixin,
     MetarCloudMixin,
     FlightRulesMixin,
+    ShouldBeCavokMixin,
 ):
     """Basic structure for change periods and forecasts in METAR and TAF respectively."""
 
@@ -42,6 +44,7 @@ class Forecast(
         MetarWeatherMixin.__init__(self)
         MetarCloudMixin.__init__(self)
         FlightRulesMixin.__init__(self)
+        ShouldBeCavokMixin.__init__(self)
 
     def __str__(self) -> str:
         return StringAttributeMixin.__str__(self)

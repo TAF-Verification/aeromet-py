@@ -44,7 +44,7 @@ pip install --upgrade aeromet-py
   - [Raw Code](#raw-code)
   - [Sections](#sections)
   - [Unparsed Groups](#unparsed-groups)
-  - [Methods as_dict() and to_json()](#methods-as_dict()-and-to_json())
+  - [Methods](#methods)
   - [The `GroupList` object](#the-grouplist-object)
   - [Type](#type)
   - [Station](#station)
@@ -172,15 +172,18 @@ digitation in land station where the work is completely manual. Human errors are
 parse bad groups may incur us to have bad data to make calculations, we don't want this in our
 climatology.
 
-## Methods as_dict() and to_json()
+## Methods
 
-Starting from here, all the properties contains this list of methods:
+The `Metar` object contains this list of methods:
 
 * as_dict() -> `Dict[str, Any]`: Returns the object data as a dictionary like `Dict[str, Any]`. In some
   cases the `Any` type is replaced by a especific type.
 * to_json() -> `str`: Returns the object data as a string in JSON format.
+* should_be_cavok() -> `bool`: Analyses the conditions for CAVOK in the report. Returns `True` if CAVOK
+  should be reported, `False` if not or if there is no data to make a complete analysis.
 
-Of course, the `Metar` object also containes this same methods.
+Starting from here  all the properties containes `as_dict()` and `to_json()` methods. All the forecasts
+also contains the `should_be_cavok()` method.
 
 ## The `GroupList` object
 
@@ -948,8 +951,7 @@ Fields:
   `sections` field returns a list of two elements, the first one is the body and the second one
   the change periods if provided.
 * unparsed_groups `List[str]`: See [Unparsed Groups](#unparsed-groups) for more details.
-* as_dict() and to_json(): See [Methods as_dict() and to_json()](#methods-as_dict-and-to_json) for
-  more details.
+* methods: See [Methods](#methods) for more details.
 * type_ `ReportType`: See [Type](#type) for more details.
 * station `Station`: See [Station](#station) for more details.
 * time `Time`: See [Time](#time) for more details.
