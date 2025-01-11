@@ -16,9 +16,9 @@ learned the entire API provided to interact with the objects and its methods and
 
 ## Installing
 
-The best way of installing the latest version of `Aeromet-Py` is via `pip`:
+The best way to install the latest version of `Aeromet-Py` is via `pip`:
 
-```
+```console
 pip install aeromet-py
 ```
 
@@ -26,7 +26,7 @@ pip install aeromet-py
 
 If you have an old version of `Aeromet-Py` consider the following command:
 
-```
+```console
 pip install --upgrade aeromet-py
 ```
 
@@ -71,6 +71,15 @@ pip install --upgrade aeromet-py
     - [Change Period](#change-period)
       - [Trend Indicator](#trend-indicator)
   - [Remark](#remark)
+- [Taf](#taf)
+  - [Missing](#missing)
+  - [Valid](#valid)
+  - [Cancelled](#cancelled)
+  - [Max and Min Temperatures](#max-and-min-temperatures)
+    - [TAF Temperature](#taf-temperature)
+  - [Changes Forecasted](#changes-forecasted)
+    - [Change Forecasted](#change-forecasted)
+      - [Change Indicator](#change-indicator)
 
 </td>
 <td valign=top>
