@@ -3,7 +3,7 @@ import re
 from datetime import datetime, timedelta
 from typing import Any, Dict, Optional
 
-from typing_extensions import Protocol
+from typing import Protocol
 
 from ..base import Group, HasConcatenateStringProntocol, Time
 

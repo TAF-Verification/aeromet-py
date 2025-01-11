@@ -1,4 +1,4 @@
-from typing_extensions import Protocol
+from typing import Protocol
 
 from ..base import GroupList
 from .cloud import CloudList
@@ -25,7 +25,8 @@ class ShouldBeCavokMixin(HasPrevailingCloudsWeatherProtocol):
 
     def should_be_cavok(self) -> bool:
         """Analyses the conditions for CAVOK in the report. Returns `True` if CAVOK should
-        be reported, `False` if not or if there is no data to make a complete analysis."""
+        be reported, `False` if not or if there is no data to make a complete analysis.
+        """
         if len(self.weathers) > 0:
             return False
 

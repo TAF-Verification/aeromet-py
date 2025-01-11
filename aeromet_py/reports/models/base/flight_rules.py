@@ -1,6 +1,6 @@
 from typing import Dict, List, Optional
 
-from typing_extensions import Protocol
+from typing import Protocol
 
 from .cloud import CloudList
 

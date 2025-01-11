@@ -1,6 +1,6 @@
 from typing import Any
 
-from typing_extensions import Protocol
+from typing import Protocol
 
 
 class HasConcatenateStringProntocol(Protocol):
