@@ -1,47 +1,51 @@
-from aeromet_py import Metar
+from typing import List
+
+import pytest
 from pytest import approx
 
+from aeromet_py import Metar
 
-def test_from_hpa():
-    metar = Metar("METAR OESH 201700Z 06004KT CAVOK 31/00 Q1013 NOSIG")
+from . import ureg, PyMetar
+
+
+class PythonMetarPressure:
+    def __init__(self, code: str) -> None:
+        metar = PyMetar.Metar(code)
+        self.value = metar.press.value("IN") * ureg.inHg
+
+    def convert(self, unit: str):
+        value = self.value.to(unit)
+        return value.magnitude
+
+
+codes: List[str] = [
+    ["METAR OESH 201700Z 06004KT CAVOK 31/00 Q1013 NOSIG", "Q1013"],
+    ["METAR MMGL 201721Z 00000KT 7SM NSC 26/M07 A3025 RMK HZY CI", "A3025"],
+    ["METAR MSSS 091250Z 00000KT 5000 BR FEW040CB 22/21 Q1013 A2993", "A2993"],
+]
+
+
+@pytest.mark.parametrize(
+    "press,code,qnh",
+    [(PythonMetarPressure(code[0]), code[0], code[1]) for code in codes],
+)
+def test_pressure_qnh(press, code, qnh):
+    metar = Metar(code=code)
     pressure = metar.pressure
 
-    assert pressure.code == "Q1013"
-    assert pressure.in_hPa == 1013.0
-    assert pressure.in_inHg == approx(29.91, rel=9.0e-04)
-    assert pressure.in_mbar == 1013.0
-    assert pressure.in_bar == approx(1.013)
-    assert pressure.in_atm == approx(0.999753269183321)
-    assert str(pressure) == "1013.0 hPa"
-    assert pressure.as_dict() == {"pressure": 1013.0, "units": "hectopascals"}
+    assert pressure.code == qnh
+    assert pressure.in_hPa == approx(press.convert("hPa"), rel=1e-3)
+    assert pressure.in_inHg == approx(press.value.magnitude, rel=1e-3)
+    assert pressure.in_mbar == approx(press.convert("mbar"), rel=1e-3)
+    assert pressure.in_bar == approx(press.convert("bar"), rel=1e-3)
+    assert pressure.in_atm == approx(press.convert("atm"), rel=1e-3)
 
-
-def test_from_inhg():
-    metar = Metar("METAR MMGL 201721Z 00000KT 7SM NSC 26/M07 A3025 RMK HZY CI")
-    pressure = metar.pressure
-
-    assert pressure.code == "A3025"
-    assert pressure.in_hPa == approx(1024.38, rel=1.0e-03)
-    assert pressure.in_inHg == approx(30.25)
-    assert pressure.in_mbar == approx(1024.38, rel=1.0e-03)
-    assert pressure.in_bar == approx(1.02438, rel=2.0e-06)
-    assert pressure.in_atm == approx(1.0109864144314047)
-    assert str(pressure) == "1024.4 hPa"
-    assert pressure.as_dict() == {"pressure": 1024.3819844226, "units": "hectopascals"}
-
-
-def test_two_pressures_from_hPa_and_inHg():
-    metar = Metar("METAR MSSS 091250Z 00000KT 5000 BR FEW040CB 22/21 Q1013 A2993")
-    pressure = metar.pressure
-
-    assert pressure.code == "A2993"
-    assert pressure.in_hPa == approx(1013.54, rel=5.0e-2)
-    assert pressure.in_inHg == approx(29.91, rel=9.0e-04)
-    assert pressure.in_mbar == approx(1013.54, rel=5.0e-2)
-    assert pressure.in_bar == approx(1.013, rel=5.0e-3)
-    assert pressure.in_atm == approx(1.00029, rel=1.0e-5)
-    assert str(pressure) == "1013.5 hPa"
-    assert pressure.as_dict() == {"pressure": 1013.5455469015, "units": "hectopascals"}
+    press_str_in_hPa = f"{press.convert('hPa'):.1f}"
+    assert str(pressure) == f"{press_str_in_hPa} hPa"
+    assert pressure.as_dict() == {
+        "pressure": approx(float(press_str_in_hPa), rel=1e-3),
+        "units": "hectopascals",
+    }
 
 
 def test_no_pressure():
