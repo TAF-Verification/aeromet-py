@@ -1,7 +1,51 @@
 import pytest
 
+from typing import Tuple, Literal, Optional, Dict
+
 from aeromet_py import Metar
-from aeromet_py.reports.models import RangeError
+from aeromet_py.reports.models import RangeError, Cloud
+
+from . import PyMetar, distance
+
+
+class PythonMetarClouds:
+    """Extract the clouds of a METAR using the python-metar module."""
+
+    def __init__(self, code: str) -> None:
+        metar = PyMetar.Metar(code)
+        self.clouds = metar.sky
+
+    def get(
+        self,
+        index: Literal[0, 1, 2, 3] = 0,
+    ) -> Optional[Tuple[str, Optional[distance], Optional[str]]]:
+        try:
+            layer = self.clouds[index]
+            return layer
+        except IndexError:
+            return None
+
+
+covers: Dict[str, str] = {
+    "FEW": "a few",
+    "SCT": "scattered",
+    "BKN": "broken",
+    "OVC": "overcast",
+    "NSC": "no significant clouds",
+    "VV": "vertical visibility",
+    "SKC": "clear",
+    "CLR": "clear",
+}
+
+
+def test_get_layers():
+    code = "METAR BIAR 190800Z 20015KT 9999 FEW049 BKN056 10/03 Q1016"
+    python_metar_clouds = PythonMetarClouds(code=code)
+
+    first = python_metar_clouds.get()
+    second = python_metar_clouds.get(1)
+    assert first[0] == "FEW"
+    assert second[0] == "BKN"
 
 
 def test_two_cloud_layers():
