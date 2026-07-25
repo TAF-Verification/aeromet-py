@@ -9,13 +9,13 @@ documentation = "https://github.com/TAF-Verification/aeromet-py/blob/main/doc/do
 repository = "https://github.com/TAF-Verification/aeromet-py"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.11,<3.13"
 
 [tool.poetry.group.dev.dependencies]
 coverage = "^6.4.4"
 pytest = "^7.1.3"
-black = "^22.8.0"
-isort = "^5.10.1"
+black = "^26.5.1"
+isort = "^8.0.1"
 mypy = "^0.971"
 bump2version = "^1.0.1"
 codecov = "^2.1.13"
